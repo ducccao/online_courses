@@ -3,6 +3,8 @@ const expressHandleBars = require("express-handlebars");
 
 const app = express();
 
+app.use(express.static("client"));
+
 app.get("/", (req, res) => {
   res.end("Hi world!");
 });
