@@ -124,4 +124,41 @@ a {
   }
 }
 
+.nav-mobile {
+  display: flex;
+  justify-content: space-between;
+}
+.nav-mobile .hambuger {
+  width: 30px;
+  margin-left: 20px;
+}
+.nav-mobile .logo {
+  margin-left: 30px;
+  width: 120px;
+}
+.nav-mobile .group {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100px;
+  margin-right: 20px;
+}
+.nav-mobile .group .search {
+  width: 30px;
+}
+.nav-mobile .group .cart {
+  position: relative;
+  width: 30px;
+}
+.nav-mobile .group .cart__badge {
+  top: -5px;
+  right: -10px;
+  position: absolute;
+}
+@media screen and (min-width: 700px) {
+  .nav-mobile {
+    display: none;
+  }
+}
+
 /*# sourceMappingURL=index.css.map */
