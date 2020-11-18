@@ -1,11 +1,10 @@
 .alert-block__alert-infor {
   display: flex;
+  margin: 15px 0;
   justify-content: space-between;
 }
 .alert-block__alert-infor .alert-block__close-btn {
-  height: 100%;
-  width: 15px;
-  align-self: center;
+  flex-grow: 2;
 }
 
 /*# sourceMappingURL=productDetail.css.map */
