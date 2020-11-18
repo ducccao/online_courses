@@ -5,25 +5,61 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Online courses</title>
 
-    <!-- index css -->
-    <link href="./scss/index.css" rel="stylesheet" />
-
-    <!-- product detail css -->
-    <link href="./scss/productDetail.css" rel="stylesheet" />
+    <!-- bs 4 css  -->
 
     <link
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
     />
+
+    <!-- index css -->
+    <link href="./scss/index.css" rel="stylesheet" />
+
+    <!-- product detail css -->
+    <link href="./scss/productDetail.css" rel="stylesheet" />
   </head>
   <body>
+    <!-- nav  desktop -->
+    <nav class="nav-desktop">
+      <div class="logo">
+        <a href="/">
+          <img
+            src="https://www.udemy.com/staticx/udemy/images/v6/logo-coral.svg"
+            alt="logo"
+        /></a>
+      </div>
+      <div class="category">
+        <a href="/" class="category__link"> Category </a>
+      </div>
+      <div class="search">search</div>
+      <div class="for-bussiness">
+        <a href="/" class="for-bussiness__link">Udemy for bussiness</a>
+      </div>
+      <div class="teach">
+        <a href="/" class="teach__link">Teach on Udemy</a>
+      </div>
+      <div class="cart">
+        <span class="badge badge-danger cart__badge">0</span>
+        <a href="/">
+          <img src="./assets/shopping-cart.png" alt="cart" />
+        </a>
+      </div>
+      <div class="login">
+        <button class="btn login__btn-basic">Login</button>
+      </div>
+      <div class="sign-up">
+        <button class="btn btn-info sign-up__btn-sign-up">sign up</button>
+      </div>
+    </nav>
+
+    <!-- alert -->
     <div class="alert alert-info alert-block__alert-infor">
       <div></div>
       <div>
         <strong>Anytime, anywhere ! </strong>
         | Learn on your schedule from any device
       </div>
-      <button type="button" class="close">&times;</button>
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
