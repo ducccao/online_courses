@@ -19,11 +19,16 @@ app.engine(
 app.set("view engine", "hbs");
 // routers
 app.use("/admin/categories", require("./routers/category.router"));
+app.use("/admin/products", require("./routers/product.router"));
 
 app.use(express.static("client"));
 
 app.get("/", (req, res) => {
-  res.end("Hi world!");
+  res.render("home");
+});
+
+app.get("/about", (req, res) => {
+  res.render("about");
 });
 
 const PORT = process.env.PORT || 3000;
