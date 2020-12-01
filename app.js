@@ -1,10 +1,12 @@
 const express = require("express");
 const expressHandleBars = require("express-handlebars");
+
 // thằng cha này cân hếch try catch
 require("express-async-errors");
 
 const app = express();
 
+// engine
 app.engine(
   "hbs",
   expressHandleBars({
@@ -14,6 +16,9 @@ app.engine(
     partialsDir: "views/_partials",
   })
 );
+app.set("view engine", "hbs");
+// routers
+app.use("/admin/categories", require("./routers/category.router"));
 
 app.use(express.static("client"));
 

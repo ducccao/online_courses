@@ -11,3 +11,5 @@ router.get("/", async (req, res) => {
     isEmpty: all_categories.length === 0,
   });
 });
+
+module.exports = router;
