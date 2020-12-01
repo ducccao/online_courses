@@ -1,0 +1,85 @@
+<div class="card">
+    <h5 class="card-header">
+        Products
+    </h5>
+
+    {{!-- if
+    condition
+    {{#if}}
+
+    {{else}}
+
+    {{/if}}
+
+    loop
+    {{#each list and alias}}
+
+    {{/each}}
+
+     --}}
+
+    {{#if this.isEmpty}}
+    <div class="card-body">
+        <div class="card-text">
+            kh co du lieu
+        </div>
+    </div>
+    {{else}}
+
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">ProductName</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+
+                    <th scope="col">&nbsp;</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {{#each this.products}}
+
+                <tr>
+                    <th scope="row">
+                        {{productID}}
+                    </th>
+                    <td>
+                        {{productName}}
+                    </td>
+
+                    <td>
+                        {{productDescription}}
+                    </td>
+                    <td>
+                        {{price}}
+                    </td>
+
+                    <td>
+                        {{quantity}}
+                    </td>
+
+                    <td class="text-right">
+                        <a href="javascript:;" title="Edit category" class="btn btn-sm btn-primary">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a>
+                    </td>
+
+                </tr>
+                {{/each}}
+
+
+            </tbody>
+        </table>
+    </div>
+    {{/if}}
+
+
+
+    <div class="card-footer text-muted">
+        footer
+    </div>
+</div>
