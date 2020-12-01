@@ -1,2 +1,1 @@
-# Web Application Development
-## Project -  Online Courses Application
+# Project -  Online Courses Application
