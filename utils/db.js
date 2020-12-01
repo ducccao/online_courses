@@ -14,7 +14,10 @@ var pool = mysql.createPool({
 const poo_query = util.promisify(pool.query).bind(pool);
 
 module.exports = {
-  load(sql) {
+  load: (sql) => {
     return poo_query(sql);
+  },
+  add: (entity, tableName) => {
+    return poo_query(`insert into ${tableName} set ? `, entity);
   },
 };

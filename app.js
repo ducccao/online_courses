@@ -6,6 +6,13 @@ require("express-async-errors");
 
 const app = express();
 
+// middle ware
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
 // engine
 app.engine(
   "hbs",

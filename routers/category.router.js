@@ -12,4 +12,21 @@ router.get("/", async (req, res) => {
   });
 });
 
+router.get("/add", (req, res) => {
+  res.render("vwCategories/add");
+});
+
+router.post("/add", async (req, res) => {
+  const all_categories = await categoryModel.all();
+  const newCat = {
+    ...res.body,
+    cateID: all_categories.length++,
+  };
+  console.log(newCat);
+  const ret = await categoryModel.add(newCat);
+  console.log(ret);
+
+  res.render("vwCategories/add");
+});
+
 module.exports = router;
