@@ -1,0 +1,41 @@
+<form method="POST">
+  <div class="card">
+    <h5 class="card-header">
+      New Category
+    </h5>
+    <div class="card-body">
+
+      <div class="form-group">
+        <label for="txtCateID"># </label>
+        <input value="{{this.category.cateID}}" name="cateID" type="text" class="form-control" id="txtCateID" autofocus
+          aria-describedby="emailHelp" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="txtCateName">Category </label>
+        <input value="{{this.category.cateName}}" name="cateName" type="text" class="form-control" id="txtCateName"
+          autofocus aria-describedby="emailHelp">
+      </div>
+
+
+
+    </div>
+
+    <div class="card-footer text-muted">
+      <a href="/admin/categories" role="button" class="btn btn-primary">
+        <i class="fa fa-backward" aria-hidden="true">
+          Back to list
+        </i>
+      </a>
+
+      <button type="submit" class="btn btn-outline-danger" formaction="/admin/categories/del">
+
+        <i class="fa fa-trash"> Delete</i>
+      </button>
+      <button type="submit" class="btn btn-outline-success" formaction="/admin/categories/patch">
+
+        <i class="fa fa-check"> Save</i>
+      </button>
+    </div>
+  </div>
+</form>

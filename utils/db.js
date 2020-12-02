@@ -1,3 +1,4 @@
+const { table } = require("console");
 const mysql = require("mysql");
 const util = require("util");
 
@@ -11,13 +12,22 @@ var pool = mysql.createPool({
 });
 
 // promisify bind pool to a promise and remove callback
-const poo_query = util.promisify(pool.query).bind(pool);
+const pool_query = util.promisify(pool.query).bind(pool);
 
 module.exports = {
   load: (sql) => {
-    return poo_query(sql);
+    return pool_query(sql);
   },
+
   add: (entity, tableName) => {
-    return poo_query(`insert into ${tableName} set ? `, entity);
+    return pool_query(`insert into ${tableName} set ? `, entity);
+  },
+
+  del: (condition, tableName) => {
+    return pool_query(`delete from ${tableName} where ?`, condition);
+  },
+
+  patch: (entity, condition, tableName) => {
+    return pool_query(`update ${tableName} set ? where ?`, [entity, condition]);
   },
 };
