@@ -53,7 +53,9 @@ router.get("/:id", async (req, res) => {
 // delete cate
 router.post("/del", async (req, res) => {
   const ret = await categoryModel.del(req.body);
+  console.log("Deleting category");
   res.redirect("/admin/categories");
+  console.log("Deleted category!");
 });
 
 // edit

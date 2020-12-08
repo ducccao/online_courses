@@ -17,20 +17,25 @@
             <div class="col-sm-3">
                 <div class="card mb-3">
                     <h5 class="card-header">Featured</h5>
-                    <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action active">
-                            Cras justo odio
-                            <span class="badge badge-pill badge-danger float-right mt-1">9</span>
+                    <div class="list-group list-group-flush  ">
+
+                        {{#each lcCategories }}
+
+
+                        <a href="/products/byCate/{{cateID}}" class="list-group-item list-group-item-action      {{#if isActive}}
+                           active
+                       {{/if}}  ">
+                            {{cateName}}
+                            {{#if ProductCount }}
+                            <span class="badge badge-pill badge-danger float-right mt-1">
+                                {{ProductCount}}
+                            </span>
+                            {{/if}}
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action">
-                            Dapibus ac facilisis in
-                            <span class="badge badge-pill badge-danger float-right">7</span>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action">Morbi leo risus</a>
-                        <a href="#" class="list-group-item list-group-item-action">Porta ac consectetur ac</a>
-                        <a href="#" class="list-group-item list-group-item-action disabled" tabindex="-1"
-                            aria-disabled="true">Vestibulum at
-                            eros</a>
+
+                        {{/each}}
+
+
                     </div>
                 </div>
                 <div class="card">

@@ -1,0 +1,82 @@
+<div class="card">
+  <h5 class="card-header">
+    Products
+  </h5>
+
+  {{!-- if
+    condition
+    {{#if}}
+
+    {{else}}
+
+    {{/if}}
+
+    loop
+    {{#each list and alias}}
+
+    {{/each}}
+
+     --}}
+
+  {{#if this.isEmpty}}
+  <div class="card-body">
+    <div class="card-text">
+      kh co du lieu
+    </div>
+  </div>
+  {{else}}
+
+
+
+
+
+
+  <div class="card-body">
+    <div class="row">
+
+      {{#each this.products}}
+      <div class="col-sm-4">
+        <div class="card mb-3" style="width: 18rem;">
+          <img class="card-img-top" src="/public/imgs/sp/{{productID}}/main_thumbs.jpg" alt="{{productName}}"
+            title="{{productName}}">
+          <div class="card-body">
+            <h5 class="card-title">{{productName}} </h5>
+            <h5 class="card-title text-danger ">{{format price}} </h5>
+
+            <p class="card-text">
+              {{productDescription}}
+            </p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Cras justo odio</li>
+            <li class="list-group-item">Dapibus ac facilisis in</li>
+            <li class="list-group-item">Vestibulum at eros</li>
+          </ul>
+          <div class="card-footer">
+            <a href="#" class="btn btn-sm btn-outline-primary">
+              <i class="fa fa-eye">
+                Details
+              </i>
+            </a>
+            <a href="#" class="btn btn-sm btn-outline-success">
+              <i class="fa fa-shopping-cart">
+                Add to cart
+              </i>
+            </a>
+
+          </div>
+        </div>
+      </div>
+      {{/each}}
+
+
+    </div>
+  </div>
+  {{/if}}
+
+
+
+  <div class="card-footer text-muted">
+    footer
+  </div>
+</div>

@@ -42,4 +42,13 @@ module.exports = {
 
     return db.patch(entity, condition, TBL_CATEGORIES);
   },
+
+  // detail
+  allWithDetails() {
+    const sql = `
+    select c.* , count(p.productID) as ProductCount from categories c left join products p
+    on c.cateID = p.cateID group by c.cateID, c.cateName `;
+
+    return db.load(sql);
+  },
 };
