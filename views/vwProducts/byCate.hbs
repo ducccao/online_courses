@@ -41,17 +41,13 @@
             title="{{productName}}">
           <div class="card-body">
             <h5 class="card-title">{{productName}} </h5>
-            <h5 class="card-title text-danger ">{{format price}} </h5>
+            <h5 class="card-title text-danger ">{{format Price}} </h5>
 
             <p class="card-text">
-              {{productDescription}}
+              {{TinyDes}}
             </p>
           </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-          </ul>
+
           <div class="card-footer">
             <a href="#" class="btn btn-sm btn-outline-primary">
               <i class="fa fa-eye">
@@ -76,7 +72,34 @@
 
 
 
+
+
   <div class="card-footer text-muted">
-    footer
+    <nav aria-label="...">
+      <ul class="pagination">
+        <li class="page-item    {{#unless can_go_prev}} disabled {{/unless}} ">
+          <a class=" page-link" href="?page={{previosPage}}" tabindex="-1">
+            <i class="fa fa-backward"></i>
+          </a>
+        </li>
+        {{#each this.pageItem }}
+
+
+
+        <li class="page-item {{#if isActive }}active {{/if}}"><a class="page-link" href="?page={{value}}">
+            {{value}}
+          </a></li>
+
+        {{/each}}
+
+
+        <li class="page-item {{#unless can_go_next}} disabled {{/unless}}">
+          <a class="page-link" href="?page={{nextPage}}">
+            <i class="fa fa-forward"></i>
+          </a>
+        </li>
+
+      </ul>
+    </nav>
   </div>
 </div>
