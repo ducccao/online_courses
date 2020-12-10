@@ -15,6 +15,10 @@ app.use(
     })
 );
 
+app.get("/login", (req, res) => {
+    res.send("hello login");
+});
+
 // engine
 app.engine(
     "hbs",
