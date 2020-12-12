@@ -31,6 +31,7 @@ app.set("view engine", "hbs");
 app.use("/vendor", express.static("vendor"));
 
 // routers
+app.use("/admin", require("./routers/admin.router"));
 app.use("/admin/categories", require("./routers/category.router"));
 app.use("/admin/products", require("./routers/product.router"));
 app.use("/user", require("./routers/user.router"));
@@ -43,6 +44,13 @@ app.get("/", (req, res) => {
 
 app.get("/about", (req, res) => {
   res.render("about");
+});
+
+app.get("*", (req, res) => {
+  res.render("404", {
+    layout: false,
+    partials: false,
+  });
 });
 
 const PORT = process.env.PORT || 3000;
