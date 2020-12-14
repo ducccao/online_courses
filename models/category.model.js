@@ -11,4 +11,13 @@ module.exports = {
   add(entity) {
     return db.add(entity, TBL_CATEGORIES);
   },
+
+  allWithDetails() {
+    const sql = `
+    select c.*, count(p.productID) as ProductCount
+    from categories c left join products p on c.cateID = p.productID
+    group by c.cateID, c.cateName
+  `;
+    return db.load(sql);
+  },
 };

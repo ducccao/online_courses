@@ -23,6 +23,7 @@ app.engine(
     extname: ".hbs",
     layoutsDir: "views/_layouts",
     partialsDir: "views/_partials",
+    helpers: {},
   })
 );
 app.set("view engine", "hbs");
