@@ -1,6 +1,8 @@
 const express = require("express");
 const expressHandleBars = require("express-handlebars");
 const handlebars = require("handlebars");
+const expressHandlebarsSections = require("express-handlebars-sections");
+const numeral = require("numeral");
 
 // thằng cha này cân hếch try catch
 require("express-async-errors");
@@ -42,6 +44,14 @@ handlebars.registerHelper("if_equal", function (a, b, opts) {
   }
 });
 
+// handlebars.registerHelper("unless", function (a, b, opts) {
+//   if (a != b) {
+//     return opts.fn(this);
+//   } else {
+//     return opts.inverse(this);
+//   }
+// });
+
 // alo
 
 // middle ware
@@ -63,10 +73,17 @@ app.engine(
       eq: function (v1, v2) {
         return v1 === v2;
       },
+      section: expressHandlebarsSections(),
+      format(val) {
+        return numeral(val).format("0,0");
+      },
     },
   })
 );
 app.set("view engine", "hbs");
+
+// middle ware
+require("./middlewares/locals.mdw")(app);
 
 // Assets
 app.use("/vendor", express.static("vendor"));
