@@ -20,20 +20,20 @@ const userController = {
   },
   // login
   getLogin: async (req, res) => {
-    res.render("vwLogin", {
+    res.render("vwUser/Login", {
       layout: "loginout",
     });
   },
   // register
   getRegister: async (req, res) => {
-    res.render("vwRegister", {
+    res.render("vwUser/Register", {
       layout: "loginout",
     });
   },
 
   // forgot password
   getForgotPassword: (req, res) => {
-    res.render("vwForgotPassword", {
+    res.render("vwUser/ForgotPassword", {
       layout: "loginout",
     });
   },

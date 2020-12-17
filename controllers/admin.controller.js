@@ -9,7 +9,7 @@ const user = usersDatabase[0];
 const adminController = {
   // get dashboard
   getDashboard: (req, res) => {
-    res.render("vwAdminDashboard", {
+    res.render("vwAdmin/Dashboard", {
       layout: "admin",
       headerTitle: "Dashboard",
       userName: user.userName,
@@ -83,7 +83,7 @@ const adminController = {
     // console.log(page < nPage);
     // console.log(nPage);
 
-    res.render("vwAdminCategories", {
+    res.render("vwAdmin/Category", {
       layout: "admin",
       headerTitle: "Categories",
       userName: user.userName,
@@ -105,7 +105,7 @@ const adminController = {
 
   // fage not found
   getNotfound: (req, res) => {
-    res.render("vwAdminNotfound", {
+    res.render("vwAdmin/NotFound", {
       layout: "admin",
       userName: user.userName,
     });
@@ -114,7 +114,7 @@ const adminController = {
   // get add cate page
   getAddCatePage: (req, res) => {
     console.log("Add cate page");
-    res.render("vwAdminCategories/add", {
+    res.render("vwAdmin/AddCategory", {
       layout: "admin",
       headerTitle: "Add Category",
       userName: user.userName,
@@ -126,6 +126,21 @@ const adminController = {
     console.log("adding new category!");
     const allCate = await adminModel.getAllCategory();
 
+    console.log(req.body);
+    const { catName, catLevel } = req.body;
+    // check name
+    let errName = false;
+    allCate.forEach((cat) => {
+      if (cat.catName === catName) {
+        errName = true;
+      }
+    });
+
+    if (errName) {
+      res.status(404).json({ message: "Category has been exists!" });
+      return;
+    }
+
     const newCate = {
       ...req.body,
       catID: allCate.length + 1,
@@ -133,8 +148,11 @@ const adminController = {
 
     const rs = await adminModel.addCate(newCate);
 
-    console.log(rs);
-    res.render("vwAdminCategories");
+    // console.log(rs);
+    res.render("vwAdmin/AddCategory", {
+      layout: "admin",
+      userName: user.userName,
+    });
   },
 
   // get cate by id

@@ -29,6 +29,7 @@
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "numeral": "^2.0.6",
-    "randomstring": "^1.1.5"
+    "randomstring": "^1.1.5",
+    "sweetalert2": "^10.12.5"
   }
 }

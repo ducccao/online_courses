@@ -44,16 +44,6 @@ handlebars.registerHelper("if_equal", function (a, b, opts) {
   }
 });
 
-// handlebars.registerHelper("unless", function (a, b, opts) {
-//   if (a != b) {
-//     return opts.fn(this);
-//   } else {
-//     return opts.inverse(this);
-//   }
-// });
-
-// alo
-
 // middle ware
 app.use(
   express.urlencoded({
@@ -87,6 +77,7 @@ require("./middlewares/locals.mdw")(app);
 
 // Assets
 app.use("/vendor", express.static("vendor"));
+app.use("/utils", express.static("./utils"));
 
 // routers
 app.use("/admin", require("./routers/admin.router"));

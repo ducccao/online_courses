@@ -1,0 +1,160 @@
+{{#section 'css'}}
+<style>
+    .login-form {
+        width: 340px;
+        margin-right: 50px;
+        font-size: 15px;
+    }
+
+    .f2 {
+        width: 500px;
+    }
+
+    .login-form form {
+        margin-bottom: 15px;
+        background: white;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+
+    .login-form h2 {
+        margin: 0 0 15px;
+    }
+
+    .form-control,
+    .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+
+    .btn {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: flex-start;
+    }
+</style>
+{{/section}}
+
+
+<div class="wrapper">
+    <div class="login-form">
+        <form id="addCateFm" action="" method="POST">
+            <h3>Adding form</h3>
+            <div class="form-group">
+
+                <input type="text" name="catName" id="catName" class="form-control" placeholder="Category Name"
+                    required="required">
+            </div>
+            <div class="form-group">
+                <input type="text" name="catLevel" id="catLevel" class="form-control" placeholder="Category Level"
+                    required="required">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Add</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="login-form f2">
+        <form action="/examples/actions/confirmation.php" method="post">
+            <h5 class="text-info mb-3">
+                Category Level 0: Web Programming
+            </h5>
+            <h5 class="text-info">
+                Category Level 1: Mobile Programming
+            </h5>
+        </form>
+
+    </div>
+</div>
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function addCate() {
+        const addCateFm = $("#addCateFm");
+        const catName = $("#catName");
+        const catLevel = $("#catLevel");
+
+        console.log(openAlert)
+        addCateFm.on("submit", e => {
+            // console.log("2323123")
+            e.preventDefault();
+
+            //console.log(typeof catLevel.val())
+
+            if (catLevel.val() === "" || catName.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid value!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+            else if (catLevel.val() !== "1" && catLevel.val() !== "0") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid Category Level!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+            const data = {
+                catName: catName.val(),
+                catLevel: catLevel.val(),
+            }
+
+
+            $.ajax({
+                type: 'post',
+                url: '/admin/categories/add',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Added Category!"
+                    }
+                    openAlert(messageTrigger)
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+
+        })
+    }
+    addCate();
+</script>
+{{/section}}
