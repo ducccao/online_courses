@@ -52,4 +52,11 @@ module.exports = {
     };
     return db.patch(entity, condition, TBL_CATEGORY);
   },
+  // delete cate by ID
+  delCate(entity) {
+    const condition = {
+      catID: entity.catID,
+    };
+    return db.del(condition, TBL_CATEGORY);
+  },
 };

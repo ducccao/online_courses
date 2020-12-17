@@ -1,20 +1,24 @@
+{{#section 'css'}}
+<style>
+    .cate {
+        cursor: pointer;
+    }
+</style>
+{{/section}}
+
+
 <div class="row">
 
     {{#each categories }}
-    <div class="col-xl-3 col-md-6 mb-4">
-
-
-
-
-        <div class="card         {{#if_equal this.catLevel " 0"}} border-left-info {{else}} border-left-warning
-            {{/if_equal}} shadow h-100 py-2">
+    <div onclick="cateClick({{this.catID}});" class="col-xl-3 col-md-6 mb-4 cate ">
+        <div class="card {{#if_equal this.catLevel " 0"}} border-left-info {{else}} border-left-warning {{/if_equal}}
+            shadow h-100 py-2">
 
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-lg font-weight-bold 
-{{#if_equal this.catLevel " 0"}} text-info {{else}} text-warning {{/if_equal}} text-uppercase mb-1">
-
+                        <div class="text-lg font-weight-bold {{#if_equal this.catLevel " 0"}} text-info {{else}}
+                            text-warning {{/if_equal}} text-uppercase mb-1">
                             {{this.catName}}
                         </div>
                         <div class="row no-gutters align-items-center">
@@ -38,46 +42,68 @@
                         </div>
                     </div>
                     <div class="col-auto">
-                        {{this.catID}}
-                        {{!-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
+                        <div class="row">
+                            <div class="col">
+                                <h6 class="font-weight-bold {{#if_equal this.catLevel " 0"}} text-info {{else}}
+                                    text-warning {{/if_equal}} ">ID</h6>
+                            </div>
+                        </div>
+                        <div class=" row">
+                                    <div class="col">
+                                        {{this.catID}}
+                                    </div>
+                            </div>
+
+                            {{!-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
+                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
+        {{/each}}
+
+
+
+
     </div>
-    {{/each}}
 
 
 
 
-</div>
+    {{#if showPagi}}
+    <div class="row">
+
+        <div class="col-sm-12 col-lg-12 ">
+            <div aria-label="Page navigation example  ">
+                <ul class="pagination justify-content-end">
+
+                    <li class="page-item  {{#unless can_go_prev}} disabled {{/unless}} "><a class="page-link"
+                            href="?page={{go_previous_page}}">Previous</a></li>
+                    {{#each pagiItem }}
+                    <li class="page-item {{#if isActive}} active{{/if}}"><a class="page-link"
+                            href="?page={{this.value}}">
+                            {{this.value}}
+                        </a></li>
+
+                    {{/each}}
 
 
 
 
-{{#if showPagi}}
-<div class="row">
-
-    <div class="col-sm-12 col-lg-12 ">
-        <div aria-label="Page navigation example  ">
-            <ul class="pagination justify-content-end">
-
-                <li class="page-item  {{#unless can_go_prev}} disabled {{/unless}} "><a class="page-link"
-                        href="?page={{go_previous_page}}">Previous</a></li>
-                {{#each pagiItem }}
-                <li class="page-item {{#if isActive}} active{{/if}}"><a class="page-link" href="?page={{this.value}}">
-                        {{this.value}}
-                    </a></li>
-
-                {{/each}}
-
-
-
-
-                <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a class="page-link"
-                        href="?page={{go_next_page}}">Next</a></li>
-            </ul>
+                    <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a class="page-link"
+                            href="?page={{go_next_page}}">Next</a></li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-{{/if}}
+    {{/if}}
+
+
+    {{#section 'js'}}
+    <script>
+        function cateClick(catID) {
+            window.location.href = `/admin/categories/detailCat/${catID}`
+        }
+    </script>
+    {{/section}}

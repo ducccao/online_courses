@@ -1,0 +1,131 @@
+{{#section 'css'}}
+<style>
+    .login-form {
+        width: 40%;
+
+        font-size: 15px;
+    }
+
+    .f2 {
+        width: 40%;
+    }
+
+    .login-form form {
+        margin-bottom: 15px;
+        background: white;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+
+    .login-form h2 {
+        margin: 0 0 15px;
+    }
+
+    .form-control,
+    .btn {
+        min-height: 38px;
+        border-radius: 2px;
+    }
+
+    .btn {
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .wrapper {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+{{/section}}
+
+
+<div class="row">
+    <div class="col-sm-12 col-lg-6 login-form">
+        <form id="delCateFm" action="" method="POST">
+            <h3>Deleting Form</h3>
+
+            <div class="form-group">
+                <input type="text" name="catID" id="catID" class="form-control" placeholder="Category ID"
+                    required="required">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Delete</button>
+            </div>
+
+        </form>
+
+    </div>
+
+    <div class="col-sm-12 col-lg-6 login-form f2">
+        <form action="/examples/actions/confirmation.php" method="post">
+            <h5 class="text-info mb-3">
+                Category Level 0: Web Programming
+            </h5>
+            <h5 class="text-info">
+                Category Level 1: Mobile Programming
+            </h5>
+        </form>
+
+    </div>
+</div>
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function delCategory() {
+        const delCateFm = $("#delCateFm");
+        const catID = $("#catID");
+
+        delCateFm.on("submit", event => {
+            event.preventDefault();
+
+            const data = {
+                catID: catID.val(),
+            }
+
+            $.ajax({
+                type: "delete",
+                url: "/admin/categories/delete",
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+
+                },
+                success: data => {
+                    // console.log(data);
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Deleted Category!"
+                    }
+                    openAlert(messageTrigger)
+                },
+                error: er => {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            })
+
+        })
+
+    }
+    delCategory();
+</script>
+{{/section}}

@@ -26,6 +26,10 @@ module.exports = {
   patch: (entity, condition, tblName) => {
     return poo_query(`update ${tblName} set ? where ?`, [entity, condition]);
   },
+  del: (condition, tblName) => {
+    const sql = `delete from ${tblName} where ?`;
+    return poo_query(sql, condition);
+  },
   getCateByID: (catID) => {
     const sql = `select * from category where catID = ${catID}`;
     return poo_query(sql);
