@@ -212,6 +212,14 @@ const adminController = {
     console.log("Deleting cate!");
     const { catID } = req.body;
     const catByID = await adminModel.getCateByID(catID);
+    const countCouse = await adminModel.countCoursetInCate(catID);
+
+    if (countCouse !== 0) {
+      return res
+        .status(404)
+        .json({ message: "Cannot delete category that contains course!" });
+    }
+
     console.log(req.body);
 
     if (catByID.length === 0) {
