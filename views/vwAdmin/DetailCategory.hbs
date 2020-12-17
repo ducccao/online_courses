@@ -1,0 +1,71 @@
+<div class="row">
+    <div onclick="cateClick({{categories.catID}});" class="col-xl-3 col-md-6 mb-4 cate ">
+        <div class="card {{#if_equal categories.catLevel " 0"}} border-left-info {{else}} border-left-warning
+            {{/if_equal}} shadow h-100 py-2">
+
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-lg font-weight-bold {{#if_equal categories.catLevel " 0"}} text-info {{else}}
+                            text-warning {{/if_equal}} text-uppercase mb-1">
+                            {{categories.catName}}
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="text-sm h6 mb-0 mr-3 font-weight-bold text-gray-800">
+                                    {{#if_equal categories.catLevel "0"}}
+                                    Web Programming
+                                    {{else}}
+                                    Mobile Programming
+
+                                    {{/if_equal}}
+
+                                </div>
+                            </div>
+                            {{!-- <div class="col">
+                                <div class="progress progress-sm mr-2">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
+                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div> --}}
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col">
+                                <h6 class="font-weight-bold {{#if_equal categories.catLevel " 0"}} text-info {{else}}
+                                    text-warning {{/if_equal}} ">ID</h6>
+                            </div>
+                        </div>
+                        <div class=" row">
+                                    <div class="col">
+                                        {{categories.catID}}
+                                    </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div onclick="cateClick({{categories.catID}});" class="col-xl-3 col-md-6 mb-4 cate ">
+            <div class="card  border-left-danger
+            shadow h-100 py-2">
+
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-lg font-weight-bold  text-danger
+                           text-uppercase mb-1">
+                                Total Couses: {{couseCount}}
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

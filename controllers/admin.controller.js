@@ -155,10 +155,113 @@ const adminController = {
     });
   },
 
+  // get edit cate page
+  getEditCatePage: (req, res) => {
+    console.log("Edit cate page");
+    res.render("vwAdmin/EditCategory", {
+      layout: "admin",
+      headerTitle: "Edit Category",
+      userName: user.userName,
+    });
+  },
+
+  // edit cate
+  editCate: async (req, res) => {
+    console.log("Editing cate!");
+    const { catID, catName, catLevel } = req.body;
+
+    console.log(req.body);
+
+    const catByID = await adminModel.getCateByID(catID);
+
+    if (catByID.length === 0) {
+      return res.status(404).json({ message: "Category does not exists!" });
+    }
+    const entity = {
+      catID: catID,
+      catName: catName,
+      catLevel: catLevel,
+    };
+    const editCat = await adminModel.editCate(entity);
+
+    //  console.log(editCat);
+    if (editCat.affectedRows === 1) {
+      res.render("vwAdmin/EditCategory", {
+        layout: "admin",
+        headerTitle: "Edit Category",
+        userName: user.userName,
+      });
+      return;
+    }
+
+    return res.status(404).json({ message: "Something when wrong!" });
+  },
+
+  // get del cate page
+  getDelCatePage: (req, res) => {
+    console.log("Del cate page");
+    res.render("vwAdmin/DeleteCategory", {
+      layout: "admin",
+      headerTitle: "Delete Category",
+      userName: user.userName,
+    });
+  },
+
+  // del cate
+  delCate: async (req, res) => {
+    console.log("Deleting cate!");
+    const { catID } = req.body;
+    const catByID = await adminModel.getCateByID(catID);
+    const countCouse = await adminModel.countCoursetInCate(catID);
+
+    if (countCouse !== 0) {
+      return res
+        .status(404)
+        .json({ message: "Cannot delete category that contains course!" });
+    }
+
+    console.log(req.body);
+
+    if (catByID.length === 0) {
+      return res.status(404).json({ message: "Category does not exists!" });
+    }
+
+    const entity = {
+      catID: catID,
+    };
+    // check del cat is del ?
+    const delCat = await adminModel.delCate(entity);
+
+    if (delCat.affectedRows === 1) {
+      res.status(200);
+      res.render("vwAdmin/DeleteCategory", {
+        layout: "admin",
+        headerTitle: "Delete Category",
+        userName: user.userName,
+      });
+      return;
+    }
+
+    return res.status(404).json({ message: "Something when wrong!" });
+  },
+
   // get cate by id
-  getCateByID: async (req, res) => {
-    res.status(500);
-    throw new Error("access denied");
+  getDetailCat: async (req, res) => {
+    const catID = +req.params.id;
+    const couseCount = await adminModel.countCoursetInCate(catID);
+    //  console.log(couseCount);
+    const catByID = await adminModel.getCateByID(catID);
+    // console.log(catByID);
+
+    // console.log(req.params);
+
+    res.render("vwAdmin/DetailCategory", {
+      layout: "admin",
+      headerTitle: "Detail Category",
+      userName: user.userName,
+      couseCount: couseCount,
+      categories: catByID[0],
+    });
   },
 };
 

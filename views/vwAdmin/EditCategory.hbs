@@ -1,13 +1,13 @@
 {{#section 'css'}}
 <style>
     .login-form {
-        width: 340px;
+        width: 40%;
 
         font-size: 15px;
     }
 
     .f2 {
-        width: auto;
+        width: 40%;
     }
 
     .login-form form {
@@ -33,6 +33,7 @@
     }
 
     .wrapper {
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -43,10 +44,15 @@
 
 <div class="row">
     <div class="col-sm-12 col-lg-6 login-form">
-        <form id="addCateFm" action="" method="POST">
-            <h3>Adding Form</h3>
-            <div class="form-group">
+        <form id="editCateFm" action="" method="POST">
+            <h3>Editing Form</h3>
 
+            <div class="form-group">
+                <input type="text" name="catID" id="catID" class="form-control" placeholder="Category ID"
+                    required="required">
+            </div>
+
+            <div class="form-group">
                 <input type="text" name="catName" id="catName" class="form-control" placeholder="Category Name"
                     required="required">
             </div>
@@ -55,7 +61,7 @@
                     required="required">
             </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Add</button>
+                <button type="submit" class="btn btn-primary btn-block">Edit</button>
             </div>
 
         </form>
@@ -82,30 +88,17 @@
 
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
-    function addCate() {
-        const addCateFm = $("#addCateFm");
+    function editCategory() {
+        const editCateFm = $("#editCateFm");
         const catName = $("#catName");
         const catLevel = $("#catLevel");
+        const catID = $("#catID");
 
-        console.log(openAlert)
-        addCateFm.on("submit", e => {
-            // console.log("2323123")
-            e.preventDefault();
+        editCateFm.on("submit", event => {
+            event.preventDefault();
 
-            //console.log(typeof catLevel.val())
-
-            if (catLevel.val() === "" || catName.val() === "") {
-                const messageTrigger = {
-                    timer: 1500,
-                    html: '',
-                    title: "Invalid value!",
-                    icon: "warning",
-                }
-                openAlert(messageTrigger)
-                return;
-            }
             // validate cat level
-            else if (catLevel.val() !== "1" && catLevel.val() !== "0") {
+            if (catLevel.val() !== "1" && catLevel.val() !== "0") {
                 const messageTrigger = {
                     timer: 1500,
                     html: '',
@@ -117,32 +110,32 @@
             }
 
             const data = {
+                catID: catID.val(),
                 catName: catName.val(),
                 catLevel: catLevel.val(),
             }
 
-
             $.ajax({
-                type: 'post',
-                url: '/admin/categories/add',
+                type: "post",
+                url: "/admin/categories/edit",
                 data: data,
                 xhrFields: {
                     withCredentials: false
                 },
                 headers: {
+
                 },
-                success: function (data) {
-                    //  console.log('Success');
-                    console.log(data)
+                success: data => {
+                    // console.log(data);
                     const messageTrigger = {
                         timer: 1500,
                         html: '',
                         icon: 'success',
-                        title: "Added Category!"
+                        title: "Edited Category!"
                     }
                     openAlert(messageTrigger)
                 },
-                error: function (er) {
+                error: er => {
                     console.log(er)
                     const messageTrigger = {
                         timer: 2500,
@@ -152,11 +145,11 @@
                     }
                     openAlert(messageTrigger)
                 }
-            });
-
+            })
 
         })
+
     }
-    addCate();
+    editCategory();
 </script>
 {{/section}}

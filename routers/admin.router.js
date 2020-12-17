@@ -14,8 +14,22 @@ router.post("/categories/add", adminController.addCate);
 // get add cate page
 router.get("/categories/add", adminController.getAddCatePage);
 
-// get cate by id
-router.get("/categories/:id", adminController.getCateByID);
+// get Edit cate
+router.get("/categories/edit", adminController.getEditCatePage);
+
+// post Edit cate
+router.post("/categories/edit", adminController.editCate);
+
+// get del cate
+router.get("/categories/delete", adminController.getDelCatePage);
+
+// delete del cate
+router.delete("/categories/delete", adminController.delCate);
+
+// get detail cat
+router.get("/categories/detailCat/:id", adminController.getDetailCat);
+
+//   throw new Error("access denied");
 
 // 404 not found
 router.get("*", adminController.getNotfound);

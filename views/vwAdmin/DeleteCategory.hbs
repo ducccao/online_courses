@@ -1,13 +1,13 @@
 {{#section 'css'}}
 <style>
     .login-form {
-        width: 340px;
+        width: 40%;
 
         font-size: 15px;
     }
 
     .f2 {
-        width: auto;
+        width: 40%;
     }
 
     .login-form form {
@@ -33,6 +33,7 @@
     }
 
     .wrapper {
+        height: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -43,19 +44,16 @@
 
 <div class="row">
     <div class="col-sm-12 col-lg-6 login-form">
-        <form id="addCateFm" action="" method="POST">
-            <h3>Adding Form</h3>
-            <div class="form-group">
+        <form id="delCateFm" action="" method="POST">
+            <h3>Deleting Form</h3>
 
-                <input type="text" name="catName" id="catName" class="form-control" placeholder="Category Name"
+            <div class="form-group">
+                <input type="text" name="catID" id="catID" class="form-control" placeholder="Category ID"
                     required="required">
             </div>
+
             <div class="form-group">
-                <input type="text" name="catLevel" id="catLevel" class="form-control" placeholder="Category Level"
-                    required="required">
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Add</button>
+                <button type="submit" class="btn btn-primary btn-block">Delete</button>
             </div>
 
         </form>
@@ -82,67 +80,38 @@
 
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
-    function addCate() {
-        const addCateFm = $("#addCateFm");
-        const catName = $("#catName");
-        const catLevel = $("#catLevel");
+    function delCategory() {
+        const delCateFm = $("#delCateFm");
+        const catID = $("#catID");
 
-        console.log(openAlert)
-        addCateFm.on("submit", e => {
-            // console.log("2323123")
-            e.preventDefault();
-
-            //console.log(typeof catLevel.val())
-
-            if (catLevel.val() === "" || catName.val() === "") {
-                const messageTrigger = {
-                    timer: 1500,
-                    html: '',
-                    title: "Invalid value!",
-                    icon: "warning",
-                }
-                openAlert(messageTrigger)
-                return;
-            }
-            // validate cat level
-            else if (catLevel.val() !== "1" && catLevel.val() !== "0") {
-                const messageTrigger = {
-                    timer: 1500,
-                    html: '',
-                    title: "Invalid Category Level!",
-                    icon: "warning",
-                }
-                openAlert(messageTrigger)
-                return;
-            }
+        delCateFm.on("submit", event => {
+            event.preventDefault();
 
             const data = {
-                catName: catName.val(),
-                catLevel: catLevel.val(),
+                catID: catID.val(),
             }
 
-
             $.ajax({
-                type: 'post',
-                url: '/admin/categories/add',
+                type: "delete",
+                url: "/admin/categories/delete",
                 data: data,
                 xhrFields: {
                     withCredentials: false
                 },
                 headers: {
+
                 },
-                success: function (data) {
-                    //  console.log('Success');
-                    console.log(data)
+                success: data => {
+                    // console.log(data);
                     const messageTrigger = {
                         timer: 1500,
                         html: '',
                         icon: 'success',
-                        title: "Added Category!"
+                        title: "Deleted Category!"
                     }
                     openAlert(messageTrigger)
                 },
-                error: function (er) {
+                error: er => {
                     console.log(er)
                     const messageTrigger = {
                         timer: 2500,
@@ -152,11 +121,11 @@
                     }
                     openAlert(messageTrigger)
                 }
-            });
-
+            })
 
         })
+
     }
-    addCate();
+    delCategory();
 </script>
 {{/section}}
