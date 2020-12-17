@@ -14,6 +14,12 @@ router.post("/categories/add", adminController.addCate);
 // get add cate page
 router.get("/categories/add", adminController.getAddCatePage);
 
+// get Edit cate
+router.get("/categories/edit", adminController.getEditCatePage);
+
+// post Edit cate
+router.post("/categories/edit", adminController.editCate);
+
 // get cate by id
 router.get("/categories/:id", adminController.getCateByID);
 

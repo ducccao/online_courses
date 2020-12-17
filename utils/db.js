@@ -23,4 +23,11 @@ module.exports = {
   insertStuffIntoTable: (entity, tblName) => {
     return poo_query(`insert into ${tblName} set ? `, entity);
   },
+  patch: (entity, condition, tblName) => {
+    return poo_query(`update ${tblName} set ? where ?`, [entity, condition]);
+  },
+  getCateByID: (catID) => {
+    const sql = `select * from category where catID = ${catID}`;
+    return poo_query(sql);
+  },
 };

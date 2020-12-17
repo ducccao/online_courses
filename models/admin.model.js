@@ -39,4 +39,17 @@ module.exports = {
   addCate(entity) {
     return db.insertStuffIntoTable(entity, TBL_CATEGORY);
   },
+
+  // get Cate by ID
+  getCateByID(catID) {
+    return db.getCateByID(catID);
+  },
+
+  // edit cate by ID
+  editCate(entity) {
+    const condition = {
+      catID: entity.catID,
+    };
+    return db.patch(entity, condition, TBL_CATEGORY);
+  },
 };

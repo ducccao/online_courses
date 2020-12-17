@@ -155,6 +155,44 @@ const adminController = {
     });
   },
 
+  // get edit cate page
+  getEditCatePage: (req, res) => {
+    console.log("Edit cate page");
+    res.render("vwAdmin/EditCategory", {
+      layout: "admin",
+      headerTitle: "Edit Category",
+      userName: user.userName,
+    });
+  },
+
+  // edit cate
+  editCate: async (req, res) => {
+    console.log("Editing cate!");
+    const { catID, catName, catLevel } = req.body;
+
+    console.log(req.body);
+
+    const catByID = await adminModel.getCateByID(catID);
+
+    if (catByID.length === 0) {
+      return res.status(404).json({ message: "Category does not exists!" });
+    }
+    const entity = {
+      catID: catID,
+      catName: catName,
+      catLevel: catLevel,
+    };
+    const editCat = await adminModel.editCate(entity);
+
+    console.log(editCat);
+
+    res.render("vwAdmin/EditCategory", {
+      layout: "admin",
+      headerTitle: "Edit Category",
+      userName: user.userName,
+    });
+  },
+
   // get cate by id
   getCateByID: async (req, res) => {
     res.status(500);
