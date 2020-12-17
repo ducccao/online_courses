@@ -126,6 +126,21 @@ const adminController = {
     console.log("adding new category!");
     const allCate = await adminModel.getAllCategory();
 
+    console.log(req.body);
+    const { catName, catLevel } = req.body;
+    // check name
+    let errName = false;
+    allCate.forEach((cat) => {
+      if (cat.catName === catName) {
+        errName = true;
+      }
+    });
+
+    if (errName) {
+      res.status(404).json({ message: "Category has been exists!" });
+      return;
+    }
+
     const newCate = {
       ...req.body,
       catID: allCate.length + 1,
@@ -133,8 +148,11 @@ const adminController = {
 
     const rs = await adminModel.addCate(newCate);
 
-    console.log(rs);
-    res.render("vwAdminCategories");
+    // console.log(rs);
+    res.render("vwAdminCategories/add", {
+      layout: "admin",
+      userName: user.userName,
+    });
   },
 
   // get cate by id

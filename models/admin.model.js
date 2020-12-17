@@ -29,7 +29,7 @@ module.exports = {
 
   // pagination categories
   pagiCate(offset) {
-    console.log(offset);
+    //console.log(offset);
     const sql = `select * from ${TBL_CATEGORY}  limit ${config.pagination.limit} offset ${offset}`;
 
     return db.load(sql);

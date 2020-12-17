@@ -42,7 +42,7 @@
 
 <div class="wrapper">
     <div class="login-form">
-        <form id="addCateFm" action="" method="post">
+        <form id="addCateFm" action="" method="POST">
             <h3>Adding form</h3>
             <div class="form-group">
 
@@ -75,15 +75,86 @@
 </div>
 
 {{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-<script>
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
     function addCate() {
         const addCateFm = $("#addCateFm");
+        const catName = $("#catName");
+        const catLevel = $("#catLevel");
+
+        console.log(openAlert)
         addCateFm.on("submit", e => {
+            // console.log("2323123")
             e.preventDefault();
-            alert("submit")
+
+            //console.log(typeof catLevel.val())
+
+            if (catLevel.val() === "" || catName.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid value!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+            else if (catLevel.val() !== "1" && catLevel.val() !== "0") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid Category Level!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+            const data = {
+                catName: catName.val(),
+                catLevel: catLevel.val(),
+            }
+
+
+            $.ajax({
+                type: 'post',
+                url: '/admin/categories/add',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Added Category!"
+                    }
+                    openAlert(messageTrigger)
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+
         })
     }
-  // addCate();
+    addCate();
 </script>
 {{/section}}
