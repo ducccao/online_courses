@@ -5,8 +5,14 @@ const router = express.Router();
 // get dashboard
 router.get("/dashboard", adminController.getDashboard);
 
-// get categories
-router.get("/categories", adminController.getCategories);
+// get all categories
+router.get("/categories", adminController.getAllCategories);
+
+// add cate
+router.post("/categories/add", adminController.addCate);
+
+// get add cate page
+router.get("/categories/add", adminController.getAddCatePage);
 
 // get cate by id
 router.get("/categories/:id", adminController.getCateByID);

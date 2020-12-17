@@ -90,8 +90,6 @@ app.use("/vendor", express.static("vendor"));
 
 // routers
 app.use("/admin", require("./routers/admin.router"));
-app.use("/admin/categories", require("./routers/category.router"));
-app.use("/admin/products", require("./routers/product.router"));
 app.use("/user", require("./routers/user.router"));
 
 // app.use(express.static("client"));
@@ -102,6 +100,16 @@ app.get("/", (req, res) => {
 
 app.get("/about", (req, res) => {
   res.render("about");
+});
+
+// catching all error access denied
+app.use((err, req, res, next) => {
+  if (err.message === "access denied") {
+    res.status(403);
+    res.json({ error: err.message });
+  }
+
+  next(err);
 });
 
 app.get("*", (req, res) => {

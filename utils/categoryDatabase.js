@@ -7,13 +7,13 @@ const fakeCateDB = [
   // { cateID: 4, cateName: "React Native", keyLevel: 0 },
 ];
 
-console.log(randomString(5));
+//console.log(randomString(5));
 
-for (let i = 0; i < 16; i++) {
+for (let i = 0; i < 12; i++) {
   fakeCateDB.push({
-    cateID: i,
-    cateName: randomString(5),
-    keyLevel: Math.random() >= 0.5 ? 1 : 0,
+    catID: i,
+    catName: randomString(5),
+    catLevel: Math.random() >= 0.5 ? 1 : 0,
   });
 }
 

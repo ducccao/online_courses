@@ -1,5 +1,9 @@
 const db = require("./../utils/db");
 const config = require("./../config/default.json");
+const { getAllCategories } = require("../controllers/admin.controller");
+const adminController = require("../controllers/admin.controller");
+
+const TBL_CATEGORY = "category";
 
 module.exports = {
   // get All user
@@ -8,17 +12,31 @@ module.exports = {
     return db.load(sql);
   },
 
-  // count cate
-  async countProductInCate(cateID) {
-    const sql = `select count(*) as totalProduct from products where cateID = ${cateID} `;
+  // count course in cate
+  async countCoursetInCate(cateID) {
+    const sql = `select count(*) as totalCourse from course where catID = ${cateID} `;
     const rows = await db.load(sql);
-    return rows[0].totalProduct;
+    return rows[0].totalCourse;
+  },
+
+  // get  all category
+  async getAllCategory() {
+    const sql = `select * from category`;
+    const rows = await db.load(sql);
+
+    return rows;
   },
 
   // pagination categories
-  pagiCate(cateID, offset) {
-    const sql = `select * from products where cateID = ${cateID} limit ${config.pagination.limit} offset ${offset}`;
+  pagiCate(offset) {
+    console.log(offset);
+    const sql = `select * from ${TBL_CATEGORY}  limit ${config.pagination.limit} offset ${offset}`;
 
     return db.load(sql);
+  },
+
+  // add cate
+  addCate(entity) {
+    return db.insertStuffIntoTable(entity, TBL_CATEGORY);
   },
 };
