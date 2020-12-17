@@ -22,9 +22,9 @@ router.post("/add", async (req, res) => {
     ...res.body,
     cateID: all_categories.length++,
   };
-  console.log(newCat);
+  // console.log(newCat);
   const ret = await categoryModel.add(newCat);
-  console.log(ret);
+  // console.log(ret);
 
   res.render("vwCategories/add");
 });

@@ -6,7 +6,7 @@ var pool = mysql.createPool({
   port: "3306",
   user: "duccao",
   password: "duc123",
-  database: "qlbh",
+  database: "onlinecourses",
   connectionLimit: 50,
 });
 
@@ -19,5 +19,8 @@ module.exports = {
   },
   add: (entity, tableName) => {
     return poo_query(`insert into ${tableName} set ? `, entity);
+  },
+  insertStuffIntoTable: (entity, tblName) => {
+    return poo_query(`insert into ${tblName} set ? `, entity);
   },
 };

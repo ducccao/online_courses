@@ -1,6 +1,6 @@
 const db = require("../utils/db");
 
-const TBL_CATEGORIES = "categories";
+const TBL_CATEGORIES = "category";
 
 module.exports = {
   all() {
@@ -14,9 +14,9 @@ module.exports = {
 
   allWithDetails() {
     const sql = `
-    select c.*, count(p.productID) as ProductCount
-    from categories c left join products p on c.cateID = p.productID
-    group by c.cateID, c.cateName
+    select c.*, count(p.courseID) as CourseCount
+    from category c left join course p on c.catID = p.courseID
+    group by c.catID, c.catName
   `;
     return db.load(sql);
   },
