@@ -24,6 +24,16 @@ const userController = {
       layout: "loginout",
     });
   },
+  // post login
+  postLogin: async (req, res) => {
+    const { email, password } = req.body;
+
+    console.log(req.body);
+
+    res.render("vwUser/Login", {
+      layout: "loginout",
+    });
+  },
   // register
   getRegister: async (req, res) => {
     res.render("vwUser/Register", {

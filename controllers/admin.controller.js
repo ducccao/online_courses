@@ -252,6 +252,9 @@ const adminController = {
     //  console.log(couseCount);
     const catByID = await adminModel.getCateByID(catID);
     // console.log(catByID);
+    const courseDetail = await adminModel.getCourseDetail(catID);
+
+    // console.log(courseDetail);
 
     // console.log(req.params);
 
@@ -261,6 +264,7 @@ const adminController = {
       userName: user.userName,
       couseCount: couseCount,
       categories: catByID[0],
+      courseDetail: courseDetail,
     });
   },
 };

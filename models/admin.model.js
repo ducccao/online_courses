@@ -59,4 +59,10 @@ module.exports = {
     };
     return db.del(condition, TBL_CATEGORY);
   },
+
+  // get cousrse detail
+  getCourseDetail(catID) {
+    const sql = `select*from course where catID = ${catID}`;
+    return db.load(sql);
+  },
 };
