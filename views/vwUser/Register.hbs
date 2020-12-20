@@ -47,14 +47,28 @@
 
         fmRegister.on("submit", e => {
             e.preventDefault();
+            console.log(password.val())
+            console.log(password.val().length)
 
 
-
-            if (username.val() === "" || password.val() === "" || repeatPassword.val() === "" || repeatPassword.val() === "") {
+            if (email.val() === "" || username.val() === "" || password.val() === "" || repeatPassword.val() === "" || repeatPassword.val() === "") {
                 const messageTrigger = {
                     timer: 1500,
                     html: '',
                     title: "Invalid value!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+
+            if (password.val().length < 6) {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Password at least 6 characters!",
                     icon: "warning",
                 }
                 openAlert(messageTrigger)

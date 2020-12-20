@@ -1,4 +1,9 @@
 {{#section 'js'}}
+
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
 
@@ -31,6 +36,10 @@
                 },
                 success: function (data) {
                     //  console.log('Success');
+                    if (data?.redirect) {
+                        window.location.href = data.redirect;
+                    }
+
                     console.log(data)
                     const messageTrigger = {
                         timer: 1500,

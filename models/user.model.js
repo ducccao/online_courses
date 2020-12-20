@@ -16,6 +16,12 @@ module.exports = {
     return db.load(sql);
   },
 
+  // find user by email
+  findUserByEmail(email) {
+    const sql = `select * from ${TBL_USER} where email= "${email}" `;
+    return db.load(sql);
+  },
+
   // check available
   isAvailable(email) {
     const sql = `select * from ${TBL_USER} where email = "${email}"`;
