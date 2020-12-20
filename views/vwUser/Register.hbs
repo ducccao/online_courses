@@ -1,3 +1,133 @@
+{{#section 'css'}}
+
+<style>
+    #checkPW {
+        display: none;
+    }
+</style>
+
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"
+    integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw=="
+    crossorigin="anonymous" />
+
+{{/section}}
+
+{{#section 'js'}}
+
+
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+    crossorigin="anonymous"></script>
+
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function register() {
+        const fmRegister = $("#fmRegister");
+        const username = $("#username");
+        const email = $("#email");
+        const password = $("#password");
+        const repeatPassword = $("#repeatPassword");
+        const DOB = $("#DOB");
+        const checkPW = document.getElementById("checkPW");
+        let error = false;
+
+
+        jQuery('#DOB').datetimepicker({
+            format: 'd/m/Y',
+            timepicker: false,
+            mask: true
+        });
+
+        console.log("Asd")
+
+        fmRegister.on("submit", e => {
+            e.preventDefault();
+
+
+
+            if (username.val() === "" || password.val() === "" || repeatPassword.val() === "" || repeatPassword.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid value!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+            if (repeatPassword.val() !== password.val()) {
+                checkPW.style.display = "flex";
+                return;
+            }
+            else {
+                checkPW.style.display = "none";
+            }
+
+            const data = {
+                username: username.val(),
+                email: email.val(),
+                dob: DOB.val(),
+                password: password.val(),
+            }
+
+            $.ajax({
+                type: 'post',
+                url: '/user/register',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Register Success!"
+                    }
+
+
+                    openAlert(messageTrigger)
+
+
+                    username.val("");
+                    email.val("");
+                    DOB.val("");
+                    password.val("");
+                    repeatPassword.val("");
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+        })
+
+
+
+    }
+
+    register();
+</script>
+{{/section}}
+
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -12,34 +142,44 @@
                             <div class="text-center">
                                 <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
                             </div>
-                            <form class="user">
+                            <form class="user" id="fmRegister" method="POST" action="/user/register">
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
+                                    <div class="col-sm-12 col-lg-12 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" id="username"
+                                            placeholder="Username">
                                     </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
-                                    </div>
+
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
+                                    <input type="datetime" class="form-control form-control-user" id="DOB"
+                                        placeholder="Date Of Birth">
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="email" class="form-control form-control-user" id="email"
                                         placeholder="Email Address">
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                        <input type="password" class="form-control form-control-user" id="password"
+                                            placeholder="Password">
                                     </div>
                                     <div class="col-sm-6">
                                         <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                            id="repeatPassword" placeholder="Repeat Password">
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
+
+
+                                <div class="row" id="checkPW">
+                                    <div class=" col-sm-12 col-lg-12">
+                                        <p class="text-danger font-weight-bold">Password does not match!</p>
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
                                     Register Account
-                                </a>
+                                </button>
                                 <hr>
                                 <a href="index.html" class="btn btn-google btn-user btn-block">
                                     <i class="fab fa-google fa-fw"></i> Register with Google

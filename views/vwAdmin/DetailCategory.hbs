@@ -1,5 +1,5 @@
 <div class="row">
-    <div onclick="cateClick({{categories.catID}});" class="col-xl-3 col-md-6 mb-4 cate ">
+    <div class="col-xl-3 col-md-6 mb-4 cate ">
         <div class="card {{#if_equal categories.catLevel " 0"}} border-left-info {{else}} border-left-warning
             {{/if_equal}} shadow h-100 py-2">
 
@@ -49,7 +49,7 @@
             </div>
         </div>
 
-        <div onclick="cateClick({{categories.catID}});" class="col-xl-3 col-md-6 mb-4 cate ">
+        <div class="col-xl-3 col-md-6 mb-4 cate ">
             <div class="card  border-left-danger
             shadow h-100 py-2">
 
@@ -68,4 +68,35 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h3>
+                Courses In Category
+            </h3>
+        </div>
+
+        {{#each courseDetail }}
+
+
+        <div class="col-sm-12 col-lg-3">
+
+            <div class="card text-left">
+                <img class="card-img-top" src="holder.js/100px180/" alt="">
+                <div class="card-body">
+                    <h4 class="card-title text-info font-weight-bold">
+                        {{this.courseName}}
+                    </h4>
+
+                    <span class="text-danger font-weight-bold">
+                        {{format this.fee}}
+                    </span>
+                    <p class="card-text">{{this.title}}</p>
+                </div>
+            </div>
+
+        </div>
+
+        {{/each}}
     </div>

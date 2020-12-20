@@ -1,6 +1,6 @@
 const db = require("./../utils/db");
 const config = require("./../config/default.json");
-const { getAllCategories } = require("../controllers/admin.controller");
+
 const adminController = require("../controllers/admin.controller");
 
 const TBL_CATEGORY = "category";
@@ -58,5 +58,11 @@ module.exports = {
       catID: entity.catID,
     };
     return db.del(condition, TBL_CATEGORY);
+  },
+
+  // get cousrse detail
+  getCourseDetail(catID) {
+    const sql = `select*from course where catID = ${catID}`;
+    return db.load(sql);
   },
 };
