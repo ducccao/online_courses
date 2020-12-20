@@ -71,6 +71,12 @@
     </div>
 
     <div class="row">
+        <div class="col-12">
+            <h3>
+                Courses In Category
+            </h3>
+        </div>
+
         {{#each courseDetail }}
 
 
@@ -79,12 +85,12 @@
             <div class="card text-left">
                 <img class="card-img-top" src="holder.js/100px180/" alt="">
                 <div class="card-body">
-                    <h4 class="card-title text-info">
+                    <h4 class="card-title text-info font-weight-bold">
                         {{this.courseName}}
                     </h4>
 
-                    <span class="text-danger">
-                        {{this.fee}}
+                    <span class="text-danger font-weight-bold">
+                        {{format this.fee}}
                     </span>
                     <p class="card-text">{{this.title}}</p>
                 </div>

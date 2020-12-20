@@ -1,4 +1,6 @@
 const userModal = require("./../models/user.model");
+const bcryptjs = require("bcryptjs");
+const moment = require("moment");
 
 const userController = {
   // get all user
@@ -27,18 +29,72 @@ const userController = {
   // post login
   postLogin: async (req, res) => {
     const { email, password } = req.body;
-
     console.log(req.body);
+    const infor = {
+      email: email,
+      password: password,
+    };
+    const isUserExists = await userModal.findUserByInfor(email, password);
+
+    if (isUserExists.length === 0) {
+      return res.status(404).json({ message: "Invalid email or password!" });
+    }
+
+    console.log(isUserExists);
 
     res.render("vwUser/Login", {
       layout: "loginout",
     });
   },
   // register
-  getRegister: async (req, res) => {
+  getRegister: (req, res) => {
     res.render("vwUser/Register", {
       layout: "loginout",
     });
+  },
+
+  // post register
+  postRegister: async (req, res) => {
+    try {
+      console.log("Registering!");
+      const { username, email, password, dob } = req.body;
+      //  console.log(req.body);
+
+      // check email is available
+      const checkEmail = await userModal.isAvailable(email);
+      // console.log(checkEmail);
+
+      if (checkEmail.length !== 0) {
+        return res.status(404).json({ message: "Email have been used!" });
+      }
+
+      // hash password
+      const hash = bcryptjs.hashSync(password, 10);
+      //  console.log(hash);
+
+      // format date - yyyy-mth-day
+      const dobFormated = moment(dob, "DD/MM/YYYY").format("YYYY-MM-DD");
+
+      const user = {
+        userName: username,
+        email,
+        password: hash,
+        DOB: dobFormated,
+        decentralization: 0,
+      };
+
+      const result = await userModal.addUser(user);
+      // console.log(result);
+
+      //console.log(dobFormated);
+
+      res.render("vwUser/Register", {
+        layout: "loginout",
+      });
+    } catch (er) {
+      // console.log(er);
+      return res.status(404).json({ message: er.sqlMessage });
+    }
   },
 
   // forgot password

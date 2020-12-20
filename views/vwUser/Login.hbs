@@ -1,3 +1,66 @@
+{{#section 'js'}}
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+
+
+    function userLogin() {
+        const fmLogin = $("#fmLogin");
+        const email = $("#email");
+        const password = $("#password");
+
+        console.log(email.val())
+
+
+        fmLogin.on('submit', e => {
+            e.preventDefault();
+
+            const data = {
+                email: email.val(),
+                password: password.val()
+            }
+
+
+            $.ajax({
+                type: 'post',
+                url: '/user/login',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Logged In!"
+                    }
+                    openAlert(messageTrigger)
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+
+        })
+
+    }
+
+    userLogin();
+</script>
+{{/section}}
+
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -66,68 +129,3 @@
 
 
 </body>
-
-
-
-{{#section 'js'}}
-<script type="module">
-    import { openAlert } from "/utils/alertModal.js"
-
-
-    function userLogin() {
-        const fmLogin = $("#fmLogin");
-        const email = $("#email");
-        const password = $("#password");
-
-        console.log(email.val())
-
-
-        fmLogin.on('submit', e => {
-            e.preventDefault();
-
-            const data = {
-                email: email.val(),
-                password: password.val()
-            }
-
-
-            $.ajax({
-                type: 'post',
-                url: '/user/login',
-                data: data,
-                xhrFields: {
-                    withCredentials: false
-                },
-                headers: {
-                },
-                success: function (data) {
-                    //  console.log('Success');
-                    console.log(data)
-                    const messageTrigger = {
-                        timer: 1500,
-                        html: '',
-                        icon: 'success',
-                        title: "Logged In!"
-                    }
-                    openAlert(messageTrigger)
-                },
-                error: function (er) {
-                    console.log(er)
-                    const messageTrigger = {
-                        timer: 2500,
-                        html: '',
-                        icon: 'error',
-                        title: er.responseJSON.message,
-                    }
-                    openAlert(messageTrigger)
-                }
-            });
-
-
-        })
-
-    }
-
-    userLogin();
-</script>
-{{/section}}
