@@ -104,9 +104,11 @@ app.use((err, req, res, next) => {
 });
 
 app.get("*", (req, res) => {
+  const url = req.headers.referer;
   res.render("404", {
     layout: false,
     partials: false,
+    backURL: url,
   });
 });
 
