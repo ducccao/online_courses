@@ -86,11 +86,11 @@ app.use("/user", require("./routers/user.router"));
 // app.use(express.static("client"));
 
 app.get("/", (req, res) => {
-  res.render("home");
+  res.render("vwMain/Home");
 });
 
 app.get("/about", (req, res) => {
-  res.render("about");
+  res.render("vwMain/About");
 });
 
 // catching all error access denied
@@ -104,9 +104,11 @@ app.use((err, req, res, next) => {
 });
 
 app.get("*", (req, res) => {
+  const url = req.headers.referer;
   res.render("404", {
     layout: false,
     partials: false,
+    backURL: url,
   });
 });
 

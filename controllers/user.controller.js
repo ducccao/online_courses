@@ -34,17 +34,28 @@ const userController = {
       email: email,
       password: password,
     };
-    const isUserExists = await userModal.findUserByInfor(email, password);
+    const isUserExists = await userModal.findUserByEmail(email);
 
     if (isUserExists.length === 0) {
       return res.status(404).json({ message: "Invalid email or password!" });
     }
 
-    console.log(isUserExists);
+    // console.log(isUserExists);
+    // neu la admin thi render page admin luon
+    if (isUserExists[0].decentralization === 2) {
+      return res.json({ redirect: "/admin/dashboard" });
+    }
 
-    res.render("vwUser/Login", {
-      layout: "loginout",
-    });
+    const comparePassword = bcryptjs.compareSync(
+      password,
+      isUserExists[0].password
+    );
+
+    if (comparePassword === false) {
+      return res.status(404).json({ message: "Invalid email or password!" });
+    }
+
+    return res.status(200).json({ redirect: "/" });
   },
   // register
   getRegister: (req, res) => {
