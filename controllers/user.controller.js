@@ -22,6 +22,11 @@ const userController = {
   },
   // login
   getLogin: async (req, res) => {
+    const ref = req.headers.referer;
+    req.session.retUrl = ref;
+
+    console.log(ref);
+
     res.render("vwUser/Login", {
       layout: "loginout",
     });
@@ -29,7 +34,7 @@ const userController = {
   // post login
   postLogin: async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
+    //  console.log(req.body);
     const infor = {
       email: email,
       password: password,
@@ -42,7 +47,8 @@ const userController = {
 
     // console.log(isUserExists);
     // neu la admin thi render page admin luon
-    if (isUserExists[0].decentralization === 2) {
+
+    if (isUserExists[0].decentralization === 2 && password === "admin") {
       return res.json({ redirect: "/admin/dashboard" });
     }
 
@@ -55,7 +61,20 @@ const userController = {
       return res.status(404).json({ message: "Invalid email or password!" });
     }
 
-    return res.status(200).json({ redirect: "/" });
+    req.session.isAuth = true;
+    req.session.authUser = isUserExists[0];
+
+    let url = req.session.retUrl || "/";
+    return res.status(200).json({ redirect: url });
+  },
+
+  // post logout
+  postLogout: async (req, res) => {
+    req.session.isAuth = false;
+    req.session.authUser = null;
+
+    let url = req.headers.referer;
+    res.redirect(url);
   },
   // register
   getRegister: (req, res) => {
@@ -112,6 +131,13 @@ const userController = {
   getForgotPassword: (req, res) => {
     res.render("vwUser/ForgotPassword", {
       layout: "loginout",
+    });
+  },
+
+  // get profile
+  getProfile: (req, res) => {
+    res.render("vwUser/Profile", {
+      layout: "main",
     });
   },
 };
