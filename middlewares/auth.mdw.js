@@ -1,4 +1,4 @@
-module.exports = function auth(req, res, next) {
+function auth(req, res, next) {
   //console.log(req.headers.referer);
   //console.log(req.originalUrl);
 
@@ -7,4 +7,19 @@ module.exports = function auth(req, res, next) {
     return res.redirect("/user/login");
   }
   next();
+}
+
+function authAdmin(req, res, next) {
+  console.log(req.session);
+  if (req.session.authUser.decentralization !== 2) {
+    return res
+      .status(404)
+      .json({ message: "Only Admin Can Access This Page!" });
+  }
+  next();
+}
+
+module.exports = {
+  auth,
+  authAdmin,
 };

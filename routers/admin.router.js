@@ -1,33 +1,38 @@
 const express = require("express");
 const adminController = require("./../controllers/admin.controller");
 const router = express.Router();
+const { auth, authAdmin } = require("./../middlewares/auth.mdw");
 
 // get dashboard
-router.get("/dashboard", adminController.getDashboard);
+router.get("/dashboard", authAdmin, adminController.getDashboard);
 
 // get all categories
-router.get("/categories", adminController.getAllCategories);
+router.get("/categories", authAdmin, adminController.getAllCategories);
 
 // add cate
-router.post("/categories/add", adminController.addCate);
+router.post("/categories/add", authAdmin, adminController.addCate);
 
 // get add cate page
-router.get("/categories/add", adminController.getAddCatePage);
+router.get("/categories/add", authAdmin, adminController.getAddCatePage);
 
 // get Edit cate
-router.get("/categories/edit", adminController.getEditCatePage);
+router.get("/categories/edit", authAdmin, adminController.getEditCatePage);
 
 // post Edit cate
-router.post("/categories/edit", adminController.editCate);
+router.post("/categories/edit", authAdmin, adminController.editCate);
 
 // get del cate
-router.get("/categories/delete", adminController.getDelCatePage);
+router.get("/categories/delete", authAdmin, adminController.getDelCatePage);
 
 // delete del cate
-router.delete("/categories/delete", adminController.delCate);
+router.delete("/categories/delete", authAdmin, adminController.delCate);
 
 // get detail cat
-router.get("/categories/detailCat/:id", adminController.getDetailCat);
+router.get(
+  "/categories/detailCat/:id",
+  authAdmin,
+  adminController.getDetailCat
+);
 
 //   throw new Error("access denied");
 

@@ -1,7 +1,7 @@
 const express = require("express");
 const userController = require("./../controllers/user.controller");
 const router = express.Router();
-const auth = require("./../middlewares/auth.mdw");
+const { auth, authAdmin } = require("./../middlewares/auth.mdw");
 
 // login get
 router.get("/login", userController.getLogin);
