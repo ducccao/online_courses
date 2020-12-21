@@ -25,7 +25,7 @@ const userController = {
     const ref = req.headers.referer;
     req.session.retUrl = ref;
 
-    console.log(ref);
+    //console.log(ref);
 
     res.render("vwUser/Login", {
       layout: "loginout",
@@ -49,6 +49,9 @@ const userController = {
     // neu la admin thi render page admin luon
 
     if (isUserExists[0].decentralization === 2 && password === "admin") {
+      req.session.isAuth = true;
+      req.session.authUser = isUserExists[0];
+
       return res.json({ redirect: "/admin/dashboard" });
     }
 
