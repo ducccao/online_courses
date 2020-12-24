@@ -11,12 +11,17 @@ const mainController = {
     const allCourse = await courseModel.all();
     // console.log(allCourse);
     let isAdmin = false;
-    console.log(req.session.authUser);
-    if (req.session.authUser !== null) {
-      if (req.session.authUser.decentralization === 2) {
-        isAdmin = true;
-      } else {
-        isAdmin = false;
+    console.log("main controller: ", req.session.authUser);
+
+    if (typeof req.session.authUser === "undefined") {
+      isAdmin = false;
+    } else {
+      if (req.session.authUser !== null) {
+        if (req.session.authUser.decentralization === 2) {
+          isAdmin = true;
+        } else {
+          isAdmin = false;
+        }
       }
     }
 

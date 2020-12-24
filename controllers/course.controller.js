@@ -47,10 +47,22 @@ const courseController = {
 
       // pagi
       showPagi: true,
+      pagiItem: pagiItem,
+      can_go_prev: page > 1,
+      can_go_next: page < nPage,
+      go_next_page: page + 1,
+      go_previous_page: page - 1,
     });
   },
   // get add course page
   getAddCoursesPage: (req, res) => {
+    const today = new Date();
+    const atContinuos = {
+      dd: today.getDate(),
+      mm: today.getMonth(),
+      yyyy: today.getFullYear(),
+    };
+    console.log(atContinuos);
     res.render("vwAdminCourse/AddCourse", {
       layout: "admin",
       headerTitle: "Add Courses",
@@ -58,50 +70,64 @@ const courseController = {
   },
   // add course
   addCourse: async (req, res) => {
-    console.log("Adding New Course!");
-    const bodyData = req.body;
+    try {
+      console.log("Adding New Course!");
+      const bodyData = req.body;
 
-    const data = {
-      courseName: bodyData.courseName,
-      title: bodyData.title,
-      catID: bodyData.catID,
-      avatar: bodyData.avatar,
-      fee: bodyData.fee,
-      fusDes: bodyData.fusDes,
-      subDes: bodyData.subDes,
-    };
+      const data = {
+        courseName: bodyData.courseName,
+        title: bodyData.title,
+        catID: bodyData.catID,
+        avatar: bodyData.avatar,
+        fee: bodyData.fee,
+        fusDes: bodyData.fusDes,
+        subDes: bodyData.subDes,
+      };
 
-    console.log(bodyData);
+      // console.log(bodyData);
 
-    const isCourseNameExists = await courseModel.getCourseByName(
-      data.courseName
-    );
-    if (isCourseNameExists.length !== 0) {
-      return res.status(400).json({ message: "Course Is Exists!" });
+      const isCourseNameExists = await courseModel.getCourseByName(
+        data.courseName
+      );
+      if (isCourseNameExists.length !== 0) {
+        return res.status(400).json({ message: "Course Is Exists!" });
+      }
+
+      const allCourse = await courseModel.all();
+
+      const user = req.session.authUser;
+
+      const today = new Date();
+      const atContinuos = {
+        dd: today.getDate(),
+        mm: today.getMonth(),
+        yyyy: today.getFullYear(),
+      };
+      //    console.log(atContinuos);
+
+      // console.log("In add course page, user active is: ", user);
+      const entity = {
+        ...req.body,
+        userID: user.userID,
+        thumbnail: "random thumbnail",
+        isFinished: 1,
+        dayPost: moment().format("YYYY-MM-DD"),
+        lastUpdate: moment().format("YYYY-MM-DD"),
+        courseID: allCourse.length + 1,
+      };
+
+      const addCourse = await courseModel.addCourse(entity);
+
+      // console.log(addCourse);
+
+      res.render("vwAdminCourse/AllCourses", {
+        layout: "admin",
+        headerTitle: "Add Courses",
+      });
+    } catch (er) {
+      //console.log(er);
+      return res.status(500).json({ message: er.sqlMessage });
     }
-
-    const allCourse = await courseModel.all();
-
-    const user = req.session.authUser;
-
-    // console.log("In add course page, user active is: ", user);
-    const entity = {
-      ...req.body,
-      userID: user.userID,
-      thumbnail: "random thumbnail",
-      isFinished: 1,
-      dayPost: moment(Date.now(), "DD/MM/YYYY").format("YYYY-MM-DD"),
-      lastUpdate: moment(Date.now(), "DD/MM/YYYY").format("YYYY-MM-DD"),
-      courseID: allCourse.length + 1,
-    };
-
-    const addCourse = await courseModel.addCourse(entity);
-
-    console.log(addCourse);
-    res.render("vwAdminCourse/AllCourses", {
-      layout: "admin",
-      headerTitle: "Add Courses",
-    });
   },
 
   // get edit course page

@@ -16,7 +16,7 @@ module.exports = {
     return db.add(entity, TBL_COURSE);
   },
   getCourseByName(courseName) {
-    const sql = `select * from ${TBL_COURSE} where courseName = ${courseName}`;
+    const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"`;
     return db.load(sql);
   },
   getCourseByID(courseID) {
