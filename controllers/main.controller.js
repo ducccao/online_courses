@@ -1,5 +1,6 @@
 const cateModel = require("./../models/category.model");
 const courseModel = require("./../models/course.model");
+const userModel = require("./../models/user.model");
 
 const mainController = {
   // get List Course page
@@ -9,12 +10,27 @@ const mainController = {
     //console.log(courseInCat);
     const allCourse = await courseModel.all();
     // console.log(allCourse);
+    let isAdmin = false;
+    console.log("main controller: ", req.session.authUser);
+
+    if (typeof req.session.authUser === "undefined") {
+      isAdmin = false;
+    } else {
+      if (req.session.authUser !== null) {
+        if (req.session.authUser.decentralization === 2) {
+          isAdmin = true;
+        } else {
+          isAdmin = false;
+        }
+      }
+    }
 
     res.render("vwMain/ListCourses", {
       layout: "main",
       courseInCat: courseInCat,
       allCourse: allCourse,
       showPagi: true,
+      isAdmin: isAdmin,
     });
   },
 };

@@ -10,10 +10,15 @@ function auth(req, res, next) {
 }
 
 function authAdmin(req, res, next) {
-  console.log(req.session);
+  // console.log(req.session);
 
   if (req.session.authUser === null && req.session.isAuth === false) {
     return res.redirect("/user/login");
+  }
+
+  // console.log(req.session.authUser);
+  if (typeof req.session.authUser === "undefined") {
+    return res.redirect("/");
   }
 
   if (req.session.authUser.decentralization !== 2) {
