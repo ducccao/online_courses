@@ -37,4 +37,39 @@ module.exports = function (app) {
       return opts.inverse(this);
     }
   });
+
+  handlebars.registerHelper("if_not_equal", (a, b, opts) => {
+    if (a != b) {
+      return opts.fn(this);
+    } else {
+      return opts.inverse(this);
+    }
+  });
+
+  handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
+    switch (operator) {
+      case "==":
+        return v1 == v2 ? options.fn(this) : options.inverse(this);
+      case "===":
+        return v1 === v2 ? options.fn(this) : options.inverse(this);
+      case "!=":
+        return v1 != v2 ? options.fn(this) : options.inverse(this);
+      case "!==":
+        return v1 !== v2 ? options.fn(this) : options.inverse(this);
+      case "<":
+        return v1 < v2 ? options.fn(this) : options.inverse(this);
+      case "<=":
+        return v1 <= v2 ? options.fn(this) : options.inverse(this);
+      case ">":
+        return v1 > v2 ? options.fn(this) : options.inverse(this);
+      case ">=":
+        return v1 >= v2 ? options.fn(this) : options.inverse(this);
+      case "&&":
+        return v1 && v2 ? options.fn(this) : options.inverse(this);
+      case "||":
+        return v1 || v2 ? options.fn(this) : options.inverse(this);
+      default:
+        return options.inverse(this);
+    }
+  });
 };

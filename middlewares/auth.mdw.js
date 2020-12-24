@@ -11,6 +11,11 @@ function auth(req, res, next) {
 
 function authAdmin(req, res, next) {
   console.log(req.session);
+
+  if (req.session.authUser === null && req.session.isAuth === false) {
+    return res.redirect("/user/login");
+  }
+
   if (req.session.authUser.decentralization !== 2) {
     return res
       .status(404)

@@ -73,6 +73,8 @@ const userController = {
 
   // post logout
   postLogout: async (req, res) => {
+    console.log("Logout route!!");
+
     req.session.isAuth = false;
     req.session.authUser = null;
 
