@@ -15,7 +15,7 @@ module.exports = {
   allWithDetails() {
     const sql = `
     select c.*, count(p.courseID) as CourseCount
-    from category c left join course p on c.catID = p.courseID
+    from category c left join course p on c.catID = p.catID	
     group by c.catID, c.catName
   `;
     return db.load(sql);

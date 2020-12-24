@@ -4,6 +4,6 @@ const mainController = require("./../controllers/main.controller");
 const auth = require("./../middlewares/auth.mdw");
 
 // get course list page
-router.get("/course-list", mainController.getCourseList);
+router.get("/course-list", mainController.getListCourses);
 
 module.exports = router;

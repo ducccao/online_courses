@@ -45,6 +45,16 @@
 
         console.log("Asd")
 
+        repeatPassword.on("change", e => {
+            //  console.log(e.target.value)
+            if (e.target.value !== password.val()) {
+                checkPW.style.display = "flex";
+            }
+            else {
+                checkPW.style.display = "none";
+            }
+        })
+
         fmRegister.on("submit", e => {
             e.preventDefault();
             console.log(password.val())
