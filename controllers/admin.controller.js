@@ -2,11 +2,14 @@ const adminModel = require("./../models/admin.model");
 const usersDatabase = require("./../utils/usersDatabase");
 const categoryModel = require("./../models/category.model");
 const fakeCateDB = require("./../utils/categoryDatabase");
+const courseModel = require("./../models/course.model");
 const config = require("./../config/default.json");
+const { reset } = require("numeral");
 
 const user = usersDatabase[0];
 
 const adminController = {
+  /* #region  CATEGORY */
   // get dashboard
   getDashboard: (req, res) => {
     res.render("vwAdmin/Dashboard", {
@@ -86,7 +89,7 @@ const adminController = {
     res.render("vwAdmin/Category", {
       layout: "admin",
       headerTitle: "Categories",
-      userName: user.userName,
+      //  userName: user.userName,
       mobileCate: mobileCate,
       webCate: webCate,
       categories: rows,
@@ -203,7 +206,7 @@ const adminController = {
     res.render("vwAdmin/DeleteCategory", {
       layout: "admin",
       headerTitle: "Delete Category",
-      userName: user.userName,
+      //userName: user.userName,
     });
   },
 
@@ -267,6 +270,7 @@ const adminController = {
       courseDetail: courseDetail,
     });
   },
+  /* #endregion */
 };
 
 module.exports = adminController;

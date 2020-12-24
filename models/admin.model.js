@@ -37,7 +37,7 @@ module.exports = {
 
   // add cate
   addCate(entity) {
-    return db.insertStuffIntoTable(entity, TBL_CATEGORY);
+    return db.add(entity, TBL_CATEGORY);
   },
 
   // get Cate by ID

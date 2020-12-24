@@ -20,9 +20,6 @@ module.exports = {
   add: (entity, tableName) => {
     return poo_query(`insert into ${tableName} set ? `, entity);
   },
-  insertStuffIntoTable: (entity, tblName) => {
-    return poo_query(`insert into ${tblName} set ? `, entity);
-  },
   patch: (entity, condition, tblName) => {
     return poo_query(`update ${tblName} set ? where ?`, [entity, condition]);
   },
