@@ -1,5 +1,16 @@
 {
     "pagination":{
         "limit":12
+    },
+    "listCourses":{
+        "pagination":{
+            "limit":9
+        }
+    },
+    "devURL":{
+        "URL":"http://localhost:3000"
+    },
+    "productionURL":{
+        "URL":""
     }
 }

@@ -1,3 +1,19 @@
+function authNav(req, res, next) {
+  if (typeof req.session.authUser === "undefined") {
+    res.locals.isAdmin = false;
+  } else {
+    if (req.session.authUser !== null) {
+      if (req.session.authUser.decentralization === 2) {
+        res.locals.isAdmin = true;
+      } else {
+        res.locals.isAdmin = false;
+      }
+    }
+  }
+  //console.log(res.locals.isAdmin);
+  next();
+}
+
 function auth(req, res, next) {
   //console.log(req.headers.referer);
   //console.log(req.originalUrl);
@@ -5,6 +21,7 @@ function auth(req, res, next) {
   if (req.session.isAuth === false) {
     // req.session.retUrl = req.originalUrl;
     return res.redirect("/user/login");
+    //  return res.status(200).json({ url: `/user/login` });
   }
   next();
 }
@@ -22,14 +39,14 @@ function authAdmin(req, res, next) {
   }
 
   if (req.session.authUser.decentralization !== 2) {
-    return res
-      .status(404)
-      .json({ message: "Only Admin Can Access This Page!" });
+    return res.redirect("/");
   }
+
   next();
 }
 
 module.exports = {
   auth,
   authAdmin,
+  authNav,
 };

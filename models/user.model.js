@@ -30,7 +30,7 @@ module.exports = {
 
   // add user
   addUser(user) {
-    return db.insertStuffIntoTable(user, TBL_USER);
+    return db.add(user, TBL_USER);
   },
 
   // get user by ID

@@ -1,5 +1,6 @@
 const userModal = require("./../models/user.model");
 const bcryptjs = require("bcryptjs");
+const config = require("./../config/default.json");
 const moment = require("moment");
 
 const userController = {
@@ -68,6 +69,9 @@ const userController = {
     req.session.authUser = isUserExists[0];
 
     let url = req.session.retUrl || "/";
+    if (req.session.retUrl === `${config.devURL.URL}/user/register`) {
+      return res.status(200).json({ redirect: "/" });
+    }
     return res.status(200).json({ redirect: url });
   },
 
@@ -127,7 +131,8 @@ const userController = {
         layout: "loginout",
       });
     } catch (er) {
-      // console.log(er);
+      console.log(er);
+
       return res.status(404).json({ message: er.sqlMessage });
     }
   },
