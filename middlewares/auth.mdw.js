@@ -10,7 +10,7 @@ function authNav(req, res, next) {
       }
     }
   }
-  console.log(res.locals.isAdmin);
+  //console.log(res.locals.isAdmin);
   next();
 }
 
@@ -21,6 +21,7 @@ function auth(req, res, next) {
   if (req.session.isAuth === false) {
     // req.session.retUrl = req.originalUrl;
     return res.redirect("/user/login");
+    //  return res.status(200).json({ url: `/user/login` });
   }
   next();
 }
@@ -38,9 +39,7 @@ function authAdmin(req, res, next) {
   }
 
   if (req.session.authUser.decentralization !== 2) {
-    return res
-      .status(404)
-      .json({ message: "Only Admin Can Access This Page!" });
+    return res.redirect("/");
   }
 
   next();
