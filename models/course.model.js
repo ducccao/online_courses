@@ -12,6 +12,17 @@ module.exports = {
     const sql = `select * from ${TBL_COURSE} limit ${config.pagination.limit} offset ${offset}`;
     return db.load(sql);
   },
+
+  pagiListCourse(offset, limit) {
+    const sql = `select * from ${TBL_COURSE} limit ${limit} offset ${offset}`;
+    return db.load(sql);
+  },
+
+  pagiListCourseByCat(catID, offset, limit) {
+    const sql = `select * from ${TBL_COURSE} where catID="${catID}"  limit ${limit}  offset ${offset}`;
+    return db.load(sql);
+  },
+
   addCourse(entity) {
     return db.add(entity, TBL_COURSE);
   },

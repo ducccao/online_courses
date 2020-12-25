@@ -1,4 +1,5 @@
 const mysql = require("mysql");
+const { off } = require("process");
 const util = require("util");
 
 var pool = mysql.createPool({
@@ -20,6 +21,7 @@ module.exports = {
   add: (entity, tableName) => {
     return poo_query(`insert into ${tableName} set ? `, entity);
   },
+
   patch: (entity, condition, tblName) => {
     return poo_query(`update ${tblName} set ? where ?`, [entity, condition]);
   },

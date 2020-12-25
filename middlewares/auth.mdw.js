@@ -1,3 +1,19 @@
+function authNav(req, res, next) {
+  if (typeof req.session.authUser === "undefined") {
+    res.locals.isAdmin = false;
+  } else {
+    if (req.session.authUser !== null) {
+      if (req.session.authUser.decentralization === 2) {
+        res.locals.isAdmin = true;
+      } else {
+        res.locals.isAdmin = false;
+      }
+    }
+  }
+  console.log(res.locals.isAdmin);
+  next();
+}
+
 function auth(req, res, next) {
   //console.log(req.headers.referer);
   //console.log(req.originalUrl);
@@ -26,10 +42,12 @@ function authAdmin(req, res, next) {
       .status(404)
       .json({ message: "Only Admin Can Access This Page!" });
   }
+
   next();
 }
 
 module.exports = {
   auth,
   authAdmin,
+  authNav,
 };
