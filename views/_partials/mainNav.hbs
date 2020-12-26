@@ -1,28 +1,42 @@
 <!-- Navigation -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary-custom  fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="/">Online Courses</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-            data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
-            aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <ul class="navbar-nav d-flex ">
+            <li class="nav-item">
+                <a class="nav-link " href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/course-list">Course List</a>
+            </li>
+        </ul>
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
+
+
+
                 {{#if isAdmin}}
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/dashboard">Admin</a>
                 </li>
                 {{/if}}
+
+                {{#if isAuth}}
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/user/cart"><i class="fa fa-shopping-cart"> <span
+                                class="badge badge-danger">5</span></i>
+                    </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/course-list">Course List</a>
-                </li>
+
+                {{/if}}
+
+                <div class="topbar-divider d-none d-sm-block bg-nav width-1">
+                </div>
+
+
 
 
 

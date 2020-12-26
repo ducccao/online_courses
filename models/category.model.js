@@ -12,6 +12,11 @@ module.exports = {
     return db.add(entity, TBL_CATEGORIES);
   },
 
+  getCateByID(catID) {
+    const sql = `select * from ${TBL_CATEGORIES} where catID = ${catID} `;
+    return db.load(sql);
+  },
+
   allWithDetails() {
     const sql = `
     select c.*, count(p.courseID) as CourseCount

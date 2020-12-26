@@ -12,5 +12,20 @@
     },
     "productionURL":{
         "URL":""
+    },
+    "DATABASE":{
+        "TABLE":{
+            "CART":"CART",
+            "CATEGORY":"CATEGORY",
+            "CHAPTER":"CHAPTER",
+            "COURSE":"COURSE",
+            "COURSE_BOUGHT":"COURSEBOUGHT",
+            "REVIEW":"REVIEW",
+            "SALE":"SALE",
+            "SESSIONS":"SESSIONS",
+            "UNIT":"UNIT",
+            "USER":"USER",
+            "WATCH_LIST":"WATCHLIST"
+        }
     }
 }
