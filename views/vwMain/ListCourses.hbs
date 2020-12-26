@@ -211,20 +211,74 @@
                             <div class="card mb-5">
                                 <img class="card-img-top" src="{{this.avatar}}" alt="Card image cap">
                                 <div class="card-body">
-                                    <h4 class="card-title">
+                                    <h4 class="card-title text-dark font-weight-bolder">
                                         {{this.title}}
                                     </h4>
+
+
+                                    {{#if_equal this.catLevel 1 }}
+
+                                    <p class="card-text text-primary"> <span class="font-weight-bolder">Type:
+                                        </span>Mobile Development</p>
+                                    {{else}}
+                                    <p class="card-text text-primary"><span class="font-weight-bolder">Type: </span> Web
+                                        Development</p>
+                                    {{/if_equal}}
+
+                                    <p class="card-text text-secondary">
+                                        <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
+                                    </p>
+                                    <p class="card-text text-success">
+                                        <span class="font-weight-bold"> Rating:</span>
+                                        {{#if_equal this.rating 'NaN'}}
+                                        No Rating
+                                        {{else}}
+                                        {{this.rating}}
+                                        {{/if_equal}}
+                                        <span class="badge badge-success text-md">
+                                            Total Student Rating: {{this.countPeopleRating}}
+                                        </span>
+                                    </p>
+
+
+
+                                    {{#ifCond this.discount '!=' 0}}
+                                    <p class="card-text text-warning">
+                                        <span class="font-weight-bolder"> Discount:</span> {{this.discount}}%
+                                    </p>
+
+                                    {{else}}
+
+                                    {{/ifCond}}
+
+
+                                    </p>
+                                    <p class="card-text text-info">
+                                        Instructor: {{this.userName}}
+                                    </p>
+
+
+
                                     <p class="card-text text-danger">
-                                        {{format this.fee}} VNĐ
+                                        <span class="font-weight-bold"> Fee:</span> {{format this.fee}} VNĐ
                                     </p>
                                 </div>
                                 <div class="card-footer">
+
+                                    {{#if ../isAuth}}
                                     <a href="#" class="card-link btn btn-info">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </a>
                                     <a href="#" class="card-link btn btn-success">
                                         <i class="fa fa-cart-plus mr-2 "></i>Buy
                                     </a>
+
+                                    {{else}}
+                                    <a href="#" class="card-link btn btn-info w-100">
+                                        <i class="fa fa-info mr-2 "></i>Detail
+                                    </a>
+
+                                    {{/if}}
                                 </div>
                             </div>
                         </div>

@@ -2,6 +2,7 @@ const cateModel = require("./../models/category.model");
 const courseModel = require("./../models/course.model");
 const userModel = require("./../models/user.model");
 const config = require("./../config/default.json");
+const { averageArrayRating } = require("./../utils/utilsFunction");
 
 const mainController = {
   // get List Course page
@@ -23,7 +24,7 @@ const mainController = {
     const offset = (page - 1) * 6;
     // console.log(offset);
     const rows = await courseModel.pagiListCourse(offset, limit);
-    const total = rows.length;
+    const total = allCourse.length;
     const nPage = Math.ceil(total / limit);
     const pagiItem = [];
 
@@ -35,10 +36,69 @@ const mainController = {
       pagiItem.push(item);
     }
 
+    // get cat type
+    const nextRows = [];
+
+    for (let i = 0; i < rows.length; i++) {
+      const catLevel = await courseModel.getTypeOfCourse(
+        rows[i].courseID,
+        rows[i].catID
+      );
+      //  console.log(rows[i]);
+      // console.log(catLevel);
+      const item = {
+        ...rows[i],
+        catLevel: catLevel[0].catLevel,
+      };
+      nextRows.push(item);
+    }
+    //  console.log(rows);
+    // const typeOfCourse = await courseModel.getTypeOfCourse(1, 1);
+    // console.log(nextRows);
+
+    // instructor
+    const thirdRows = [];
+    for (let i = 0; i < nextRows.length; ++i) {
+      const instructor = await courseModel.getInstructor(
+        nextRows[i].courseID,
+        nextRows[i].userID
+      );
+      //console.log(instructor);
+      const item = {
+        ...nextRows[i],
+        ...instructor[0],
+      };
+      thirdRows.push(item);
+    }
+    // console.log(thirdRows[0]);
+    // rating course
+    const fourthRows = [];
+    for (let i = 0; i < thirdRows.length; i++) {
+      // rating
+      const ratingArray = await courseModel.getRatingCourse(
+        thirdRows[i].courseID
+      );
+      const averageRating = averageArrayRating(ratingArray);
+      //   console.log(averageRating);
+      // discount
+      const discount = await courseModel.getDiscountCourse(
+        thirdRows[i].courseID
+      );
+      console.log(discount);
+      const item = {
+        ...thirdRows[i],
+        rating: typeof +averageRating === "number" ? averageRating : 0,
+        countPeopleRating: ratingArray.length,
+        discount: discount.length !== 0 ? discount[0].percent : 0,
+      };
+      fourthRows.push(item);
+    }
+    // console.log(fourthRows);
+
     res.render("vwMain/ListCourses", {
       layout: "main",
       courseInCat: courseInCat,
-      allCourse: rows,
+      allCourse: fourthRows,
       //   isAdmin: isAdmin,
       //pagi
       showPagi: true,

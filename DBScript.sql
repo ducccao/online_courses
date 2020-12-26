@@ -158,7 +158,7 @@ insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo)
 insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (2,1,"noi dung bai 2","link");
 insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (3,2,"nội dung bài 2","link");
 
-
+insert into sale (courseId,percent) values (1,10)
 
 
 

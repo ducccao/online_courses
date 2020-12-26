@@ -2,6 +2,8 @@ const db = require("../utils/db");
 const config = require("./../config/default.json");
 
 const TBL_COURSE = "course";
+const TBL_CATEGORY = "category";
+const TBL_USER = "user";
 
 module.exports = {
   all() {
@@ -46,5 +48,36 @@ module.exports = {
       courseID: entity.courseID,
     };
     return db.del(condition, TBL_COURSE);
+  },
+
+  // get type of course
+  getTypeOfCourse(courseID, catID) {
+    const sql = `select  catLevel from ${TBL_COURSE} as c, ${TBL_CATEGORY} as cat where c.catID = ${catID}
+     and c.courseID = ${courseID}
+      and ${catID} = cat.catID `;
+    return db.load(sql);
+  },
+
+  // get instructor
+  getInstructor(courseID, userID) {
+    const sql = `select userName, decentralization from ${TBL_USER} as u , ${TBL_COURSE} as c 
+    where c.courseID  = ${courseID} and c.userID = u.userID and c.userID = ${userID}`;
+    return db.load(sql);
+  },
+
+  // get rating
+  getRatingCourse(courseID) {
+    const sql = `select rating from ${config.DATABASE.TABLE.REVIEW} as r, 
+    ${config.DATABASE.TABLE.COURSE} as c where c.courseID = r.courseID 
+    and c.courseID = ${courseID}`;
+    return db.load(sql);
+  },
+  // get discount
+  getDiscountCourse(courseID) {
+    const sql = `select percent from ${config.DATABASE.TABLE.SALE} as s, 
+    ${config.DATABASE.TABLE.COURSE} as c where c.courseID = s.courseID 
+    and c.courseID = ${courseID}
+    `;
+    return db.load(sql);
   },
 };
