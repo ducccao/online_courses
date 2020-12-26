@@ -93,6 +93,12 @@ const courseController = {
         return res.status(400).json({ message: "Course Is Exists!" });
       }
 
+      const isExistsCat = await categoryModel.getCateByID(data.catID);
+      //  console.log(isExistsCat);
+      if (isExistsCat.length === 0) {
+        return res.status(400).json({ message: "Category Invalid!" });
+      }
+
       const allCourse = await courseModel.all();
 
       const user = req.session.authUser;
