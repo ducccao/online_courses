@@ -24,4 +24,6 @@ router.get("/forgot-password", userController.getForgotPassword);
 // get profile
 router.get("/profile", auth, userController.getProfile);
 
+// get upload course
+router.get("/upload-course", auth, userController.getUploadCoursePage);
 module.exports = router;
