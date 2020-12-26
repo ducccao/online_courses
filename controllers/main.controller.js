@@ -84,7 +84,7 @@ const mainController = {
       const discount = await courseModel.getDiscountCourse(
         thirdRows[i].courseID
       );
-      console.log(discount);
+      //  console.log(discount);
       const item = {
         ...thirdRows[i],
         rating: typeof +averageRating === "number" ? averageRating : 0,
@@ -194,7 +194,7 @@ const mainController = {
       const discount = await courseModel.getDiscountCourse(
         thirdRows[i].courseID
       );
-      console.log(discount);
+      //    console.log(discount);
       const item = {
         ...thirdRows[i],
         rating: typeof +averageRating === "number" ? averageRating : 0,

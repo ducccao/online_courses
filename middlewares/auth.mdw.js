@@ -1,16 +1,21 @@
 function authNav(req, res, next) {
   if (typeof req.session.authUser === "undefined") {
     res.locals.isAdmin = false;
+    res.locals.isInstructor = false;
   } else {
     if (req.session.authUser !== null) {
       if (req.session.authUser.decentralization === 2) {
         res.locals.isAdmin = true;
+      } else if (req.session.authUser.decentralization === 1) {
+        res.locals.isInstructor = true;
       } else {
+        res.locals.isInstructor = false;
         res.locals.isAdmin = false;
       }
     }
   }
   //console.log(res.locals.isAdmin);
+  //console.log(res.locals.isInstructor);
   next();
 }
 
