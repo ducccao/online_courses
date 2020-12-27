@@ -2,6 +2,7 @@ const userModal = require("./../models/user.model");
 const bcryptjs = require("bcryptjs");
 const config = require("./../config/default.json");
 const moment = require("moment");
+const multer = require("multer");
 
 const userController = {
   // get all user
@@ -167,6 +168,41 @@ const userController = {
     res.render("vwUser/UploadCourse", {
       layout: "main",
     });
+  },
+  // post upload course
+  postUploadCourse: async (req, res) => {
+    console.log(req.body);
+    const storage = multer.diskStorage({
+      destination: function (req, file, cb) {
+        cb(null, "./public/course/img/");
+      },
+      filename: function (req, file, cb) {
+        cb(null, file.originalname);
+      },
+    });
+
+    const upload = multer({ storage });
+
+    upload.single("ulAva")(req, res, function (er) {
+      if (er) {
+        console.log(er);
+      } else {
+        res.render("vwUser/UploadCourse", {
+          layout: "main",
+        });
+      }
+    });
+
+    // upload.array("ulAva", 3)(req, res, (er) => {
+    //   if (er) {
+    //     console.log(er);
+    //   } else {
+    //     console.log("Upload File Success");
+    //     res.render("vwUser/UploadCourse", {
+    //       layout: "main",
+    //     });
+    //   }
+    // });
   },
 };
 

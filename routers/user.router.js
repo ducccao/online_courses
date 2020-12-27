@@ -1,7 +1,7 @@
 const express = require("express");
 const userController = require("./../controllers/user.controller");
 const router = express.Router();
-const { auth, authAdmin } = require("./../middlewares/auth.mdw");
+const { auth, authAdmin, authNav } = require("./../middlewares/auth.mdw");
 
 // login get
 router.get("/login", userController.getLogin);
@@ -25,5 +25,7 @@ router.get("/forgot-password", userController.getForgotPassword);
 router.get("/profile", auth, userController.getProfile);
 
 // get upload course
-router.get("/upload-course", auth, userController.getUploadCoursePage);
+router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
+// post upload course
+router.post("/upload-course", auth, authNav, userController.postUploadCourse);
 module.exports = router;
