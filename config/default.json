@@ -7,12 +7,8 @@
             "limit":9
         }
     },
-    "devURL":{
-        "URL":"http://localhost:3000"
-    },
-    "productionURL":{
-        "URL":""
-    },
+    "devURL":"http://localhost:3000",
+    "productionURL":"",
     "DATABASE":{
         "TABLE":{
             "CART":"CART",

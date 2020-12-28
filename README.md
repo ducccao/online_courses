@@ -1,1 +1,1 @@
-# Project -  Online Courses Application
+# Online Courses Application

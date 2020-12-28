@@ -1,6 +1,9 @@
 const userModal = require("./../models/user.model");
 const bcryptjs = require("bcryptjs");
 const config = require("./../config/default.json");
+const courseModel = require("./../models/course.model");
+const catModel = require("./../models/category.model");
+const adminModel = require("./../models/admin.model");
 const moment = require("moment");
 const multer = require("multer");
 
@@ -171,38 +174,76 @@ const userController = {
   },
   // post upload course
   postUploadCourse: async (req, res) => {
-    console.log(req.body);
-    const storage = multer.diskStorage({
-      destination: function (req, file, cb) {
-        cb(null, "./public/course/img/");
-      },
-      filename: function (req, file, cb) {
-        cb(null, file.originalname);
-      },
-    });
+    try {
+      console.log(req.body);
+      let avaName = "";
+      const storage = multer.diskStorage({
+        destination: function (req, file, cb) {
+          cb(null, "./public/course/img/");
+        },
+        filename: function (req, file, cb) {
+          avaName = file.originalname;
+          cb(null, file.originalname);
+        },
+      });
 
-    const upload = multer({ storage });
+      const upload = multer({ storage });
 
-    upload.single("ulAva")(req, res, function (er) {
-      if (er) {
-        console.log(er);
-      } else {
-        res.render("vwUser/UploadCourse", {
-          layout: "main",
-        });
+      upload.single("ulAva")(req, res, function (er) {
+        if (er) {
+          console.log(er);
+        } else {
+          res.render("vwUser/UploadCourse", {
+            layout: "main",
+          });
+        }
+      });
+
+      // console.log(req.session.authUser);
+
+      const allCourse = await courseModel.all();
+      const isCatExists = await adminModel.getCatByCatName(req.body.catName);
+      //console.log(avaName);
+      const avataURL = `${config.devURL}/public/course/img/${avaName}`;
+      //console.log(avataURL);
+
+      if (isCatExists.length === 0) {
+        return res.status(401).json({ message: "Category Does Not Exists!" });
       }
-    });
 
-    // upload.array("ulAva", 3)(req, res, (er) => {
-    //   if (er) {
-    //     console.log(er);
-    //   } else {
-    //     console.log("Upload File Success");
-    //     res.render("vwUser/UploadCourse", {
-    //       layout: "main",
-    //     });
-    //   }
-    // });
+      console.log(isCatExists);
+      const entity = {
+        courseID: allCourse.length + 1,
+        title: "",
+        catID: isCatExists.catID,
+        userID: req.session.authUser.userID,
+        thumbnail: "",
+        avatar: avataURL,
+        fee: +req.body.txtCoursePrice,
+        subDescription: req.body.txtShortDes,
+        fullDescription: req.body.txtFullDes,
+        isFinished: true,
+        views: 0,
+        dayPost: moment().format("YYYY-MM-DD"),
+        lastUpdate: moment().format("YYYY-MM-DD"),
+      };
+
+      const firstRet = await courseModel.addCourse(entity);
+
+      // upload.array("ulAva", 3)(req, res, (er) => {
+      //   if (er) {
+      //     console.log(er);
+      //   } else {
+      //     console.log("Upload File Success");
+      //     res.render("vwUser/UploadCourse", {
+      //       layout: "main",
+      //     });
+      //   }
+      // });
+    } catch (er) {
+      console.log(er);
+      throw new Error(er);
+    }
   },
 };
 
