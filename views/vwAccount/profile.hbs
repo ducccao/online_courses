@@ -1,0 +1,166 @@
+{{#section 'css'}}
+
+<style>
+    #checkPW {
+        display: none;
+    }
+</style>
+
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"
+    integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw=="
+    crossorigin="anonymous" />
+
+{{/section}}
+
+{{#section 'js'}}
+
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+    crossorigin="anonymous"></script>
+
+
+<script type="module">
+
+    import { openAlert } from "/utils/alertModal.js"
+    function editProfile() {
+        const fmRegister = $("#fmRegisterProfile");
+        const username = $("#usernameProfile");
+        const email = $("#emailProfile");
+        const DOB = $("#DOBProfile");
+        let error = false;
+
+        jQuery('#DOBProfile').datetimepicker({
+            format: 'd/m/Y',
+            timepicker: false,
+            mask: true
+        });
+
+
+        $("#usernameProfile").val(`{{ authUser.userName }}`);
+        $("#emailProfile").val(`{{authUser.email}}`);
+        $("#DOBProfile").val(`{{ authUser.DOB}}`);
+
+        console.log("Asd")
+
+        fmRegister.on("submit", e => {
+            e.preventDefault();
+            if (email.val() === "" || username.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid value!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+            const data = {
+                username: username.val(),
+                email: email.val(),
+                dob: DOB.val(),
+            }
+            $.ajax({
+
+                type: 'POST',
+                url: '/account/profile',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Edit Success!"
+                    }
+
+
+                    openAlert(messageTrigger)
+
+                },
+                error: function (er) {
+                    console.log("erroee")
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+        })
+
+
+
+    }
+
+    editProfile();
+</script>
+
+{{/section}}
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4"> Your Information!</h1>
+                            </div>
+                            <form class="user" id="fmRegisterProfile" action="/account/profile">
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12 col-lg-12 mb-3 mb-sm-0">
+                                        <p>User Name:</p>
+                                        <input type="text" class="form-control form-control-user" id="usernameProfile"
+                                            placeholder="User name">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <p>Date Of Birth:</p>
+                                    <input type="datetime" class="form-control form-control-user" id="DOBProfile"
+                                        placeholder="Date Of Birth">
+                                </div>
+
+                                <div class="form-group">
+                                    <p>Email Address:</p>
+                                    <input type="email" class="form-control form-control-user" id="emailProfile"
+                                        placeholder="Email Address" readonly>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    Save
+                                </button>
+                                <hr>
+
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</body>

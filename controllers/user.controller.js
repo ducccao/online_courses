@@ -60,6 +60,74 @@ const userController = {
       return res.json({ redirect: "/admin/dashboard" });
     }
 
+    const comparePassword = bcryptjs.compareSync(
+      password,
+      isUserExists[0].password
+    );
+
+    if (comparePassword === false) {
+      return res.status(404).json({ message: "Invalid email or password!" });
+    }
+
+    req.session.isAuth = true;
+    req.session.authUser = isUserExists[0];
+    req.session.authUser.DOB = moment(req.session.authUser.DOB).format(
+      "DD/MM/YYYY"
+    );
+    let url = req.session.retUrl || "/";
+    return res.status(200).json({ redirect: url });
+  },
+
+  // post logout
+  postLogout: async (req, res) => {
+    req.session.isAuth = false;
+    req.session.authUser = null;
+
+    let url = req.headers.referer;
+    res.redirect(url);
+  },
+  // register
+  getRegister: (req, res) => {
+    res.render("vwUser/Register", {
+      layout: "loginout",
+    });
+  },
+
+  // login
+  getLogin: async (req, res) => {
+    const ref = req.headers.referer;
+    req.session.retUrl = ref;
+
+    //console.log(ref);
+
+    res.render("vwUser/Login", {
+      layout: "loginout",
+    });
+  },
+  // post login
+  postLogin: async (req, res) => {
+    const { email, password } = req.body;
+    //  console.log(req.body);
+    const infor = {
+      email: email,
+      password: password,
+    };
+    const isUserExists = await userModal.findUserByEmail(email);
+
+    if (isUserExists.length === 0) {
+      return res.status(404).json({ message: "Invalid email or password!" });
+    }
+
+    // console.log(isUserExists);
+    // neu la admin thi render page admin luon
+
+    if (isUserExists[0].decentralization === 2 && password === "admin") {
+      req.session.isAuth = true;
+      req.session.authUser = isUserExists[0];
+
+      return res.json({ redirect: "/admin/dashboard" });
+    }
+
     if (isUserExists[0].decentralization === 1 && password === "123") {
       req.session.isAuth = true;
       req.session.authUser = isUserExists[0];

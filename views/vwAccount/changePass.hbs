@@ -1,0 +1,201 @@
+{{#section 'css'}}
+
+<style>
+    #checkPWNewChange {
+        display: none;
+    }
+
+    #checkPWOldChange {
+        display: none;
+    }
+</style>
+
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css"
+    integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw=="
+    crossorigin="anonymous" />
+
+{{/section}}
+
+{{#section 'js'}}
+
+
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+    crossorigin="anonymous"></script>
+
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function changePassFunction() {
+        const fmRegister = $("#fmRegisteChange");
+
+        const oldPass = $('#oldPasswordChange');
+        const newPass = $('#newPasswordChange');
+        const repeatPass = $('#repeatPasswordChange');
+
+        const checkPWNew = document.getElementById("checkPWNewChange");
+        const checkPWOld = document.getElementById("checkPWOldChange");
+        let error = false;
+
+
+        console.log("Asd")
+
+        fmRegister.on("submit", e => {
+            e.preventDefault();
+            console.log(oldPass.val())
+            console.log(oldPass.val().length)
+
+            //mat khau khong duoc rong
+            if (oldPass.val() === "" || newPass.val() === "" || repeatPass.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid value!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+
+            //do dai mat khau khong duoc nho hon 6 ky tu
+            if (oldPass.val().length < 6 || newPass.val().length < 6 || repeatPass.val().length < 6) {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Password at least 6 characters!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+            console.log(newPass.val());
+            console.log(repeatPass.val());
+
+
+
+            //so sanh xem nahp lai mau khau co dung khong
+            if (repeatPass.val() !== newPass.val()) {
+                checkPWNew.style.display = "flex";
+                return;
+            }
+            else {
+                checkPWNew.style.display = "none";
+            }
+
+
+
+            const data = {
+                oldPass: oldPass.val(),
+                newPass: newPass.val(),
+            };
+
+            $.ajax({
+                type: 'post',
+                url: '/account/changePass',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Change Success!"
+                    }
+
+
+                    openAlert(messageTrigger)
+
+
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+        })
+
+
+
+    }
+
+    changePassFunction();
+</script>
+{{/section}}
+
+<body class="bg-gradient-primary">
+
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Change Password</h1>
+                            </div>
+                            <form class="user" id="fmRegisteChange">
+
+                                <div class="form-group row">
+                                    <div class="col-sm-12 mb-3 mb-sm-2">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="oldPasswordChange" placeholder="Old Password">
+                                    </div>
+                                    <div class="col-sm-12 mb-3 mb-sm-2">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="newPasswordChange" placeholder="New Password">
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <input type="password" class="form-control form-control-user"
+                                            id="repeatPasswordChange" placeholder="Repeat Password">
+                                    </div>
+                                </div>
+
+                                <div class="row" id="checkPWOldChange">
+                                    <div class=" col-sm-12 col-lg-12">
+                                        <p class="text-danger font-weight-bold">Old Password is wrong</p>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="checkPWNewChange">
+                                    <div class=" col-sm-12 col-lg-12">
+                                        <p class="text-danger font-weight-bold">Password does not match!</p>
+                                    </div>
+                                </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                            <H6>Change!</H6>
+                        </button>
+                        <hr>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
