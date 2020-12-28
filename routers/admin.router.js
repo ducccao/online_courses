@@ -3,6 +3,8 @@ const adminController = require("./../controllers/admin.controller");
 const router = express.Router();
 const { auth, authAdmin } = require("./../middlewares/auth.mdw");
 
+/* #region  Category */
+
 // get dashboard
 router.get("/dashboard", authAdmin, adminController.getDashboard);
 
@@ -33,10 +35,8 @@ router.get(
   authAdmin,
   adminController.getDetailCat
 );
+/* #endregion */
 
 //   throw new Error("access denied");
-
-// 404 not found
-router.get("*", adminController.getNotfound);
 
 module.exports = router;

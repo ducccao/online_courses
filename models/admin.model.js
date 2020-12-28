@@ -37,7 +37,13 @@ module.exports = {
 
   // add cate
   addCate(entity) {
-    return db.insertStuffIntoTable(entity, TBL_CATEGORY);
+    return db.add(entity, TBL_CATEGORY);
+  },
+
+  // get cat by cat name
+  getCatByCatName(catName) {
+    const sql = `select * from ${TBL_CATEGORY} where catName = "${catName}"`;
+    return db.load(sql);
   },
 
   // get Cate by ID

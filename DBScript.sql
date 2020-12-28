@@ -6,7 +6,7 @@ create database   onlineCourses CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci';
 use onlineCourses;
 
 create table user(
-	userID int primary key,
+	userID int primary key AUTO_INCREMENT,
     userName varchar(100),
     email varchar (100),
     password varchar(100),
@@ -32,7 +32,7 @@ create table course (
     avatar varchar (100),
     fee float,
     subDescription varchar (1000),
-    fullDesciption varchar (1000),
+    fullDescription varchar (1000),
     isFinished int,
     views float,
     dayPost date,
@@ -110,17 +110,17 @@ insert into category (category.catID, category.catName, category.catLevel) value
 insert into category (category.catID, category.catName, category.catLevel) values (6, "Boootstrap", 0);
 insert into category (category.catID, category.catName, category.catLevel) values (7, "Javascript", 0);
 
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDesciption, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
  values (1, "Lam quen voi HTML", "title html", 1, 4, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDesciption, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
  values (2, "HTML nang cao", "title html nang cao", 1, 5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDesciption, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
  values (3, "ios Co ban", "title ios", 4, 4, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDesciption, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
  values (4, "ios nang cao", "title ios nang cao", 4, 4, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDesciption, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
  values (5, "CSS co abn", "title css co ban", 2,5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
- insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDesciption, isFinished , views, dayPost , lastUpdate)
+ insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
  values (6, "CSS nang cao", "title css nang cao", 2, 5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
  
  
@@ -158,7 +158,7 @@ insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo)
 insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (2,1,"noi dung bai 2","link");
 insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (3,2,"nội dung bài 2","link");
 
-
+insert into sale (courseId,percent) values (1,10)
 
 
 

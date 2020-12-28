@@ -1,0 +1,21 @@
+<div class="row">
+
+    {{#if_equal "my_string" "my_string"}}
+    x is "my_string"
+    {{else}}
+    x isn't "my_string"
+    {{/if_equal}}
+
+
+
+
+    {{#ifCond this.discount '!=' 0}}
+    <p class="card-text text-warning">
+        <span class="font-weight-bolder"> Discount:</span> {{this.discount}}%
+    </p>
+
+    {{else}}
+
+    {{/ifCond}}
+
+</div>

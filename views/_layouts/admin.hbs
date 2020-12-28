@@ -92,7 +92,9 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="/user/login">Logout</a>
+                    <form method="POST" action="/user/logout">
+                        <button class="btn btn-primary" type="submit">Logout</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -118,6 +120,15 @@
     <!-- Page level custom scripts -->
     <script src="http://localhost:3000/vendpr/js/demo/chart-area-demo.js"></script>
     <script src="http://localhost:3000/vendpr/js/demo/chart-pie-demo.js"></script>
+
+    <script>
+        function logout() {
+
+        }
+        logout();
+
+
+    </script>
 
 
     {{{_sections.js}}}

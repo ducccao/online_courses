@@ -15,7 +15,7 @@ module.exports = function (app) {
     if (typeof req.session.isAuth === "undefined") {
       req.session.isAuth = false;
     }
-
+    // console.log(req.session.authUser);
     res.locals.isAuth = req.session.isAuth;
     res.locals.authUser = req.session.authUser;
 

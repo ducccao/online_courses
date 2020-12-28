@@ -1,5 +1,27 @@
 {
     "pagination":{
         "limit":12
+    },
+    "listCourses":{
+        "pagination":{
+            "limit":9
+        }
+    },
+    "devURL":"http://localhost:3000",
+    "productionURL":"",
+    "DATABASE":{
+        "TABLE":{
+            "CART":"CART",
+            "CATEGORY":"CATEGORY",
+            "CHAPTER":"CHAPTER",
+            "COURSE":"COURSE",
+            "COURSE_BOUGHT":"COURSEBOUGHT",
+            "REVIEW":"REVIEW",
+            "SALE":"SALE",
+            "SESSIONS":"SESSIONS",
+            "UNIT":"UNIT",
+            "USER":"USER",
+            "WATCH_LIST":"WATCHLIST"
+        }
     }
 }

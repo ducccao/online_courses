@@ -1,7 +1,9 @@
 {{#section 'css'}}
 <style>
     .login-form {
-        width: 40%;
+        justify-content: center;
+        align-items: center;
+        display: flex;
 
         font-size: 15px;
     }
@@ -38,42 +40,76 @@
         justify-content: center;
         align-items: center;
     }
+
+    #addCourseFm {
+        width: 40%;
+    }
 </style>
 {{/section}}
 
 
 <div class="row">
-    <div class="col-sm-12 col-lg-6 login-form">
-        <form id="editCateFm" action="" method="POST">
-            <h3>Edit</h3>
+    <div class="col-sm-12 col-lg-12 login-form">
+        <form id="addCourseFm" action="" method="POST">
+            <h5>Add</h5>
+
+            <label for="courseName">Course Name</label>
+            <div class="form-group">
+                <input type="text" name="courseName" id="courseName" class="form-control" placeholder="Course Name"
+                    required="required">
+            </div>
+            <label for="title">Course Title</label>
+            <div class="form-group">
+                <input type="text" name="title" id="title" class="form-control" placeholder="Course Title"
+                    required="required">
+            </div>
+            <label for="catID">Category ID</label>
 
             <div class="form-group">
-                <label for="catID">Category ID</label>
                 <input type="text" name="catID" id="catID" class="form-control" placeholder="Category ID"
                     required="required">
             </div>
 
-            <div class="form-group">
-                <label for="catName">Category Name</label>
+            <label for="avatar">Avatar</label>
 
-                <input type="text" name="catName" id="catName" class="form-control" placeholder="Category Name"
+            <div class="form-group">
+                <input type="text" name="avatar" id="avatar" class="form-control" placeholder="Avatar"
                     required="required">
             </div>
-            <div class="form-group">
-                <label for="catLevel">Category Level</label>
 
-                <input type="text" name="catLevel" id="catLevel" class="form-control" placeholder="Category Level"
+            <label for="fee">Course Price</label>
+
+            <div class="form-group">
+                <input type="text" name="fee" id="fee" class="form-control" placeholder="Course Price"
                     required="required">
             </div>
+
+
+            <label for="fullDescription">Full Description</label>
+
             <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Edit</button>
+                <input type="text" name="fullDescription" id="fullDescription" class="form-control"
+                    placeholder="Full Description" required="required">
+            </div>
+
+            <label for="subDescription">Sub Description</label>
+
+            <div class="form-group">
+                <input type="text" name="subDescription" id="subDescription" class="form-control"
+                    placeholder="Sub Description" required="required">
+            </div>
+
+
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary btn-block">Add</button>
             </div>
 
         </form>
 
     </div>
 
-    <div class="col-sm-12 col-lg-6 login-form f2">
+    {{!-- <div class="col-sm-12 col-lg-6 login-form f2">
         <form action="/examples/actions/confirmation.php" method="post">
             <h5 class="text-info mb-3">
                 Category Level 0: Web Programming
@@ -83,7 +119,7 @@
             </h5>
         </form>
 
-    </div>
+    </div> --}}
 </div>
 
 {{#section 'js'}}
@@ -93,36 +129,33 @@
 
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
-    function editCategory() {
-        const editCateFm = $("#editCateFm");
-        const catName = $("#catName");
-        const catLevel = $("#catLevel");
+    function delCategory() {
+        const addCourseFm = $("#addCourseFm");
+        const courseName = $("#courseName");
+        const title = $("#title");
         const catID = $("#catID");
+        const avatar = $("#avatar");
+        const fee = $("#fee");
+        const fullDescription = $("#fullDescription");
+        const subDescription = $("#subDescription");
 
-        editCateFm.on("submit", event => {
+
+        addCourseFm.on("submit", event => {
             event.preventDefault();
 
-            // validate cat level
-            if (catLevel.val() !== "1" && catLevel.val() !== "0") {
-                const messageTrigger = {
-                    timer: 1500,
-                    html: '',
-                    title: "Invalid Category Level!",
-                    icon: "warning",
-                }
-                openAlert(messageTrigger)
-                return;
-            }
-
             const data = {
+                courseName: courseName.val(),
+                title: title.val(),
                 catID: catID.val(),
-                catName: catName.val(),
-                catLevel: catLevel.val(),
+                avatar: avatar.val(),
+                fee: fee.val(),
+                fullDescription: fullDescription.val(),
+                subDescription: subDescription.val(),
             }
 
             $.ajax({
                 type: "post",
-                url: "/admin/categories/edit",
+                url: "/admin/courses/add",
                 data: data,
                 xhrFields: {
                     withCredentials: false
@@ -136,7 +169,7 @@
                         timer: 1500,
                         html: '',
                         icon: 'success',
-                        title: "Edited Category!"
+                        title: "Added Course!"
                     }
                     openAlert(messageTrigger)
                 },
@@ -155,6 +188,6 @@
         })
 
     }
-    editCategory();
+    delCategory();
 </script>
 {{/section}}

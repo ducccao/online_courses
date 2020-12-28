@@ -44,12 +44,12 @@
 
 <div class="row">
     <div class="col-sm-12 col-lg-6 login-form">
-        <form id="delCateFm" action="" method="POST">
-            <h3>Delete</h3>
+        <form id="delCourseFm" action="" method="POST">
+            <h5>Delete </h5>
+            <label for="courseID">Course ID</label>
 
             <div class="form-group">
-                <label for="catID">Category ID</label>
-                <input type="text" name="catID" id="catID" class="form-control" placeholder="Category ID"
+                <input type="text" name="courseID" id="courseID" class="form-control" placeholder="Course ID"
                     required="required">
             </div>
 
@@ -61,7 +61,7 @@
 
     </div>
 
-    <div class="col-sm-12 col-lg-6 login-form f2">
+    {{!-- <div class="col-sm-12 col-lg-6 login-form f2">
         <form action="/examples/actions/confirmation.php" method="post">
             <h5 class="text-info mb-3">
                 Category Level 0: Web Programming
@@ -71,7 +71,7 @@
             </h5>
         </form>
 
-    </div>
+    </div> --}}
 </div>
 
 {{#section 'js'}}
@@ -82,19 +82,19 @@
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
     function delCategory() {
-        const delCateFm = $("#delCateFm");
-        const catID = $("#catID");
+        const delCourseFm = $("#delCourseFm");
+        const courseID = $("#courseID");
 
-        delCateFm.on("submit", event => {
+        delCourseFm.on("submit", event => {
             event.preventDefault();
 
             const data = {
-                catID: catID.val(),
+                courseID: courseID.val(),
             }
 
             $.ajax({
                 type: "delete",
-                url: "/admin/categories/delete",
+                url: "/admin/courses/delete",
                 data: data,
                 xhrFields: {
                     withCredentials: false
@@ -108,7 +108,7 @@
                         timer: 1500,
                         html: '',
                         icon: 'success',
-                        title: "Deleted Category!"
+                        title: "Deleted Course!"
                     }
                     openAlert(messageTrigger)
                 },
