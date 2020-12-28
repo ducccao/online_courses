@@ -40,6 +40,12 @@ module.exports = {
     return db.add(entity, TBL_CATEGORY);
   },
 
+  // get cat by cat name
+  getCatByCatName(catName) {
+    const sql = `select * from ${TBL_CATEGORY} where catName = "${catName}"`;
+    return db.load(sql);
+  },
+
   // get Cate by ID
   getCateByID(catID) {
     return db.getCateByID(catID);

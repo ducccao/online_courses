@@ -8,7 +8,8 @@
 {{/section}}
 
 {{#section 'js'}}
-
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <script src='https://cdn.tiny.cloud/1/6a2wdzaqh764emfqjwf4g5s2kr8ajq1vbfrcipng9eu1o2il/tinymce/5/tinymce.min.js'
     referrerpolicy="origin"></script>
@@ -57,8 +58,15 @@
         const txtCoursePrice = $("#txtCoursePrice");
         const txtCourseDiscount = $("#txtCourseDiscount");
         const txtSyllabus = $("#txtSyllabus");
+        const catName = $("#catName");
+
+        let error = false;
+
+
+
 
         fmUpload.on("submit", e => {
+            //e.preventDefault();
 
             const data = {
                 courseName: courseName.val(),
@@ -67,7 +75,65 @@
                 txtCoursePrice: txtCoursePrice.val(),
                 txtCourseDiscount: txtCourseDiscount.val(),
                 txtSyllabus: txtSyllabus.val(),
+                catName: catName.val(),
             }
+
+
+            if (data.catName === "" || data.courseName === "" || data.txtShortDes === "" || data.txtFullDes === "" || data.txtCoursePrice === "") {
+                error = true;
+            }
+            else {
+                error = false;
+            }
+
+            if (isNaN(data.txtCoursePrice)) {
+                e.preventDefault();
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'warning',
+                    title: "Price Must Be Number!"
+                }
+
+
+
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+            if (isNaN(data.txtCourseDiscount)) {
+                e.preventDefault();
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'warning',
+                    title: "Discount Must Be Number!"
+                }
+
+
+
+                openAlert(messageTrigger)
+                return;
+            }
+
+            if (error === true) {
+                console.log(data)
+                e.preventDefault();
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'warning',
+                    title: "Invalid Content!"
+                }
+
+
+
+                openAlert(messageTrigger)
+                return;
+            }
+
+
             $.ajax({
                 type: "post",
                 url: `/user/upload-course`,
@@ -85,7 +151,7 @@
                         timer: 1500,
                         html: '',
                         icon: 'success',
-                        title: "Register Success!"
+                        title: "Upload Success!"
                     }
 
 
@@ -94,6 +160,8 @@
 
                 },
                 error: er => {
+                    e.preventDefault();
+                    console.log(er)
                     const messageTrigger = {
                         timer: 2500,
                         html: '',
@@ -101,6 +169,7 @@
                         title: er.responseJSON.message,
                     }
                     openAlert(messageTrigger)
+                    //   window.location.href = "/user/upload-course";
                 }
 
             })
@@ -124,8 +193,12 @@
                     <input id="ulAva" name="ulAva" type="file" class="file" data-browse-on-zone-click="true">
                 </div>
                 <div class="form-group">
-                    <label for="crouseName" class="font-weight-bold">Course Name</label>
+                    <label for="courseName" class="font-weight-bold">Course Name</label>
                     <input type="text" name="courseName" id="courseName" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="catName" class="font-weight-bold">Category Name</label>
+                    <input type="text" name="catName" id="catName" class="form-control" />
                 </div>
                 <div class="form-group">
                     <label for="txtShortDes" class="font-weight-bold">Course Short Description</label>

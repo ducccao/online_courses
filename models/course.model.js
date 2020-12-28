@@ -28,6 +28,14 @@ module.exports = {
   addCourse(entity) {
     return db.add(entity, TBL_COURSE);
   },
+
+  addDiscount(courseID, discount) {
+    const entity = {
+      courseID: courseID,
+      percent: discount,
+    };
+    return db.add(entity, config.DATABASE.TABLE.SALE);
+  },
   getCourseByName(courseName) {
     const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"`;
     return db.load(sql);

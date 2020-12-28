@@ -45,10 +45,10 @@ const mainController = {
         rows[i].catID
       );
       //  console.log(rows[i]);
-      // console.log(catLevel);
+      console.log(catLevel);
       const item = {
         ...rows[i],
-        catLevel: catLevel[0].catLevel,
+        catLevel: catLevel.length !== 0 ? catLevel[0].catLevel : 0,
       };
       nextRows.push(item);
     }
