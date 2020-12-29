@@ -44,6 +44,10 @@ module.exports = {
     const sql = `select * from ${TBL_COURSE} where courseID = ${courseID}`;
     return db.load(sql);
   },
+  getCourseByCourseName(courseName) {
+    const sql = `select * from ${TBL_COURSE} where courseName= "${courseName}"`;
+    return db.load(sql);
+  },
 
   editCourse(entity) {
     const condition = {

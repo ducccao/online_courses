@@ -4,6 +4,7 @@ const config = require("./../config/default.json");
 const courseModel = require("./../models/course.model");
 const catModel = require("./../models/category.model");
 const adminModel = require("./../models/admin.model");
+
 const moment = require("moment");
 const multer = require("multer");
 
@@ -38,6 +39,7 @@ const userController = {
   },
   // post login
   postLogin: async (req, res) => {
+    console.log("post login");
     const { email, password } = req.body;
     //  console.log(req.body);
     const infor = {
@@ -74,7 +76,13 @@ const userController = {
     req.session.authUser.DOB = moment(req.session.authUser.DOB).format(
       "DD/MM/YYYY"
     );
+
+    console.log(req.session.retUrl);
     let url = req.session.retUrl || "/";
+    if (req.session.retUrl === "http://localhost:3000/user/register") {
+      url = "/";
+    }
+
     return res.status(200).json({ redirect: url });
   },
 
@@ -241,9 +249,12 @@ const userController = {
     });
   },
   // post upload course
+
   postUploadCourse: async (req, res) => {
     try {
-      console.log(req.body);
+      // avatar
+      console.log("Uploading Course !!");
+      //    console.log(req.body);
       let avaName = "";
       const storage = multer.diskStorage({
         destination: function (req, file, cb) {
@@ -251,6 +262,7 @@ const userController = {
         },
         filename: function (req, file, cb) {
           avaName = file.originalname;
+          //  console.log(file);
           cb(null, file.originalname);
         },
       });
@@ -258,55 +270,82 @@ const userController = {
       const upload = multer({ storage });
 
       upload.single("ulAva")(req, res, async function (er) {
+        console.log(req.body);
         if (er) {
           console.log(er);
         } else {
+          const allCourse = await courseModel.all();
+          const isCatExists = await adminModel.getCatByCatName(
+            req.body.catName
+          );
+
+          const isCourseNameExists = await courseModel.getCourseByCourseName(
+            req.body.courseName
+          );
+
+          // console.log("Is cousrse exists", isCourseNameExists);
+          console.log(avaName);
+          const avataURL = `${config.devURL}/public/course/img/${avaName}`;
+          //console.log(avataURL);
+          console.log(isCatExists);
+          if (isCatExists.length === 0) {
+            console.log(
+              "I dont understand why are you always jump into here !"
+            );
+            return res
+              .status(400)
+              .json({ message: "Category Does Not Exists!" });
+          }
+
+          if (isCourseNameExists.length !== 0) {
+            console.log("Course is exists erorr!");
+            return res.status(400).json({ message: "Course Is Exists!" });
+          }
+          //  console.log("Cat ID: ", isCatExists[0].catID);
+
+          const entity = {
+            courseID: allCourse.length + Math.random() * 3000,
+            courseName: req.body.courseName,
+            title: "",
+            catID: isCatExists[0].catID,
+            userID: req.session.authUser.userID,
+            thumbnail: "",
+            avatar: avataURL,
+            fee: +req.body.txtCoursePrice,
+            subDescription: req.body.txtShortDes,
+            fullDescription: req.body.txtFullDes,
+            isFinished: req.body.txtIsDone === "on" ? true : false,
+            views: 0,
+            dayPost: moment().format("YYYY-MM-DD"),
+            lastUpdate: moment().format("YYYY-MM-DD"),
+          };
+
+          if (typeof entity.catID === "undefined") {
+            console.log("Cat id is undefined!");
+            throw new Error("Cat ID is undefined!");
+          }
+
+          const isAddDiscount = await courseModel.addDiscount(
+            entity.courseID,
+            +req.body.txtCourseDiscount
+          );
+
+          const firstRet = await courseModel.addCourse(entity);
+          //console.log(firstRet);
+          //console.log(isAddDiscount);
+          //console.log("entity ", entity);
+
+          res.render("vwUser/UploadCourse", {
+            layout: "main",
+          });
         }
       });
 
-      const allCourse = await courseModel.all();
-      const isCatExists = await adminModel.getCatByCatName(req.body.catName);
+      // multer
 
-      //console.log(avaName);
-      const avataURL = `${config.devURL}/public/course/img/${avaName}`;
-      //console.log(avataURL);
-      console.log(isCatExists);
-      if (isCatExists.length === 0) {
-        console.log("I dont understand why are you always jump into here !");
-        return res.json({ message: "Category Does Not Exists!" });
-      } else {
-        const entity = {
-          courseID: allCourse.length + 1,
-          courseName: req.body.courseName,
-          title: "",
-          catID: isCatExists.catID,
-          userID: req.session.authUser.userID,
-          thumbnail: "",
-          avatar: avataURL,
-          fee: +req.body.txtCoursePrice,
-          subDescription: req.body.txtShortDes,
-          fullDescription: req.body.txtFullDes,
-          isFinished: true,
-          views: 0,
-          dayPost: moment().format("YYYY-MM-DD"),
-          lastUpdate: moment().format("YYYY-MM-DD"),
-        };
-
-        const isAddDiscount = await courseModel.addDiscount(
-          entity.courseID,
-          +req.body.txtCourseDiscount
-        );
-
-        const firstRet = await courseModel.addCourse(entity);
-        console.log(firstRet);
-        console.log(isAddDiscount);
-
-        res.redirect("/");
-
-        // res.render("vwUser/UploadCourse", {
-        //   layout: "main",
-        // });
-      }
+      // res.render("vwUser/UploadCourse", {
+      //   layout: "main",
+      // });
 
       // console.log(req.session.authUser);
 
@@ -322,7 +361,7 @@ const userController = {
       // });
     } catch (er) {
       console.log(er);
-      throw new Error(er);
+      return res.status(500).json({ message: er.sqlMessage });
     }
   },
 };

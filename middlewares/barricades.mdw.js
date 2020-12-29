@@ -6,6 +6,17 @@ module.exports = function (app) {
       res.json({ error: err.message });
     }
 
+    if (err) {
+      console.log("App is crash!");
+
+      console.log(err);
+      res.render("vwError/404", {
+        layout: false,
+        partials: false,
+        message: err.sqlMessage,
+      });
+    }
+
     next(err);
   });
 
