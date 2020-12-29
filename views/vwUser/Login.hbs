@@ -27,7 +27,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '/user/login',
+                url: 'http://localhost:3000/user/login',
                 data: data,
                 xhrFields: {
                     withCredentials: false
@@ -36,9 +36,6 @@
                 },
                 success: function (data) {
                     //  console.log('Success');
-                    if (data?.redirect) {
-                        window.location.href = data.redirect;
-                    }
 
                     console.log(data)
                     const messageTrigger = {
@@ -48,6 +45,18 @@
                         title: "Logged In!"
                     }
                     openAlert(messageTrigger)
+
+
+                    if (data?.redirect === "http://localhost:3000/user/register") {
+                        window.location.href = "/"
+                    }
+                    else {
+                        window.location.href = data.redirect;
+                    }
+                    //   if (data?.redirect) {
+                    //      window.location.href = data.redirect;
+                    //  }
+
                 },
                 error: function (er) {
                     console.log(er)

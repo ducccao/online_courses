@@ -20,6 +20,10 @@ function authNav(req, res, next) {
 }
 
 function auth(req, res, next) {
+  //  console.log(req.session);
+  if (typeof req.session === "undefined") {
+    throw new Error("Session is undefined!");
+  }
   //console.log(req.headers.referer);
   //console.log(req.originalUrl);
 

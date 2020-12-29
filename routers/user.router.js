@@ -27,5 +27,6 @@ router.get("/profile", auth, userController.getProfile);
 // get upload course
 router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
 // post upload course
-router.post("/upload-course", auth, authNav, userController.postUploadCourse);
+router.post("/upload-course", userController.postUploadCourse);
+
 module.exports = router;

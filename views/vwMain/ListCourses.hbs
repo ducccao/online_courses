@@ -67,25 +67,24 @@
                         <span class="float-right">
 
                             <ul class="navbar-nav ml-auto">
-                                <form action="/user/logout" method="POST" id="fmLogout">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link text-md" href="#" id="navbarDropdownBlog"
-                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-filter"></i>Sort By
+                                <form action="/sortby/star" method="POST" id="fmSort"></form>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link text-md" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="fa fa-filter"></i>Sort By
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+
+                                        <a class="dropdown-item" href="#">
+                                            <i class="fa fa-money mr-2"></i>Price
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-right"
-                                            aria-labelledby="navbarDropdownBlog">
 
-                                            <a class="dropdown-item" href="#">
-                                                <i class="fa fa-money mr-2"></i>Price
-                                            </a>
+                                        <a class="dropdown-item" href="#;">
+                                            <i class="fa fa-star mr-2"></i>Star
+                                        </a>
 
-                                            <a class="dropdown-item" href="#;">
-                                                <i class="fa fa-star mr-2"></i>Star
-                                            </a>
-
-                                        </div>
-                                    </li>
+                                    </div>
+                                </li>
                                 </form>
                             </ul>
 
@@ -216,7 +215,7 @@
                                 <img class="card-img-top" src="{{this.avatar}}" alt="Card image cap">
                                 <div class="card-body">
                                     <h4 class="card-title text-dark font-weight-bolder">
-                                        {{this.title}}
+                                        {{this.courseName}}
                                     </h4>
 
 
