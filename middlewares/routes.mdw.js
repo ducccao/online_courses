@@ -9,8 +9,8 @@ module.exports = function (app) {
 
   // main router
   app.get("/", (req, res) => {
-    // console.log(req.session.isAuth);
-    // console.log(req.session.authUser);
+    console.log(req.session.isAuth);
+    console.log(req.session.authUser);
 
     res.render("vwMain/Home");
   });

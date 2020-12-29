@@ -10,6 +10,7 @@
     "devURL":"http://localhost:3000",
     "productionURL":"",
     "DATABASE":{
+        "NAME":"onlinecourses",
         "TABLE":{
             "CART":"CART",
             "CATEGORY":"CATEGORY",
@@ -22,6 +23,20 @@
             "UNIT":"UNIT",
             "USER":"USER",
             "WATCH_LIST":"WATCHLIST"
+        },
+        "USERS":{
+            "LONG":{
+                "USER":"root",
+                "PASSWORD":"long123"
+            },
+            "DUC":{
+                "USER":"duccao",
+                "PASSWORD":"duc123"
+            },
+            "TU":{
+                "USER":"duccao",
+                "PASSWORD":"duc123"
+            }
         }
     }
 }

@@ -1,19 +1,18 @@
 const mysql = require("mysql");
-const { off } = require("process");
 const util = require("util");
+const config = require("./../config/default.json");
 
-var pool = mysql.createPool({
+const pool = mysql.createPool({
   host: "localhost",
   port: "3306",
-  user: "duccao",
-  password: "duc123",
-  database: "onlinecourses",
+  user: `${config.DATABASE.USERS.DUC.USER}`,
+  password: `${config.DATABASE.USERS.DUC.PASSWORD}`,
+  database: `${config.DATABASE.NAME}`,
   connectionLimit: 50,
 });
 
 // promisify bind pool to a promise and remove callback
 const poo_query = util.promisify(pool.query).bind(pool);
-
 module.exports = {
   load: (sql) => {
     return poo_query(sql);
