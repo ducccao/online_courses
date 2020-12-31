@@ -4,6 +4,8 @@ const config = require("./../config/default.json");
 const courseModel = require("./../models/course.model");
 const catModel = require("./../models/category.model");
 const adminModel = require("./../models/admin.model");
+const { generateOneTimePasswordURL } = require("./../utils/utilsFunction");
+const nodemailer = require("nodemailer");
 
 const moment = require("moment");
 const multer = require("multer");
@@ -25,80 +27,6 @@ const userController = {
     } catch (er) {
       return res.status(500).json({ message: "Internal Server Error!" });
     }
-  },
-  // login
-  getLogin: async (req, res) => {
-    const ref = req.headers.referer;
-    req.session.retUrl = ref;
-
-    //console.log(ref);
-
-    res.render("vwUser/Login", {
-      layout: "loginout",
-    });
-  },
-  // post login
-  postLogin: async (req, res) => {
-    console.log("post login");
-    const { email, password } = req.body;
-    //  console.log(req.body);
-    const infor = {
-      email: email,
-      password: password,
-    };
-    const isUserExists = await userModal.findUserByEmail(email);
-
-    if (isUserExists.length === 0) {
-      return res.status(404).json({ message: "Invalid email or password!" });
-    }
-
-    // console.log(isUserExists);
-    // neu la admin thi render page admin luon
-
-    if (isUserExists[0].decentralization === 2 && password === "admin") {
-      req.session.isAuth = true;
-      req.session.authUser = isUserExists[0];
-
-      return res.json({ redirect: "/admin/dashboard" });
-    }
-
-    const comparePassword = bcryptjs.compareSync(
-      password,
-      isUserExists[0].password
-    );
-
-    if (comparePassword === false) {
-      return res.status(404).json({ message: "Invalid email or password!" });
-    }
-
-    req.session.isAuth = true;
-    req.session.authUser = isUserExists[0];
-    req.session.authUser.DOB = moment(req.session.authUser.DOB).format(
-      "DD/MM/YYYY"
-    );
-
-    console.log(req.session.retUrl);
-    let url = req.session.retUrl || "/";
-    if (req.session.retUrl === "http://localhost:3000/user/register") {
-      url = "/";
-    }
-
-    return res.status(200).json({ redirect: url });
-  },
-
-  // post logout
-  postLogout: async (req, res) => {
-    req.session.isAuth = false;
-    req.session.authUser = null;
-
-    let url = req.headers.referer;
-    res.redirect(url);
-  },
-  // register
-  getRegister: (req, res) => {
-    res.render("vwUser/Register", {
-      layout: "loginout",
-    });
   },
 
   // login
@@ -205,15 +133,54 @@ const userController = {
       // format date - yyyy-mth-day
       const dobFormated = moment(dob, "DD/MM/YYYY").format("YYYY-MM-DD");
 
+      // generate otp url
+      const OTP = generateOneTimePasswordURL();
+
       const user = {
         userName: username,
         email,
         password: hash,
         DOB: dobFormated,
         decentralization: 0,
+        verify: 0,
+        OTP_URL: OTP,
       };
 
       const result = await userModal.addUser(user);
+
+      // send email otp link
+
+      let testAccount = await nodemailer.createTestAccount();
+      let transporter = nodemailer.createTransport({
+        host: "smtp.ethereal.email",
+        port:587,
+        secure:false,
+        auth: {
+          user: testAccount.user,
+          pass:testAccount.pass,
+        },
+      });
+
+      let info = await transporter.sendMail(
+        {
+          from: `Duccao@gmail.com`,
+          to: `${email}`,
+          subject: "Heeeee",
+          text: "Hiiiiiiiii",
+          html: `<b>Click the url to verify your account</b> <br/>  <p></p>`,
+        },
+        (er, info) => {
+          if (er) {
+            console.log(er);
+          } else {
+            console.log(info);
+          }
+        }
+      );
+
+      console.log("Message sent: %s", info);
+      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+
       // console.log(result);
 
       //console.log(dobFormated);
