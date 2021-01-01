@@ -11,7 +11,7 @@ function averageArrayRating(arr) {
 
 function generateOneTimePasswordURL() {
   const pureURL = config.devURL;
-  const OTP_URL = pureURL + `/${uuid()}`;
+  const OTP_URL = pureURL + `/user/verify/${uuid()}`;
   return OTP_URL;
 }
 

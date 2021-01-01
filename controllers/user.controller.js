@@ -5,10 +5,10 @@ const courseModel = require("./../models/course.model");
 const catModel = require("./../models/category.model");
 const adminModel = require("./../models/admin.model");
 const { generateOneTimePasswordURL } = require("./../utils/utilsFunction");
-const nodemailer = require("nodemailer");
-
+const { sendOTP } = require("./../utils/mail");
 const moment = require("moment");
 const multer = require("multer");
+const userModel = require("./../models/user.model");
 
 const userController = {
   // get all user
@@ -149,37 +149,9 @@ const userController = {
       const result = await userModal.addUser(user);
 
       // send email otp link
+      // cannot send email by nodemailer
 
-      let testAccount = await nodemailer.createTestAccount();
-      let transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port:587,
-        secure:false,
-        auth: {
-          user: testAccount.user,
-          pass:testAccount.pass,
-        },
-      });
-
-      let info = await transporter.sendMail(
-        {
-          from: `Duccao@gmail.com`,
-          to: `${email}`,
-          subject: "Heeeee",
-          text: "Hiiiiiiiii",
-          html: `<b>Click the url to verify your account</b> <br/>  <p></p>`,
-        },
-        (er, info) => {
-          if (er) {
-            console.log(er);
-          } else {
-            console.log(info);
-          }
-        }
-      );
-
-      console.log("Message sent: %s", info);
-      console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+      sendOTP(email, OTP);
 
       // console.log(result);
 
@@ -193,6 +165,37 @@ const userController = {
 
       return res.status(404).json({ message: er.sqlMessage });
     }
+  },
+
+  // get veirify
+  getVerify: async (req, res) => {
+    const id = req.params.id;
+    const OTP_URL = config.devURL + `/user/verify/${id}`;
+    //console.log(id);
+    console.log(OTP_URL);
+
+    const userByOTP = await userModel.getUserByOTP(OTP_URL);
+    //console.log(userByOTP);
+    if (userByOTP.length !== 0) {
+      const entity = {
+        verify: 1,
+      };
+      const condition = {
+        OTP_URL: OTP_URL,
+      };
+      const update = await userModel.updateVerifyUser(entity, condition);
+      console.log(update);
+    }
+
+    res.render("vwUser/Verify", {
+      layout: false,
+    });
+  },
+
+  preventUserAccess: (req, res) => {
+    res.render("vwUser/PreventAccess", {
+      layout: false,
+    });
   },
 
   // forgot password
