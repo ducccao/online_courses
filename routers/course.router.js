@@ -2,7 +2,12 @@ const express = require("express");
 const router = express.Router();
 const courseController = require("./../controllers/course.controller");
 const adminController = require("./../controllers/admin.controller");
-const { auth, authAdmin } = require("./../middlewares/auth.mdw");
+const {
+  auth,
+  authAdmin,
+  authOTP,
+  authNav,
+} = require("./../middlewares/auth.mdw");
 /* #region  Course */
 
 // get all Course
