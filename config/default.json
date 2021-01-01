@@ -34,8 +34,8 @@
                 "PASSWORD":"duc123"
             },
             "TU":{
-                "USER":"duccao",
-                "PASSWORD":"duc123"
+                "USER":"root",
+                "PASSWORD":"tu123"
             }
         }
     }
