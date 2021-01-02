@@ -24,6 +24,19 @@
                 password: password.val()
             }
 
+            //       console.log(password.val().length)
+
+            if (password.val().length < 6) {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'warning',
+                    title: "Incorrect Password!"
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
 
             $.ajax({
                 type: 'post',

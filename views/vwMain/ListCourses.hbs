@@ -13,6 +13,19 @@
 
 {{#section 'js'}}
 
+<script type="module">
+
+    function buyCouse() {
+        const btnBuy = $("#btnBuy")
+        btnBuy.on("click", e => {
+
+        }
+        )
+    }
+    buyCouse();
+
+</script>
+
 {{/section}}
 
 <div class="container-fluid mt-4 list-course">
@@ -264,12 +277,12 @@
                                 <div class="card-footer">
 
                                     {{#if ../isAuth}}
-                                    <a href="#" class="card-link btn btn-info">
+                                    <button id="btnDetail" class="card-link btn btn-info">
                                         <i class="fa fa-info mr-2 "></i>Detail
-                                    </a>
-                                    <a href="#" class="card-link btn btn-success">
+                                    </button>
+                                    <button id="btnBuy" class="card-link btn btn-success">
                                         <i class="fa fa-cart-plus mr-2 "></i>Buy
-                                    </a>
+                                    </button>
 
                                     {{else}}
                                     <a href="#" class="card-link btn btn-info w-100">

@@ -57,14 +57,14 @@ const userController = {
         // console.log(isUserExists);
         // neu la admin thi render page admin luon
 
-        if (isUserExists[0].decentralization === 2 && password === "admin") {
+        if (isUserExists[0].decentralization === 2 && password === "admin123") {
             req.session.isAuth = true;
             req.session.authUser = isUserExists[0];
 
             return res.json({ redirect: "/admin/dashboard" });
         }
 
-        if (isUserExists[0].decentralization === 1 && password === "123") {
+        if (isUserExists[0].decentralization === 1 && password === "123123") {
             req.session.isAuth = true;
             req.session.authUser = isUserExists[0];
 
@@ -332,6 +332,12 @@ const userController = {
             console.log(er);
             return res.status(500).json({ message: er.sqlMessage });
         }
+    },
+
+    getCartPage: (req, res) => {
+        res.render("vwUser/Cart", {
+            layout: "main",
+        });
     },
 };
 

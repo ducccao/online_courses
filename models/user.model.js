@@ -1,4 +1,5 @@
 const db = require("./../utils/db");
+const config = require("./../config/default.json");
 
 const TBL_USER = "user";
 
@@ -48,5 +49,11 @@ module.exports = {
   // update verify user
   updateVerifyUser(entity, condition) {
     return db.patch(entity, condition, TBL_USER);
+  },
+
+  // get quantity cart
+  getCartQuantity(userID) {
+    const sql = `select count(courseID) as quantity from ${config.DATABASE.TABLE.CART} where userID=${userID}`;
+    return db.load(sql);
   },
 };
