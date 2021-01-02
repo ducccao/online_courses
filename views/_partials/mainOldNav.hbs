@@ -1,0 +1,148 @@
+{{#section 'css'}}
+
+<style>
+    .nav-link:hover {
+        color: red;
+    }
+</style>
+
+{{/section}}
+
+<!-- Navigation -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary-custom  fixed-top">
+    <div class="container">
+        <ul class="navbar-nav d-flex ">
+            <li class="nav-item">
+                <a class="nav-link " href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/course-list">Course List</a>
+            </li>
+        </ul>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+
+
+
+                {{#if isAdmin}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/dashboard">
+                        <i class="fa fa-dumbbell mr-2"></i>Admin
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/upload-course">
+                        <i class="fa fa-upload mr-2"></i>Upload Course
+                    </a>
+                </li>
+                {{/if}}
+
+                {{#if isInstructor}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/upload-course">
+                        <i class="fa fa-upload mr-2"></i>Upload Course
+                    </a>
+                </li>
+                {{/if}}
+
+                {{#if isAuth}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/cart"><i class="fa fa-shopping-cart"> <span
+                                class="badge badge-danger">5</span></i>
+                    </a>
+                </li>
+
+                {{/if}}
+
+                <div class="topbar-divider d-none d-sm-block bg-nav width-1">
+                </div>
+
+
+
+
+
+                {{#if isAuth}}
+
+                <form action="/user/logout" method="POST" id="fmLogout">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user">
+                                Welcom! {{authUser.userName}}
+                            </i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+
+                            <a class="dropdown-item" href="/user/profile">
+                                <i class="fa fa-user mr-2"></i>Profile
+                            </a>
+
+                            <a class="dropdown-item" href="javascript: $('#fmLogout').submit();">
+                                <i class="fa fa-sign-out mr-2"></i>Log out
+                            </a>
+
+                        </div>
+                    </li>
+                </form>
+
+                {{else}}
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/login">
+                        <i class="fa fa-sign-in"> Login</i>
+
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/register">
+                        <i class="fa fa-registered"> Register</i>
+
+                    </a>
+                </li>
+                {{/if}}
+
+                {{!-- <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Portfolio
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                        <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
+                        <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Blog
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                        <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
+                        <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
+                        <a class="dropdown-item" href="blog-post.html">Blog Post</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPages" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Other Pages
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPages">
+                        <a class="dropdown-item" href="full-width.html">Full Width Page</a>
+                        <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
+                        <a class="dropdown-item" href="faq.html">FAQ</a>
+                        <a class="dropdown-item" href="404.html">404</a>
+                        <a class="dropdown-item" href="pricing.html">Pricing Table</a>
+                    </div>
+                </li> --}}
+            </ul>
+        </div>
+    </div>
+</nav>
