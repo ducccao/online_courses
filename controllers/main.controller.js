@@ -219,6 +219,16 @@ const mainController = {
       go_previous_page: page - 1,
     });
   },
+  
+  getAllCourse: async (req, res) => {
+    console.log("Get list course to mainNav !");
+    const allCourse = await courseModel.all();
+    console.log(allCourse);
+    res.render("vwAdminCourse/home", {
+      layout: "admin",
+      allCourse,
+    });
+  }
 };
 
 module.exports = mainController;

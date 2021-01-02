@@ -1,6 +1,7 @@
 const express = require("express");
 // thằng cha này cân hếch try catch
 require("express-async-errors");
+require("express-handlebars-sections");
 
 const app = express();
 

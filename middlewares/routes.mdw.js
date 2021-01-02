@@ -12,7 +12,7 @@ module.exports = function (app) {
   app.get("/", (req, res) => {
     //  console.log(req.session.isAuth);
     // console.log(req.session.authUser);
-
+    // console.log(res.locals.lcAllCategories);
     res.render("vwMain/Home");
   });
 

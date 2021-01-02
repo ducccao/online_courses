@@ -28,4 +28,10 @@ module.exports = function (app) {
     res.locals.lcCategories = rows;
     next();
   });
+
+  app.use(async function (req, res, next) {
+    const rows = await categoryModel.allCate();
+    res.locals.lcAllCategories = rows;
+    next();
+  });
 };
