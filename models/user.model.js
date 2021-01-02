@@ -38,4 +38,15 @@ module.exports = {
     const sql = `select* from user where userID = ${userID}`;
     return db.load(sql);
   },
+
+  // find user by otp
+  getUserByOTP(OTP_URL) {
+    const sql = `select * from ${TBL_USER} where OTP_URL = "${OTP_URL}"`;
+    return db.load(sql);
+  },
+
+  // update verify user
+  updateVerifyUser(entity, condition) {
+    return db.patch(entity, condition, TBL_USER);
+  },
 };

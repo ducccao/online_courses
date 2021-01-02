@@ -1,7 +1,12 @@
 const express = require("express");
 const userController = require("./../controllers/user.controller");
 const router = express.Router();
-const { auth, authAdmin, authNav } = require("./../middlewares/auth.mdw");
+const {
+  auth,
+  authAdmin,
+  authNav,
+  authOTP,
+} = require("./../middlewares/auth.mdw");
 
 // login get
 router.get("/login", userController.getLogin);
@@ -18,15 +23,21 @@ router.get("/register", userController.getRegister);
 // register post
 router.post("/register", userController.postRegister);
 
+// get verify
+router.get("/verify/:id", userController.getVerify);
+
+// get prevent access page
+router.get("/prevent-access", userController.preventUserAccess);
+
 // forgot password
 router.get("/forgot-password", userController.getForgotPassword);
 
 // get profile
-router.get("/profile", auth, userController.getProfile);
+router.get("/profile", auth, authOTP, userController.getProfile);
 
 // get upload course
 router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
 // post upload course
-router.post("/upload-course", userController.postUploadCourse);
+router.post("/upload-course", authOTP, userController.postUploadCourse);
 
 module.exports = router;
