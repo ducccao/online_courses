@@ -24,7 +24,9 @@
                 password: password.val()
             }
 
-            if (password.length < 6) {
+            //       console.log(password.val().length)
+
+            if (password.val().length < 6) {
                 const messageTrigger = {
                     timer: 1500,
                     html: '',
