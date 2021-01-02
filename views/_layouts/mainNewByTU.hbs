@@ -12,29 +12,74 @@
     <link rel="stylesheet" href="/vendor/css/modern-business.css">
 
     <style>
+        .hide {
+            display: none;
+        }
+
+        textarea:focus,
+        input:focus,
+        textarea,
+        input {
+            outline: none;
+            border: none;
+        }
+
         .bg-primary-custom {
             background-color: #496EDB !important;
+        }
+
+        a {
+            color: initial !important;
+            font-weight: 600;
         }
 
         .width-1 {
             width: 1px;
         }
 
-        .bg-nav {
-            background-color: #D1DBF6;
-        }
-
-        nav .nav-link {
-            color: white !important;
-        }
-
         nav .nav-link:hover {
-            color: yellow !important;
+            color: rgb(0, 174, 255) !important;
             transition: 0.13s;
         }
 
         ::-webkit-scrollbar {
             display: none;
+        }
+
+        .dropdown-submenu {
+            position: relative;
+        }
+
+        .dropdown-submenu a::after {
+            transform: rotate(-90deg);
+            position: absolute;
+            right: 6px;
+            top: .8em;
+        }
+
+        .dropdown-submenu .dropdown-menu {
+            top: 0;
+            left: 100%;
+            margin-left: .1rem;
+            margin-right: .1rem;
+        }
+
+        .dropdown-toggle:focus {
+            font-weight: 800;
+        }
+
+        .hide-large {
+            display: none;
+        }
+
+        @media only screen and (max-width: 991px) {
+            .hide-small {
+                display: none;
+            }
+
+            .hide-large {
+                display: inherit;
+            }
         }
     </style>
 
@@ -54,8 +99,6 @@
 
 <body>
     {{> mainOldNav}}
-
-
 
 
     {{{body}}}

@@ -1,4 +1,5 @@
 const categoryModel = require("./../models/category.model");
+const userModel = require("./../models/user.model");
 const express = require("express");
 
 module.exports = function (app) {
@@ -26,6 +27,19 @@ module.exports = function (app) {
   app.use(async function (req, res, next) {
     const rows = await categoryModel.allWithDetails();
     res.locals.lcCategories = rows;
+    next();
+  });
+
+  app.use(async function (req, res, next) {
+    if (req.session.authUser) {
+      const user = req.session.authUser;
+      const rows = await userModel.getCartQuantity(user.userID);
+      console.log(rows);
+      res.locals.lcCartQuantity = rows[0].quantity;
+      next();
+      return;
+    }
+
     next();
   });
 };
