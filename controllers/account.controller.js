@@ -5,14 +5,13 @@ module.exports = {
     getProfile: (req, res) => {
         console.log("get Profile");
         if (req.session.isAuth === true) {
-            console.log(req.session.isAuth);
-            console.log(req.session.authUser);
+
+            res.locals.authUser.DOB = moment().format("MM/DD/YYYY");
             res.render("vwAccount/profile", {
                 layout: "account",
             })
         } else {
-            console.log(req.session.isAuth);
-            console.log(req.session.user);
+
             throw Error("access denied");
         }
     },

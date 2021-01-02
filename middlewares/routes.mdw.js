@@ -6,6 +6,7 @@ module.exports = function(app) {
     app.use("/admin", require("./../routers/course.router"));
     app.use("/user", require("./../routers/user.router"));
     app.use("/watchlist", require("./../routers/watchlist.route"));
+    app.use("/account", require("./../routers/account.router"));
     // app.use(express.static("client"));
 
     // main router
