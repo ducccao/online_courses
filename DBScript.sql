@@ -5,14 +5,14 @@ create database   onlineCourses CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci';
 use onlineCourses;
 
 create table user(
-userID int primary key AUTO_INCREMENT,
-  userName varchar(100),
-  email varchar (100),
-  password varchar(100),
-  DOB date,
-  decentralization int,
-  verify int,
-  OTP_URL varchar(100)
+	userID int primary key AUTO_INCREMENT,
+    userName varchar(100),
+    email varchar (100),
+    password varchar(100),
+    DOB date,
+    decentralization int,
+    verify int,
+    OTP_URL varchar(100)
 );
 
 
@@ -99,6 +99,9 @@ insert into user (userID, userName, email, password,DOB, decentralization,verify
 insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (7, "admin", "admin@gmail.com","admin",'1999-12-12', 2,1,"");
 insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (8, "admin", "admin02@gmail.com","admin", '1999-12-12',2,1,"");
 insert into user (userID, userName, email,password, DOB, decentralization,verify,OTP_URL) values (9, "admin", "admin03@gmail.com","admin", '1999-12-12',2,1,"");
+
+
+
 
 insert into category (category.catID, category.catName, category.catLevel) values (1, "HTML", 0);
 insert into category (category.catID, category.catName, category.catLevel) values (2, "CSS", 0);

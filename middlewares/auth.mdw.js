@@ -1,3 +1,5 @@
+const userModel = require("./../models/user.model");
+
 function authNav(req, res, next) {
   if (typeof req.session.authUser === "undefined") {
     res.locals.isAdmin = false;
@@ -54,8 +56,22 @@ function authAdmin(req, res, next) {
   next();
 }
 
+async function authOTP(req, res, next) {
+  const userSession = req.session.authUser;
+
+  const user = await userModel.getUserByID(userSession.userID);
+  console.log(user);
+
+  if (user[0].verify !== 1) {
+    return res.redirect("/user/prevent-access");
+  }
+
+  next();
+}
+
 module.exports = {
   auth,
   authAdmin,
   authNav,
+  authOTP,
 };
