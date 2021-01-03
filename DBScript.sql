@@ -92,6 +92,30 @@ unitID int primary key,
   linkVideo varchar (100)
 );
 
+DROP TABLE IF EXISTS `orderdetails`;
+CREATE TABLE `orderdetails` (
+  `ID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `orderID` int(11) NOT NULL,
+  `courseID` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` bigint(20) NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders` (
+  `orderID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `orderDate` datetime,
+  `userID` int,
+  `total` bigint(20) NOT NULL,
+  PRIMARY KEY (`orderID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
 
 
 insert into user (userID, userName, email, password,DOB, decentralization,verify,OTP_URL) values (1, "Duong Boi Long", "boilongcttg170@gmail.com","123123",'1999-12-12', 0,1,"");

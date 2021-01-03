@@ -130,7 +130,7 @@ const adminController = {
     const allCate = await adminModel.getAllCategory();
 
     console.log(req.body);
-    const { catName, catLevel } = req.body;
+    const { catName, subjID } = req.body;
     // check name
     let errName = false;
     allCate.forEach((cat) => {
@@ -171,7 +171,7 @@ const adminController = {
   // edit cate
   editCate: async (req, res) => {
     console.log("Editing cate!");
-    const { catID, catName, catLevel } = req.body;
+    const { catID, catName, subjID } = req.body;
 
     console.log(req.body);
 
@@ -183,7 +183,7 @@ const adminController = {
     const entity = {
       catID: catID,
       catName: catName,
-      catLevel: catLevel,
+      subjID: subjID,
     };
     const editCat = await adminModel.editCate(entity);
 

@@ -52,9 +52,9 @@
                     required="required">
             </div>
             <div class="form-group">
-                <label for="catLevel">Category Level</label>
+                <label for="subjID">Subject</label>
 
-                <input type="text" name="catLevel" id="catLevel" class="form-control" placeholder="Category Level"
+                <input type="text" name="subjID" id="subjID" class="form-control" placeholder="Subject"
                     required="required">
             </div>
             <div class="form-group">
@@ -68,10 +68,10 @@
     <div class="col-sm-12 col-lg-6 login-form f2">
         <form action="/examples/actions/confirmation.php" method="post">
             <h5 class="text-info mb-3">
-                Category Level 0: Web Programming
+                Subject 1: Web Programming
             </h5>
             <h5 class="text-info">
-                Category Level 1: Mobile Programming
+                Subject 2: Mobile Programming
             </h5>
         </form>
 
@@ -88,16 +88,16 @@
     function addCate() {
         const addCateFm = $("#addCateFm");
         const catName = $("#catName");
-        const catLevel = $("#catLevel");
+        const subjID = $("#subjID");
 
         console.log(openAlert)
         addCateFm.on("submit", e => {
             // console.log("2323123")
             e.preventDefault();
 
-            //console.log(typeof catLevel.val())
+            //console.log(typeof subjID.val())
 
-            if (catLevel.val() === "" || catName.val() === "") {
+            if (subjID.val() === "" || catName.val() === "") {
                 const messageTrigger = {
                     timer: 1500,
                     html: '',
@@ -108,7 +108,7 @@
                 return;
             }
             // validate cat level
-            else if (catLevel.val() !== "1" && catLevel.val() !== "0") {
+            else if (subjID.val() !== "1" && subjID.val() !== "2") {
                 const messageTrigger = {
                     timer: 1500,
                     html: '',
@@ -121,7 +121,7 @@
 
             const data = {
                 catName: catName.val(),
-                catLevel: catLevel.val(),
+                subjID: subjID.val(),
             }
 
 

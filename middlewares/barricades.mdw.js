@@ -1,31 +1,26 @@
-module.exports = function (app) {
-  // catching all error access denied
-  app.use((err, req, res, next) => {
-    if (err.message === "access denied") {
-      res.status(403);
-      res.json({ error: err.message });
-    }
+module.exports = function(app) {
+    // catching all error access denied
+    app.use((err, req, res, next) => {
+        // if (err.message === "access denied") {
+        //   res.status(403);
+        //   res.json({ error: err.message });
+        // }
+        console.log(err);
 
-    if (err) {
-      console.log("App is crash!");
+        res.render("vwError/500", {
+            layout: false,
+            err: err,
+        });
 
-      console.log(err);
-      res.render("vwError/404", {
-        layout: false,
-        partials: false,
-        message: err.sqlMessage,
-      });
-    }
-
-    next(err);
-  });
-
-  app.get("*", (req, res) => {
-    const url = req.headers.referer;
-    res.render("404", {
-      layout: false,
-      partials: false,
-      backURL: url,
+        // next(err);
     });
-  });
+
+    app.get("*", (req, res) => {
+        const url = req.headers.referer;
+        res.render("404", {
+            layout: false,
+            partials: false,
+            backURL: url,
+        });
+    });
 };
