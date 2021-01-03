@@ -6,7 +6,11 @@
 			"script": "start",
 			"problemMatcher": [],
 			"label": "npm: start",
-			"detail": "nodemon src/app.js"
+			"detail": "nodemon src/app.js",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }

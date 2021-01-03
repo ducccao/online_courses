@@ -1,5 +1,6 @@
 const categoryModel = require("./../models/category.model");
 const userModel = require("./../models/user.model");
+const subjectsModel = require("./../models/subjects.model");
 const express = require("express");
 const moment = require("moment");
 module.exports = function(app) {
@@ -31,6 +32,20 @@ module.exports = function(app) {
     });
 
     app.use(async function(req, res, next) {
+        const rows = await subjectsModel.all();
+        res.locals.lcSubjects = rows;
+        console.log(rows);
+        next();
+    });
+
+    app.use(async function(req, res, next) {
+        const rows = await categoryModel.allCate();
+        res.locals.lcAllCategories = rows;
+        console.log(rows);
+        next();
+    });
+
+    app.use(async function(req, res, next) {
         if (req.session.authUser) {
             const user = req.session.authUser;
             const rows = await userModel.getCartQuantity(user.userID);
@@ -39,7 +54,6 @@ module.exports = function(app) {
             next();
             return;
         }
-
         next();
     });
 };

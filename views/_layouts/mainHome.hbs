@@ -12,6 +12,27 @@
     <link rel="stylesheet" href="/vendor/css/modern-business.css">
 
     <style>
+        .bg-primary-custom {
+            background-color: #496EDB !important;
+        }
+
+        .width-1 {
+            width: 1px;
+        }
+
+        nav .nav-link {
+            color: white !important;
+        }
+
+        nav .nav-link:hover {
+            color: yellow !important;
+            transition: 0.13s;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
         .hide {
             display: none;
         }
@@ -28,18 +49,8 @@
             background-color: #496EDB !important;
         }
 
-        a {
-            color: initial !important;
-            font-weight: 600;
-        }
-
         .width-1 {
             width: 1px;
-        }
-
-        nav .nav-link:hover {
-            color: rgb(0, 174, 255) !important;
-            transition: 0.13s;
         }
 
         ::-webkit-scrollbar {
@@ -72,6 +83,12 @@
             display: none;
         }
 
+        button.navbar-toggler,
+        button.navbar-toggler:focus {
+            border: none;
+            outline: none;
+        }
+
         @media only screen and (max-width: 991px) {
             .hide-small {
                 display: none;
@@ -79,6 +96,20 @@
 
             .hide-large {
                 display: inherit;
+            }
+
+            nav {
+                padding: 5px 16px !important;
+            }
+
+            button.navbar-toggler {
+                margin-bottom: 4px !important;
+            }
+        }
+
+        @media only screen and (min-width: 992px) {
+            nav {
+                max-height: 56px;
             }
         }
     </style>
@@ -98,7 +129,7 @@
 </head>
 
 <body>
-    {{> mainOldNav}}
+    {{> mainNavHome}}
 
 
     {{{body}}}
@@ -109,6 +140,21 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
+
+    <script>
+        $('.dropdown-menu a.dropdown-toggle').on('click', function (e) {
+            if (!$(this).next().hasClass('show')) {
+                $(this).parents('.dropdown-menu').first().find('.show').removeClass('show');
+            }
+            var $subMenu = $(this).next('.dropdown-menu');
+            $subMenu.toggleClass('show');
+
+            $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function (e) {
+                $('.dropdown-submenu .show').removeClass('show');
+            });
+            return false;
+        });
+    </script>
 
     {{{_sections.js}}}
 </body>

@@ -7,7 +7,7 @@ module.exports = function (app) {
   app.engine(
     "hbs",
     expressHandleBars({
-      defaultLayout: "main.hbs",
+      defaultLayout: "mainHome.hbs",
       extname: ".hbs",
       layoutsDir: "views/_layouts",
       partialsDir: "views/_partials",

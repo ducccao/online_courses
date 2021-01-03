@@ -1,6 +1,7 @@
 const express = require("express");
 // thằng cha này cân hếch try catch
 require("express-async-errors");
+require("express-handlebars-sections");
 
 const app = express();
 
@@ -15,5 +16,5 @@ require("./middlewares/barricades.mdw")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server is running at PORT: ", PORT);
+  console.log("Server is running at PORT:",PORT);
 });

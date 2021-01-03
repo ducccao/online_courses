@@ -10,10 +10,11 @@
 
 <!-- Navigation -->
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary-custom  fixed-top">
-    <div class="container">
-        <ul class="navbar-nav d-flex ">
+    <div class="container-fluid">
+        {{!-- <ul class="navbar-nav d-flex ">
             <li class="nav-item">
-                <a class="nav-link " href="/">Home</a>
+                <a class="nav-link " href="/"><img src="../../vendor/img/logo.jpg"
+                        style="width: 35px; padding: 0; margin: 0; border-radius: 50%" alt=""></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/about">About</a>
@@ -21,8 +22,25 @@
             <li class="nav-item">
                 <a class="nav-link" href="/course-list">Course List</a>
             </li>
-        </ul>
+        </ul> --}}
+        <a class="navbar-brand mr-4" href="/"><img src="../../vendor/img/logo.jpg"
+                style="width: 35px; padding: 0; margin: 0; border-radius: 50%" alt=""></a>
+        <button class="navbar-toggler collapsed mb-2" type="button" data-toggle="collapse"
+            data-target="#navbarsExample07" aria-controls="navbarsExample07" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="navbar-collapse collapse" id="navbarsExample07" style="">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="/course-list">Courses List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link mr-2" href="/about">About Us</a>
+                </li>
+            </ul>
+        </div>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
 

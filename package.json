@@ -35,6 +35,7 @@
     "nodemailer": "^6.4.17",
     "numeral": "^2.0.6",
     "randomstring": "^1.1.5",
+    "slick-carousel": "^1.8.1",
     "sweetalert2": "^10.12.5",
     "uuid": "^8.3.2"
   }
