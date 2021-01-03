@@ -13,7 +13,7 @@ for (let i = 0; i < 12; i++) {
   fakeCateDB.push({
     catID: i,
     catName: randomString(5),
-    catLevel: Math.random() >= 0.5 ? 1 : 0,
+    subjID: Math.random() >= 0.5 ? 1 : 0,
   });
 }
 

@@ -40,15 +40,15 @@ const mainController = {
     const nextRows = [];
 
     for (let i = 0; i < rows.length; i++) {
-      const catLevel = await courseModel.getTypeOfCourse(
+      const subjID = await courseModel.getTypeOfCourse(
         rows[i].courseID,
         rows[i].catID
       );
       //  console.log(rows[i]);
-      console.log(catLevel);
+      console.log(subjID);
       const item = {
         ...rows[i],
-        catLevel: catLevel.length !== 0 ? catLevel[0].catLevel : 0,
+        subjID: subjID.length !== 0 ? subjID[0].subjID : 0,
       };
       nextRows.push(item);
     }
@@ -150,15 +150,15 @@ const mainController = {
     const nextRows = [];
 
     for (let i = 0; i < rows.length; i++) {
-      const catLevel = await courseModel.getTypeOfCourse(
+      const subjID = await courseModel.getTypeOfCourse(
         rows[i].courseID,
         rows[i].catID
       );
       //  console.log(rows[i]);
-      // console.log(catLevel);
+      // console.log(subjID);
       const item = {
         ...rows[i],
-        catLevel: catLevel[0].catLevel,
+        subjID: subjID[0].subjID,
       };
       nextRows.push(item);
     }
@@ -219,7 +219,7 @@ const mainController = {
       go_previous_page: page - 1,
     });
   },
-  
+
   getAllCourse: async (req, res) => {
     console.log("Get list course to mainNav !");
     const allCourse = await courseModel.all();
@@ -228,7 +228,7 @@ const mainController = {
       layout: "admin",
       allCourse,
     });
-  }
+  },
 };
 
 module.exports = mainController;
