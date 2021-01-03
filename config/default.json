@@ -25,6 +25,10 @@
             "WATCH_LIST": "WATCHLIST"
         },
         "USERS": {
+            "COMMON": {
+                "USER": "root",
+                "PASSWORD": "root"
+            },
             "LONG": {
                 "USER": "root",
                 "PASSWORD": "password"

@@ -2,10 +2,10 @@ const express = require("express");
 const userController = require("./../controllers/user.controller");
 const router = express.Router();
 const {
-  auth,
-  authAdmin,
-  authNav,
-  authOTP,
+    auth,
+    authAdmin,
+    authNav,
+    authOTP,
 } = require("./../middlewares/auth.mdw");
 
 // login get
@@ -39,8 +39,5 @@ router.get("/profile", auth, authOTP, userController.getProfile);
 router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
 // post upload course
 router.post("/upload-course", authOTP, userController.postUploadCourse);
-
-// get cart
-router.get("/cart", authOTP, userController.getCartPage);
 
 module.exports = router;
