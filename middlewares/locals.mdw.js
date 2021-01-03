@@ -34,14 +34,14 @@ module.exports = function(app) {
     app.use(async function(req, res, next) {
         const rows = await subjectsModel.all();
         res.locals.lcSubjects = rows;
-        console.log(rows);
+        //  console.log(rows);
         next();
     });
 
     app.use(async function(req, res, next) {
         const rows = await categoryModel.allCate();
         res.locals.lcAllCategories = rows;
-        console.log(rows);
+        // console.log(rows);
         next();
     });
 
@@ -49,7 +49,7 @@ module.exports = function(app) {
         if (req.session.authUser) {
             const user = req.session.authUser;
             const rows = await userModel.getCartQuantity(user.userID);
-            console.log(rows);
+            //  console.log(rows);
             res.locals.lcCartQuantity = rows[0].quantity;
             next();
             return;

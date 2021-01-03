@@ -7,9 +7,12 @@ module.exports = function(app) {
         // }
         console.log(err);
 
+        const backURL = req.headers.referer;
+
         res.render("vwError/500", {
             layout: false,
             err: err,
+            backURL,
         });
 
         // next(err);
