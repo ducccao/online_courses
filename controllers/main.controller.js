@@ -223,7 +223,6 @@ const mainController = {
   getAllCourse: async (req, res) => {
     console.log("Get list course to mainNav !");
     const allCourse = await courseModel.all();
-    console.log(allCourse);
     res.render("vwAdminCourse/home", {
       layout: "admin",
       allCourse,

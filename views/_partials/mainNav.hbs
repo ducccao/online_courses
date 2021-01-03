@@ -68,8 +68,13 @@
                 {{/if}}
 
                 {{#if isAuth}}
+                <li class="nav-item text-lg mr-3 hide-small">
+                    <a class="nav-link" href="/watchlist" title="Watchlist"><i class="fa fa-heart text-danger"></i>
+                    </a>
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/cart"><i class="fa fa-shopping-cart"> <span
+                    <a class="nav-link" href="/user/cart" title="My Cart"><i class="fa fa-shopping-cart"> <span
                                 class="badge badge-danger">
                                 {{lcCartQuantity}}
                             </span></i>

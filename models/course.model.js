@@ -64,9 +64,8 @@ module.exports = {
 
   // get type of course
   getTypeOfCourse(courseID, catID) {
-    const sql = `select  subjID from ${TBL_COURSE} as c, ${TBL_CATEGORY} as cat where c.catID = ${catID}
-     and c.courseID = ${courseID}
-      and ${catID} = cat.catID `;
+    const sql = `select subjID from ${TBL_COURSE} as c, ${TBL_CATEGORY} as cat
+    where c.catID = ${catID} and c.courseID = ${courseID} and ${catID} = cat.catID `;
     return db.load(sql);
   },
 
@@ -84,12 +83,43 @@ module.exports = {
     and c.courseID = ${courseID}`;
     return db.load(sql);
   },
+
+    // get catName
+  getCatName(courseID) {
+    const sql = `select ca.catName
+    from ${config.DATABASE.TABLE.CATEGORY} ca, ${config.DATABASE.TABLE.COURSE} c
+    where ca.catID = c.catID and c.courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getMostBuyWeek() {
+    const sql = `SELECT count(cb.courseID), c.*
+    FROM ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.COURSE_BOUGHT} cb
+    where c.courseID = cb.courseID and DATEDIFF(CURDATE(),cb.dayBought) < 7
+    group by cb.courseID
+    order by count(cb.courseID) desc
+    limit 4;`;
+    return db.load(sql);
+  },
+
+  getAveRatingCourse(courseID) {
+    const sql = `select sum(rating)/count(*) from ${config.DATABASE.TABLE.REVIEW} as r, 
+    ${config.DATABASE.TABLE.COURSE} as c where c.courseID = r.courseID 
+    and c.courseID = ${courseID}`;
+    return db.load(sql);
+  },
   // get discount
   getDiscountCourse(courseID) {
     const sql = `select percent from ${config.DATABASE.TABLE.SALE} as s, 
     ${config.DATABASE.TABLE.COURSE} as c where c.courseID = s.courseID 
     and c.courseID = ${courseID}
     `;
+    return db.load(sql);
+  },
+
+  getAllDiscountCourse() {
+    const sql = `select * from ${config.DATABASE.TABLE.SALE} as s, 
+    ${config.DATABASE.TABLE.COURSE} as c, ${config.DATABASE.TABLE.USER} as u where c.courseID = s.courseID and u.userID = c.userID`;
     return db.load(sql);
   },
 };
