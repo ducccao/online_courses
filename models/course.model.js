@@ -64,7 +64,7 @@ module.exports = {
 
   // get type of course
   getTypeOfCourse(courseID, catID) {
-    const sql = `select  catLevel from ${TBL_COURSE} as c, ${TBL_CATEGORY} as cat where c.catID = ${catID}
+    const sql = `select  subjID from ${TBL_COURSE} as c, ${TBL_CATEGORY} as cat where c.catID = ${catID}
      and c.courseID = ${courseID}
       and ${catID} = cat.catID `;
     return db.load(sql);

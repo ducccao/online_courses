@@ -1,19 +1,19 @@
 <div class="row">
     <div class="col-xl-3 col-md-6 mb-4 cate ">
-        <div class="card {{#if_equal categories.catLevel " 0"}} border-left-info {{else}} border-left-warning
+        <div class="card {{#if_equal categories.subjID " 0"}} border-left-info {{else}} border-left-warning
             {{/if_equal}} shadow h-100 py-2">
 
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
-                        <div class="text-lg font-weight-bold {{#if_equal categories.catLevel " 0"}} text-info {{else}}
+                        <div class="text-lg font-weight-bold {{#if_equal categories.subjID " 0"}} text-info {{else}}
                             text-warning {{/if_equal}} text-uppercase mb-1">
                             {{categories.catName}}
                         </div>
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="text-sm h6 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{#if_equal categories.catLevel "0"}}
+                                    {{#if_equal categories.subjID "0"}}
                                     Web Programming
                                     {{else}}
                                     Mobile Programming
@@ -33,7 +33,7 @@
                     <div class="col-auto">
                         <div class="row">
                             <div class="col">
-                                <h6 class="font-weight-bold {{#if_equal categories.catLevel " 0"}} text-info {{else}}
+                                <h6 class="font-weight-bold {{#if_equal categories.subjID " 0"}} text-info {{else}}
                                     text-warning {{/if_equal}} ">ID</h6>
                             </div>
                         </div>

@@ -6,6 +6,7 @@ const config = require("./../config/default.json");
 module.exports = function(app) {
     var MySQLStore = require("express-mysql-session")(session);
 
+
     var options = {
         host: "localhost",
         port: 3306,
