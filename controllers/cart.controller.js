@@ -8,6 +8,14 @@ const cartController = {
     // get cart page
     getCartPage: async(req, res) => {
         const items = [];
+        console.log(req.session.cart);
+
+        if (!req.session.cart) {
+            return res.render("vwCart/Cart", {
+                layout: "main",
+            });
+        }
+
         for (const ci of req.session.cart) {
             const course = await courseModel.getCourseByID(ci.id);
             items.push({
