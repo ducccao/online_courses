@@ -14,13 +14,15 @@
 {{#section 'js'}}
 
 <script type="module">
-
+    import { openAlert } from "/utils/alertModal.js"
     function buyCouse() {
         const btnBuy = $("#btnBuy")
-        btnBuy.on("click", e => {
-
-        }
-        )
+        $(".add-cart").on('click', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            const vl = $("txtCourseName").val(id)
+            console.log(vl)
+        })
     }
     buyCouse();
 
@@ -34,8 +36,8 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Recipient's username"
-                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="text" class="form-control" placeholder="Course" aria-label="Course"
+                    aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
             </div>
 
@@ -148,8 +150,8 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Recipient's username"
-                    aria-label="Recipient's username" aria-describedby="button-addon2">
+                <input type="text" class="form-control" placeholder="Course" aria-label="Recipient's username"
+                    aria-describedby="button-addon2">
                 <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
             </div>
 
@@ -280,9 +282,13 @@
                                     <button id="btnDetail" class="card-link btn btn-info">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </button>
-                                    <button id="btnBuy" class="card-link btn btn-success">
-                                        <i class="fa fa-cart-plus mr-2 "></i>Buy
-                                    </button>
+                                    <form action="" method="POST">
+                                        <input type="text" id="txtCourseName" name="txtCourseName">
+                                        <button id="btnBuy" class="card-link btn btn-success add-cart ">
+                                            <i class="fa fa-cart-plus mr-2 "></i>Buy
+                                        </button>
+                                    </form>
+
 
                                     {{else}}
                                     <a href="#" class="card-link btn btn-info w-100">
