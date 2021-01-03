@@ -15,11 +15,15 @@ create table user(
     OTP_URL varchar(100)
 );
 
+create table subjects (
+subjID int primary key,
+  subjName varchar (100)
+);
 
 create table category (
 catID int primary key,
   catName varchar (100),
-  catLevel int
+  subjID int
 );
 
 
@@ -90,26 +94,27 @@ unitID int primary key,
 
 
 
-insert into user (userID, userName, email, password,DOB, decentralization,verify,OTP_URL) values (1, "Duong Boi Long", "boilongcttg170@gmail.com","123",'1999-12-12', 0,1,"");
-insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (2, "Anh Duc", "anhduc.com","123", '1999-12-12',0,1,"");
-insert into user (userID, userName, email, password ,DOB,decentralization,verify,OTP_URL) values (3, "Anh Tu", "Anhtu@gmail.com", "123",'1999-12-12',0,1,"");
-insert into user (userID, userName, email, password ,DOB,decentralization,verify,OTP_URL) values (4, "Boi Long", "Boi Long@gmail.com","123", '1999-12-12',1,1,"");
-insert into user (userID, userName, email, password ,DOB,decentralization,verify,OTP_URL) values (5, "Winter", "winter@gmail.com", "123",'1999-12-12',1,1,"");
-insert into user (userID, userName, email, password,DOB, decentralization,verify,OTP_URL) values (6, "BoBo", "BoBo@gmail.com", "123",'1999-12-12',1,1,"");
-insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (7, "admin", "admin@gmail.com","admin",'1999-12-12', 2,1,"");
-insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (8, "admin", "admin02@gmail.com","admin", '1999-12-12',2,1,"");
-insert into user (userID, userName, email,password, DOB, decentralization,verify,OTP_URL) values (9, "admin", "admin03@gmail.com","admin", '1999-12-12',2,1,"");
+insert into user (userID, userName, email, password,DOB, decentralization,verify,OTP_URL) values (1, "Duong Boi Long", "boilongcttg170@gmail.com","123123",'1999-12-12', 0,1,"");
+insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (2, "Anh Duc", "anhduc.com","123123", '1999-12-12',0,1,"");
+insert into user (userID, userName, email, password ,DOB,decentralization,verify,OTP_URL) values (3, "Anh Tu", "Anhtu@gmail.com", "123123",'1999-12-12',0,1,"");
+insert into user (userID, userName, email, password ,DOB,decentralization,verify,OTP_URL) values (4, "Boi Long", "Boi Long@gmail.com","123123", '1999-12-12',1,1,"");
+insert into user (userID, userName, email, password ,DOB,decentralization,verify,OTP_URL) values (5, "Winter", "winter@gmail.com", "123123",'1999-12-12',1,1,"");
+insert into user (userID, userName, email, password,DOB, decentralization,verify,OTP_URL) values (6, "BoBo", "BoBo@gmail.com", "123123",'1999-12-12',1,1,"");
+insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (7, "admin", "admin@gmail.com","admin123",'1999-12-12', 2,1,"");
+insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (8, "admin", "admin02@gmail.com","admin123", '1999-12-12',2,1,"");
+insert into user (userID, userName, email,password, DOB, decentralization,verify,OTP_URL) values (9, "admin", "admin03@gmail.com","admin123", '1999-12-12',2,1,"");
+
+insert into subjects (subjects.subjID, subjName) values (1, "Web Development");
+insert into subjects (subjects.subjID, subjName) values (2, "Mobile Development");
 
 
-
-
-insert into category (category.catID, category.catName, category.catLevel) values (1, "HTML", 0);
-insert into category (category.catID, category.catName, category.catLevel) values (2, "CSS", 0);
-insert into category (category.catID, category.catName, category.catLevel) values (3, "JQURRY", 0);
-insert into category (category.catID, category.catName, category.catLevel) values (4, "iOS", 1);
-insert into category (category.catID, category.catName, category.catLevel) values (5, "Androi", 1);
-insert into category (category.catID, category.catName, category.catLevel) values (6, "Boootstrap", 0);
-insert into category (category.catID, category.catName, category.catLevel) values (7, "Javascript", 0);
+insert into category (category.catID, category.catName, category.subjID) values (1, "HTML", 1);
+insert into category (category.catID, category.catName, category.subjID) values (2, "CSS", 1);
+insert into category (category.catID, category.catName, category.subjID) values (3, "JQURRY", 1);
+insert into category (category.catID, category.catName, category.subjID) values (4, "iOS", 2);
+insert into category (category.catID, category.catName, category.subjID) values (5, "Androi", 2);
+insert into category (category.catID, category.catName, category.subjID) values (6, "Boootstrap", 1);
+insert into category (category.catID, category.catName, category.subjID) values (7, "Javascript", 1);
 
 insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
 values (1, "Lam quen voi HTML", "title html", 1, 4, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');

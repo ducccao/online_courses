@@ -1,22 +1,23 @@
-module.exports = function (app) {
-  // routers
-  app.use(require("./../routers/main.router"));
-  app.use(require("./../routers/test.router"));
-  app.use("/admin", require("./../routers/admin.router"));
-  app.use("/admin", require("./../routers/course.router"));
-  app.use("/user", require("./../routers/user.router"));
+module.exports = function(app) {
+    // routers
+    app.use(require("./../routers/main.router"));
+    app.use(require("./../routers/test.router"));
+    app.use("/admin", require("./../routers/admin.router"));
+    app.use("/admin", require("./../routers/course.router"));
+    app.use("/user", require("./../routers/user.router"));
+    app.use("/watchlist", require("./../routers/watchlist.route"));
+    app.use("/account", require("./../routers/account.router"));
+    // app.use(express.static("client"));
 
-  // app.use(express.static("client"));
+    // main router
+    app.get("/", (req, res) => {
+        //  console.log(req.session.isAuth);
+        // console.log(req.session.authUser);
 
-  // main router
-  app.get("/", (req, res) => {
-    //  console.log(req.session.isAuth);
-    // console.log(req.session.authUser);
-    // console.log(res.locals.lcAllCategories);
-    res.render("vwMain/Home");
-  });
+        res.render("vwMain/Home");
+    });
 
-  app.get("/about", (req, res) => {
-    res.render("vwMain/About");
-  });
+    app.get("/about", (req, res) => {
+        res.render("vwMain/About");
+    });
 };

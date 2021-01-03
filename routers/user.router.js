@@ -40,4 +40,7 @@ router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
 // post upload course
 router.post("/upload-course", authOTP, userController.postUploadCourse);
 
+// get cart
+router.get("/cart", authOTP, userController.getCartPage);
+
 module.exports = router;
