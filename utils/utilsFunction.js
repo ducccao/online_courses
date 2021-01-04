@@ -9,6 +9,10 @@ function averageArrayRating(arr) {
   return (sum / arr.length).toFixed(2);
 }
 
+function calDiscountedFree(oriFree, discount) {
+  return oriFree * (1 - discount / 100);
+}
+
 function generateOneTimePasswordURL() {
   const pureURL = config.devURL;
   const OTP_URL = pureURL + `/user/verify/${uuid()}`;
@@ -17,5 +21,6 @@ function generateOneTimePasswordURL() {
 
 module.exports = {
   averageArrayRating,
+  calDiscountedFree,
   generateOneTimePasswordURL,
 };

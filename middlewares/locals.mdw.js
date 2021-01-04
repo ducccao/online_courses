@@ -1,6 +1,7 @@
 const categoryModel = require("./../models/category.model");
 const userModel = require("./../models/user.model");
 const subjectsModel = require("./../models/subjects.model");
+const courseModel = require("./../models/course.model");
 const express = require("express");
 const moment = require("moment");
 module.exports = function(app) {
@@ -39,11 +40,18 @@ module.exports = function(app) {
     });
 
     app.use(async function(req, res, next) {
-        const rows = await categoryModel.allCate();
+        const rows = await categoryModel.all();
         res.locals.lcAllCategories = rows;
         // console.log(rows);
         next();
     });
+
+    // app.use(async function(req, res, next) {
+    //     const rows = await courseModel.getAllDiscountCourse();
+    //     res.locals.lcCourse = rows;
+    //         // console.log(rows);
+    //     next();
+    // });
 
     app.use(async function(req, res, next) {
         if (req.session.authUser) {
