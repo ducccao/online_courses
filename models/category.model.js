@@ -1,7 +1,6 @@
 const db = require("../utils/db");
 
 const TBL_CATEGORIES = "category";
-const TBL_CATEGORIES_REAL = "category";
 
 module.exports = {
   all() {
@@ -10,7 +9,7 @@ module.exports = {
   },
 
   allCate() {
-    const sql = `select * from ${TBL_CATEGORIES_REAL}`;
+    const sql = `select * from ${TBL_CATEGORIES}`;
     return db.load(sql);
   },
 

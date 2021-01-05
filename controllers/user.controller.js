@@ -334,11 +334,14 @@ const userController = {
         }
     },
 
+    //get cart page
     getCartPage: (req, res) => {
         res.render("vwUser/Cart", {
             layout: "main",
         });
     },
+
+    postCart: async(req, res) => {},
 };
 
 module.exports = userController;
