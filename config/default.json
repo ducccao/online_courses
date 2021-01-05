@@ -27,15 +27,15 @@
         "USERS": {
             "LONG": {
                 "USER": "root",
-                "PASSWORD": "password"
+                "PASSWORD": "root"
             },
             "DUC": {
-                "USER": "duccao",
-                "PASSWORD": "duc123"
+                "USER": "root",
+                "PASSWORD": "root"
             },
             "TU": {
                 "USER": "root",
-                "PASSWORD": "tu123"
+                "PASSWORD": "root"
             }
         }
     }

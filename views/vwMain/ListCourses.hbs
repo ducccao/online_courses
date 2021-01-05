@@ -13,6 +13,16 @@
 
 {{#section 'js'}}
 
+
+<script>
+    $('.button-addon2').on('click', function () {
+        if ($(".searchContentListCourse").val() !== "") {
+            $('.formSearchListCourse').submit();
+
+        }
+    })
+</script>
+
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
     function buyCouse() {
@@ -28,6 +38,16 @@
 
 </script>
 
+<script>
+    $('.price').on('click', function () {
+        console.log({{ allCourse.length }});
+    //  { { allCourse.length } } =0;
+    location.reload();
+    { { empty } } = true;
+    })
+</script>
+
+
 {{/section}}
 
 <div class="container-fluid mt-4 list-course">
@@ -35,11 +55,18 @@
     {{#if empty}}
     <div class="row">
         <div class="col-sm-12">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Course" aria-label="Course"
-                    aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-            </div>
+            <form action="/course-list/search" class="formSearchListCourse" id="formSearchListCourse" method="POST">
+
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control searchContentListCourse" placeholder="Course"
+                        aria-label="Course" aria-describedby="button-addon2" id="searchContentListCourse"
+                        name="searchContentListCourse">
+                    <button class="btn btn-outline-secondary button-addon2" type="button">Search</button>
+
+                </div>
+            </form>
+
 
         </div>
     </div>
@@ -90,7 +117,7 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
 
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item price" href="#">
                                             <i class="fa fa-money mr-2"></i>Price
                                         </a>
 
@@ -149,12 +176,17 @@
     {{else}}
     <div class="row">
         <div class="col-sm-12">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Course" aria-label="Recipient's username"
-                    aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-            </div>
+            <form action="/course-list/search" class="formSearchListCourse" id="formSearchListCourse" method="POST">
 
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control searchContentListCourse" placeholder="Course"
+                        aria-label="Course" aria-describedby="button-addon2" id="searchContentListCourse"
+                        name="searchContentListCourse">
+                    <button class="btn btn-outline-secondary button-addon2" type="button">Search</button>
+
+                </div>
+            </form>
         </div>
     </div>
     <div class="row">
@@ -167,7 +199,7 @@
                     {{#each courseInCat }}
 
 
-                    <a href="/course-list/byCat/{{this.catID}}?page=1" class="list-group-item list-group-item-action      {{#if isActive}}
+                    <a href="/course-list/byCat/{{this.catID}}?page=1   " class="list-group-item list-group-item-action      {{#if isActive}}
                            active
                        {{/if}}  ">
                         {{this.catName}}
@@ -205,7 +237,7 @@
                                         <div class="dropdown-menu dropdown-menu-right"
                                             aria-labelledby="navbarDropdownBlog">
 
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item price" href="#">
                                                 <i class="fa fa-money mr-2"></i>Price
                                             </a>
 

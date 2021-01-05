@@ -10,8 +10,8 @@ module.exports = function(app) {
     var options = {
         host: "localhost",
         port: 3306,
-        user: `${config.DATABASE.USERS.DUC.USER}`,
-        password: `${config.DATABASE.USERS.DUC.PASSWORD}`,
+        user: `${config.DATABASE.USERS.LONG.USER}`,
+        password: `${config.DATABASE.USERS.LONG.PASSWORD}`,
         database: `${config.DATABASE.NAME}`,
 
         charset: "utf8",

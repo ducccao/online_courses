@@ -23,8 +23,9 @@ subjID int primary key,
 create table category (
 catID int primary key,
   catName varchar (100),
-  subjID int
-);
+  subjID int,
+  fulltext fulltextCatName(catName)
+)ENGINE=InnoDB;
 
 
 create table course (
@@ -41,8 +42,9 @@ courseID int primary key,
   isFinished int,
   views float,
   dayPost date,
-  lastUpdate date
-);
+  lastUpdate date,
+  fulltext fulltextCourseName(courseName)
+)ENGINE=InnoDB;
 
 create table review (
 courseID int,
@@ -188,4 +190,22 @@ insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo)
 insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (2,1,"noi dung bai 2","link");
 insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (3,2,"nội dung bài 2","link");
 
-insert into sale (courseId,percent) values (1,10)
+insert into sale (courseId,percent) values (1,10);
+
+
+   select c.catID, c.catName, count(p.courseID) as CourseCount
+		from category c left join (select cs.catID as catID, cs.courseID as courseID
+                                      from course cs join category cat on cat.catID = cs.catID
+                                       where (match (cs.courseName) 
+                                            against ('html') or match (cat.catName) against ('html')) )as p
+                            on c.catID = p.catID
+    group by c.catID, c.catName
+    
+    
+    
+    -- hiển thị danh sách khóa học không có search, khong co catid,  khong co sort;
+
+-- hiển thị danh sach khao hoc khong co search, co catid, khong co sort
+select c.* from course c, category cat where c.catID = cat.catID
+ 
+ 
