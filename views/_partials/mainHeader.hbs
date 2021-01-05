@@ -1,96 +1,324 @@
 <header>
-    {{!-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <ol class="carousel-indicators">
-            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-            <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
-        </ol>
-        <div class="carousel-inner" role="listbox">
-            <!-- Slide One - Set the background image for this slide in the line below -->
-            <div class="carousel-item active" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>First Slide</h3>
-                    <p>This is a description for the first slide.</p>
-                </div>
-            </div>
-            <!-- Slide Two - Set the background image for this slide in the line below -->
-            <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>Second Slide</h3>
-                    <p>This is a description for the second slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>Second Slide</h3>
-                    <p>This is a description for the second slide.</p>
-                </div>
-            </div>
-            <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>Second Slide</h3>
-                    <p>This is a description for the second slide.</p>
-                </div>
-            </div>
-            <!-- Slide Three - Set the background image for this slide in the line below -->
-            <div class="carousel-item" style="background-image: url('http://placehold.it/1900x1080')">
-                <div class="carousel-caption d-none d-md-block">
-                    <h3>Third Slide</h3>
-                    <p>This is a description for the third slide.</p>
-                </div>
-            </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Next</span>
-        </a>
-    </div> --}}
-    {{!-- <img src="../../vendor/img/banner.jpg" alt=""> --}}
     <div id="banner"></div>
     <div id="banner-content">
         <h1>Get early access, now</h1>
         <p>Be first for our <strong>free learning course</strong>, and get courses from $9.99.</p>
     </div>
 
-    <div class="slick-show">
-        <div>
-            <h3>1</h3>
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                Hotest This Week
+            </h4>
         </div>
-        <div>
-            <h3>2</h3>
-        </div>
-        <div>
-            <h3>3</h3>
-        </div>
-        <div>
-            <h3>4</h3>
-        </div>
-        <div>
-            <h3>5</h3>
-        </div>
-        <div>
-            <h3>6</h3>
-        </div>
-        <div>
-            <h3>7</h3>
-        </div>
-        <div>
-            <h3>8</h3>
-        </div>
-        <div>
-            <h3>9</h3>
-        </div>
-        <div>
-            <h3>10</h3>
-        </div>
-        <div>
-            <h3>11</h3>
+        <div class="d-flex justify-content-between">
+            {{#each mostBuyWeekCourse }}
+            {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
+                <div class="card mb-3 carousel-items">
+                    <img class="card-img-top"
+                        src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
+                        alt="Card image cap">
+                    {{#if ../isAuth}}
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    {{/if}}
+                    <div class="card-body">
+                        <h4 class="card-title text-dark font-weight-bolder">
+                            {{this.courseName}}
+                        </h4>
+
+
+                        {{#if_equal this.subjID 1 }}
+
+                        <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+                        </p>
+                        {{else}}
+                        <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
+                            Development</p>
+                        {{/if_equal}}
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"></span> {{this.catName}}
+                        </p>
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
+                        </p>
+                        <p class="card-text text-success">
+                            <span class="font-weight-bold"> Rating:</span>
+                            {{#if_equal this.rating 'NaN'}}
+                            No Rating
+                            {{else}}
+                            {{this.rating}} ({{this.countPeopleRating}})
+                            {{/if_equal}}
+                        </p>
+
+                        {{#ifCond this.discount '!=' 0}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.discountedPrice}} VNĐ
+                            <span class="font-weight-bold deleted"><del>{{format this.fee}} VNĐ</del></span>
+                        </p>
+                        {{else}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+                        </p>
+                        {{/ifCond}}
+                    </div>
+                    <div class="card-footer">
+                        <a class="card-link btn btn-info">
+                            <i class="fa fa-info"></i> Detail
+                        </a>
+
+                        {{#if ../isAuth}}
+                        <form action="" method="POST">
+                            <input type="text" id="txtCourseName" name="txtCourseName">
+                            <button class="card-link btn btn-success add-cart">
+                                <i class="fa fa-cart-plus mr-2 "></i>Buy
+                            </button>
+                        </form>
+                        {{/if}}
+                    </div>
+                </div>
+                {{!--
+            </a> --}}
+            {{/each}}
         </div>
     </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                Top 10 Newest Courses
+            </h4>
+        </div>
+        <div class="slick-show custom-carousel">
+            {{#each allCourse }}
+            {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
+                <div class="card mb-3 carousel-items">
+                    <img class="card-img-top"
+                        src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
+                        alt="Card image cap">
+                    {{#if ../isAuth}}
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    {{/if}}
+                    <div class="card-body">
+                        <h4 class="card-title text-dark font-weight-bolder">
+                            {{this.courseName}}
+                        </h4>
+
+
+                        {{#if_equal this.subjID 1 }}
+
+                        <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+                        </p>
+                        {{else}}
+                        <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
+                            Development</p>
+                        {{/if_equal}}
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"></span> {{this.catName}}
+                        </p>
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
+                        </p>
+                        <p class="card-text text-success">
+                            <span class="font-weight-bold"> Rating:</span>
+                            {{#if_equal this.rating 'NaN'}}
+                            No Rating
+                            {{else}}
+                            {{this.rating}} ({{this.countPeopleRating}})
+                            {{/if_equal}}
+                        </p>
+
+                        {{#ifCond this.discount '!=' 0}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.discountedPrice}} VNĐ
+                            <span class="font-weight-bold deleted"><del>{{format this.fee}} VNĐ</del></span>
+                        </p>
+                        {{else}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+                        </p>
+                        {{/ifCond}}
+                    </div>
+                    <div class="card-footer">
+                        <a class="card-link btn btn-info">
+                            <i class="fa fa-info"></i> Detail
+                        </a>
+
+                        {{#if ../isAuth}}
+                        <form action="" method="POST">
+                            <input type="text" id="txtCourseName" name="txtCourseName">
+                            <button class="card-link btn btn-success add-cart">
+                                <i class="fa fa-cart-plus mr-2 "></i>Buy
+                            </button>
+                        </form>
+                        {{/if}}
+                    </div>
+                </div>
+                {{!--
+            </a> --}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                Top 10 Most Views
+            </h4>
+        </div>
+        <div class="slick-show custom-carousel">
+            {{#each allCourse }}
+            {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
+                <div class="card mb-3 carousel-items">
+                    <img class="card-img-top"
+                        src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
+                        alt="Card image cap">
+                    {{#if ../isAuth}}
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    {{/if}}
+                    <div class="card-body">
+                        <h4 class="card-title text-dark font-weight-bolder">
+                            {{this.courseName}}
+                        </h4>
+
+
+                        {{#if_equal this.subjID 1 }}
+
+                        <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+                        </p>
+                        {{else}}
+                        <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
+                            Development</p>
+                        {{/if_equal}}
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"></span> {{this.catName}}
+                        </p>
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
+                        </p>
+                        <p class="card-text text-success">
+                            <span class="font-weight-bold"> Rating:</span>
+                            {{#if_equal this.rating 'NaN'}}
+                            No Rating
+                            {{else}}
+                            {{this.rating}} ({{this.countPeopleRating}})
+                            {{/if_equal}}
+                        </p>
+
+                        {{#ifCond this.discount '!=' 0}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.discountedPrice}} VNĐ
+                            <span class="font-weight-bold deleted"><del>{{format this.fee}} VNĐ</del></span>
+                        </p>
+                        {{else}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+                        </p>
+                        {{/ifCond}}
+                    </div>
+                    <div class="card-footer">
+                        <a class="card-link btn btn-info">
+                            <i class="fa fa-info"></i> Detail
+                        </a>
+
+                        {{#if ../isAuth}}
+                        <form action="" method="POST">
+                            <input type="text" id="txtCourseName" name="txtCourseName">
+                            <button class="card-link btn btn-success add-cart">
+                                <i class="fa fa-cart-plus mr-2 "></i>Buy
+                            </button>
+                        </form>
+                        {{/if}}
+                    </div>
+                </div>
+                {{!--
+            </a> --}}
+            {{/each}}
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>
+                Top 10 Most Subcribes This Week
+            </h4>
+        </div>
+        <div class="slick-show custom-carousel">
+            {{#each allCourse }}
+            {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
+                <div class="card mb-3 carousel-items">
+                    <img class="card-img-top"
+                        src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
+                        alt="Card image cap">
+                    {{#if ../isAuth}}
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    {{/if}}
+                    <div class="card-body">
+                        <h4 class="card-title text-dark font-weight-bolder">
+                            {{this.courseName}}
+                        </h4>
+
+
+                        {{#if_equal this.subjID 1 }}
+
+                        <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+                        </p>
+                        {{else}}
+                        <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
+                            Development</p>
+                        {{/if_equal}}
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"></span> {{this.catName}}
+                        </p>
+
+                        <p class="card-text text-secondary">
+                            <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
+                        </p>
+                        <p class="card-text text-success">
+                            <span class="font-weight-bold"> Rating:</span>
+                            {{#if_equal this.rating 'NaN'}}
+                            No Rating
+                            {{else}}
+                            {{this.rating}} ({{this.countPeopleRating}})
+                            {{/if_equal}}
+                        </p>
+
+                        {{#ifCond this.discount '!=' 0}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.discountedPrice}} VNĐ
+                            <span class="font-weight-bold deleted"><del>{{format this.fee}} VNĐ</del></span>
+                        </p>
+                        {{else}}
+                        <p class="card-text text-danger">
+                            <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+                        </p>
+                        {{/ifCond}}
+                    </div>
+                    <div class="card-footer">
+                        <a class="card-link btn btn-info">
+                            <i class="fa fa-info"></i> Detail
+                        </a>
+
+                        {{#if ../isAuth}}
+                        <form action="" method="POST">
+                            <input type="text" id="txtCourseName" name="txtCourseName">
+                            <button class="card-link btn btn-success add-cart">
+                                <i class="fa fa-cart-plus mr-2 "></i>Buy
+                            </button>
+                        </form>
+                        {{/if}}
+                    </div>
+                </div>
+                {{!--
+            </a> --}}
+            {{/each}}
+        </div>
+    </div>
+
 </header>

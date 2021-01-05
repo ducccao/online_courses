@@ -6,12 +6,11 @@ const config = require("./../config/default.json");
 module.exports = function(app) {
     var MySQLStore = require("express-mysql-session")(session);
 
-
     var options = {
         host: "localhost",
         port: 3306,
-        user: `${config.DATABASE.USERS.LONG.USER}`,
-        password: `${config.DATABASE.USERS.LONG.PASSWORD}`,
+        user: `${config.DATABASE.USERS.COMMON.USER}`,
+        password: `${config.DATABASE.USERS.COMMON.PASSWORD}`,
         database: `${config.DATABASE.NAME}`,
 
         charset: "utf8",

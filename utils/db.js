@@ -3,11 +3,10 @@ const util = require("util");
 const config = require("./../config/default.json");
 
 const pool = mysql.createPool({
-
     host: "localhost",
     port: "3306",
-    user: `${config.DATABASE.USERS.LONG.USER}`,
-    password: `${config.DATABASE.USERS.LONG.PASSWORD}`,
+    user: `${config.DATABASE.USERS.COMMON.USER}`,
+    password: `${config.DATABASE.USERS.COMMON.PASSWORD}`,
     database: `${config.DATABASE.NAME}`,
     connectionLimit: 50,
 });

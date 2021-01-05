@@ -10,15 +10,15 @@
 
         <div class="navbar-collapse collapse" id="navbarsExample07" style="">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+                {{!-- <li class="nav-item">
                     <form class="hide-large" action="">
                         <input style="width: 90%;" type="text" id="searchCourse" name="searchCourse"
-                            placeholder="Search for some course" autofocus>
+                            placeholder="Search for some course">
                         <button
                             style="text-decoration: none; outline: none; border: none; background: none; margin: 0; padding: 0"
                             type="submit"><i class="fa fa-search mr-3"></i></button>
                     </form>
-                </li>
+                </li> --}}
                 <li class="nav-item">
                     <a class="nav-link mr-2" href="/course-list">Courses List</a>
                 </li>
@@ -93,7 +93,7 @@
                 </li>
                 {{else}}
                 {{!-- ----------------------------------------------------d --}}
-                <li class="nav-item hide-small mr-3" style="width: 50vh;">
+                <li class="nav-item mr-3" style="width: 50vh;">
                     <form class="text-center nav-link" id="formSearch-large" action="">
                         <input type="text" id="searchCourse" name="searchCourse"
                             placeholder="Search for some course...">
@@ -110,7 +110,7 @@
                 </li>
 
                 <li class="nav-item mr-3 hide-small">
-                    <a class="nav-link" href="/user/cart"><i class="fa fa-shopping-cart" title="My cart"> <span
+                    <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart" title="My cart"> <span
                                 class="badge badge-danger">5</span></i>
                     </a>
                 </li>
