@@ -14,4 +14,13 @@ router.get(
     mainController.getCourseListByCat
 );
 
+router.post(
+    "/course-list/search",
+    mainController.searchCourse
+);
+router.get(
+    "/course-list/search",
+    mainController.searchCourse
+);
+
 module.exports = router;
