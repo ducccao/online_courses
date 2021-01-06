@@ -47,10 +47,44 @@
 
 <script>
     $('.price').on('click', function () {
-        console.log({{ allCourse.length }});
-    //  { { allCourse.length } } =0;
-    location.reload();
-    { { empty } } = true;
+        //let url = `/`;
+        let urlParams = new URLSearchParams(location.search)
+        let param = {
+            page: 1,
+            sort: ""
+        }
+
+        for (let key in param) {
+            if (!urlParams.has(key)) {
+                urlParams.append(key, param[key]);
+            }
+        }
+        urlParams.set('sort', "price");
+        let url = window.location.pathname;
+        console.log(url + `?${urlParams.toString()}`);
+        location.href = url + `?${urlParams.toString()}`;
+    })
+</script>
+
+<script>
+    $('.star').on('click', function () {
+        //let url = `/`;
+        let urlParams = new URLSearchParams(location.search)
+        let param = {
+            page: 1,
+            sort: ""
+        }
+
+        for (let key in param) {
+            if (!urlParams.has(key)) {
+                urlParams.append(key, param[key]);
+            }
+        }
+        urlParams.set('sort', "star");
+        let url = window.location.pathname;
+        console.log(url + `?${urlParams.toString()}`);
+
+        location.href = url + `?${urlParams.toString()}`;
     })
 </script>
 
@@ -125,11 +159,11 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
 
-                                        <a class="dropdown-item price" href="#">
+                                        <a class="dropdown-item price">
                                             <i class="fa fa-money mr-2"></i>Price
                                         </a>
 
-                                        <a class="dropdown-item" href="#;">
+                                        <a class="dropdown-item star">
                                             <i class="fa fa-star mr-2"></i>Star
                                         </a>
 
@@ -245,11 +279,11 @@
                                         <div class="dropdown-menu dropdown-menu-right"
                                             aria-labelledby="navbarDropdownBlog">
 
-                                            <a class="dropdown-item price" href="#">
+                                            <a class="dropdown-item price">
                                                 <i class="fa fa-money mr-2"></i>Price
                                             </a>
 
-                                            <a class="dropdown-item" href="#;">
+                                            <a class="dropdown-item star">
                                                 <i class="fa fa-star mr-2"></i>Star
                                             </a>
 

@@ -14,5 +14,14 @@ router.get(
     watchlistController.getCourseListByCat
 );
 
+router.post(
+    "/search",
+    watchlistController.searchCourse
+);
+router.get(
+    "/search",
+    watchlistController.searchCourse
+);
+
 
 module.exports = router;

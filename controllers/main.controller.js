@@ -7,6 +7,8 @@ const { averageArrayRating } = require("./../utils/utilsFunction");
 const mainController = {
     // get List Course page
     getListCourses: async(req, res) => {
+        let sort = req.query.sort || "";
+
         req.session.searchContentListCourse = "";
         console.log("List Course Paginating!!");
         //  const allCate = await cateModel.all();
@@ -24,7 +26,15 @@ const mainController = {
         // console.log(limit);
         const offset = (page - 1) * 6;
         // console.log(offset);
-        const rows = await courseModel.pagiListCourse(offset, limit);
+        let rows = [];
+
+        if (sort === "price") {
+            rows = await courseModel.pagiListCoursePrice(offset, limit);
+        } else if (sort === "star") {
+            rows = await courseModel.pagiListCourseStart(offset, limit);
+        } else {
+            rows = await courseModel.pagiListCourse(offset, limit);
+        }
         const total = allCourse.length;
         const nPage = Math.ceil(total / limit);
         const pagiItem = [];
@@ -113,6 +123,7 @@ const mainController = {
     // get course list by cat
     getCourseListByCat: async(req, res) => {
         console.log("Get list course by cat !");
+        let sort = req.query.sort || "";
         let rows = [];
         let courseInCat = [];
         let pagiItem = [];
@@ -141,7 +152,13 @@ const mainController = {
 
             const limit = config.listCourses.pagination.limit;
             const offset = (page - 1) * limit;
-            rows = await courseModel.pagiListSearchCourseByCat(req.session.searchContentListCourse, catID, offset, limit);
+            if (sort === "price") {
+                rows = await courseModel.pagiListSearchCourseByCatPrice(req.session.searchContentListCourse, catID, offset, limit);
+            } else if (sort === "star") {
+                rows = await courseModel.pagiListCourseByCatStar(catID, offset, limit);
+            } else {
+                rows = await courseModel.pagiListSearchCourseByCat(req.session.searchContentListCourse, catID, offset, limit);
+            }
             //   console.log("row len: ", rows.length);
             //  console.log("total ", total);
             nPage = Math.ceil(total / limit);
@@ -175,7 +192,14 @@ const mainController = {
 
             const limit = config.listCourses.pagination.limit;
             const offset = (page - 1) * limit;
-            rows = await courseModel.pagiListCourseByCat(catID, offset, limit);
+
+            if (sort === "price") {
+                rows = await courseModel.pagiListCourseByCatPrice(catID, offset, limit);
+            } else if (sort === "star") {
+                rows = await courseModel.pagiListCourseByCatStar(catID, offset, limit);
+            } else {
+                rows = await courseModel.pagiListCourseByCat(catID, offset, limit);
+            }
             //   console.log("row len: ", rows.length);
             //  console.log("total ", total);
             nPage = Math.ceil(total / limit);
@@ -274,25 +298,36 @@ const mainController = {
     },
 
     searchCourse: async(req, res) => {
-        console.log("************************************");
         console.log("List Course Paginating!!");
+        let sort = req.query.sort || "";
         //  const allCate = await cateModel.all();
         console.log(req.body.searchContentListCourse);
-        if (req.body.searchContentListCourse != undefined) {
-            req.session.searchContentListCourse = req.body.searchContentListCourse;
-            const courseInCat = await cateModel.allSearchWithDetails(req.body.searchContentListCourse);
+        if (req.body.searchContentListCourse !== undefined || req.session.searchContentListCourse !== undefined) {
+            if (req.body.searchContentListCourse !== undefined) {
+                req.session.searchContentListCourse = req.body.searchContentListCourse;
+            }
+            const courseInCat = await cateModel.allSearchWithDetails(req.session.searchContentListCourse);
             //console.log(courseInCat);
-            const allCourse = await courseModel.getAllSearchCoure(req.body.searchContentListCourse);
+            const allCourse = await courseModel.getAllSearchCoure(req.session.searchContentListCourse);
 
             let page = +req.query.page || 1;
             if (page < 0) {
                 page = 1;
             }
             const limit = config.listCourses.pagination.limit;
-            // console.log(limit);
+            console.log(limit);
             const offset = (page - 1) * 6;
             // console.log(offset);
-            const rows = await courseModel.pagiListSearchCourse(req.body.searchContentListCourse, offset, limit);
+            let rows = [];
+            if (sort === "price") {
+                console.log("-------------------------------------");
+                rows = await courseModel.pagiListSearchCoursePrice(req.session.searchContentListCourse, offset, limit);
+            } else if (sort === "star") {
+                rows = await courseModel.pagiListSearchCourseStar(req.session.searchContentListCourse, offset, limit);
+            } else {
+                rows = await courseModel.pagiListSearchCourse(req.session.searchContentListCourse, offset, limit);
+            }
+
             // const rows = await courseModel.pagiListCourse(offset, limit);
 
             const total = allCourse.length;

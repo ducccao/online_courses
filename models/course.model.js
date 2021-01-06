@@ -20,8 +20,33 @@ module.exports = {
         return db.load(sql);
     },
 
+    pagiListCoursePrice(offset, limit) {
+        const sql = `select * from ${TBL_COURSE} order by fee limit ${limit} offset ${offset}`;
+        return db.load(sql);
+    },
+    pagiListCourseStart(offset, limit) {
+        const sql = `select cs.* from ${TBL_COURSE} cs left join review r on cs.courseID = r.courseID
+        group by cs.courseID
+        order by avg(r.rating) desc
+        limit ${limit} offset ${offset}`;
+        return db.load(sql);
+    },
+
     pagiListCourseByCat(catID, offset, limit) {
         const sql = `select * from ${TBL_COURSE} where catID="${catID}"  limit ${limit}  offset ${offset}`;
+        return db.load(sql);
+    },
+    pagiListCourseByCatPrice(catID, offset, limit) {
+        const sql = `select * from ${TBL_COURSE} where catID ="${catID}" order by fee limit ${limit} offset ${offset}`;
+
+        return db.load(sql);
+    },
+    pagiListCourseByCatStar(catID, offset, limit) {
+        const sql = `select cs.* from ${TBL_COURSE} cs left join review r on cs.courseID = r.courseID
+        where cs.catID ="${catID}"
+        group by cs.courseID
+        order by avg(r.rating) desc
+        limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
 
@@ -108,12 +133,56 @@ module.exports = {
     or match (cat.catName) against ('${content}') limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
+    pagiListSearchCoursePrice(content, offset, limit) {
+        const sql = `select c.* from course c join category cat 
+        on cat.catID = c.catID
+    where match (c.courseName) against ('${content}')
+    or match (cat.catName) against ('${content}')
+    order by c.fee
+     limit ${limit} offset ${offset}`;
+        return db.load(sql);
+    },
+    pagiListSearchCourseStar(content, offset, limit) {
+        const sql = `  select cs.* from review r right join 
+        (select c.* from course c join category cat 
+            on cat.catID = c.catID
+        where match (c.courseName) against ('${content}')
+        or match (cat.catName) against ('${content}')) as cs
+        on cs.courseID = r.courseID
+    group by cs.courseID
+    order by avg(r.rating) desc
+    limit ${limit} offset ${offset}`;
+        return db.load(sql);
+
+    },
 
     pagiListSearchCourseByCat(content, catID, offset, limit) {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID and c.catID = ${catID}
     where match (c.courseName) against ('${content}')
     or match (cat.catName) against ('${content}')  limit ${limit}  offset ${offset}`;
+        return db.load(sql);
+    },
+
+    pagiListSearchCourseByCatPrice(content, catID, offset, limit) {
+        const sql = `select c.* from course c join category cat 
+        on cat.catID = c.catID and c.catID = ${catID}
+    where match (c.courseName) against ('${content}')
+    or match (cat.catName) against ('${content}')
+    order by c.fee
+     limit ${limit} offset ${offset}`;
+        return db.load(sql);
+    },
+    pagiListSearchCourseByCatStar(content, catID, offset, limit) {
+        const sql = `  select cs.* from review r right join 
+        (select c.* from course c join category cat 
+            on cat.catID = c.catID and c.catID = ${catID}
+        where match (c.courseName) against ('${content}')
+        or match (cat.catName) against ('${content}')) as cs
+        on cs.courseID = r.courseID
+    group by cs.courseID
+    order by avg(r.rating) desc
+    limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
     // get catName
