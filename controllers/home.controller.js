@@ -6,7 +6,7 @@ const { averageArrayRating, calDiscountedFree } = require("./../utils/utilsFunct
 
 const homeController = {
   getListCourses: async (req, res) => {
-    console.log("List Course Paginating 1234!!");
+    // console.log("List Course Paginating 1234!!");
     const mostBuyWeek = await courseModel.getMostBuyWeek();
     //get all cate and course in cate count
     // const courseInCat = await categoryModel.allWithDetails();

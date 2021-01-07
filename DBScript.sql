@@ -89,7 +89,8 @@ create table unit(
 unitID int primary key,
   chapterID int,
   unitContent varchar(1000),
-  linkVideo varchar (100)
+  linkVideo varchar (100),
+  linkVideoPreview varchar (100)
 );
 
 DROP TABLE IF EXISTS `orderdetails`;
@@ -139,6 +140,10 @@ insert into category (category.catID, category.catName, category.subjID) values 
 insert into category (category.catID, category.catName, category.subjID) values (5, "Androi", 2);
 insert into category (category.catID, category.catName, category.subjID) values (6, "Boootstrap", 1);
 insert into category (category.catID, category.catName, category.subjID) values (7, "Javascript", 1);
+insert into category (category.catID, category.catName, category.subjID) values (8, "Xamarine", 2);
+insert into category (category.catID, category.catName, category.subjID) values (9, "NodeJS", 1);
+insert into category (category.catID, category.catName, category.subjID) values (10, "Kotlin", 2);
+
 
 insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
 values (1, "Lam quen voi HTML", "title html", 1, 4, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
@@ -152,6 +157,26 @@ insert into course (courseID , courseName, title , catID, userID , thumbnail , a
 values (5, "CSS co abn", "title css co ban", 2,5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
 insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
 values (6, "CSS nang cao", "title css nang cao", 2, 5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
+insert into course values (7,"JavaScript co ban","title javascript",7,4,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (8,"JavaScript nang cao","title javascript",7,4,"thumbnail","avata",700000,"sub","full",0,0,curdate(),curdate());
+insert into course values (9,"Build an app with IOS","title javascript",4,4,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (10,"Android co ban","title javascript",5,4,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (11,"Swift co ban","title javascript",4,5,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (12,"Swift nang cao","title javascript",4,5,"thumbnail","avata",400000,"sub","full",0,0,curdate(),curdate());
+insert into course values (13,"JQuerry co ban","title javascript",3,6,"thumbnail","avata",700000,"sub","full",0,0,curdate(),curdate());
+insert into course values (14,"JQuerry nang cao","title javascript",3,6,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (15,"Javascript ES6","title javascript",7,4,"thumbnail","avata",600000,"sub","full",0,0,curdate(),curdate());
+insert into course values (16,"CSS Animations","title javascript",2,5,"thumbnail","avata",800000,"sub","full",0,0,curdate(),curdate());
+insert into course values (17,"Android nang cao","title javascript",5,4,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (18,"NodeJS co ban","title javascript",9,6,"thumbnail","avata",850000,"sub","full",0,0,curdate(),curdate());
+insert into course values (19,"NodeJS nang cao","title javascript",9,6,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (20,"Kotlin co ban","title javascript",10,4,"thumbnail","avata",750000,"sub","full",0,0,curdate(),curdate());
+insert into course values (21,"Kotlin nang cao","title javascript",10,4,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (22,"Xamarine co ban","title javascript",8,6,"thumbnail","avata",600000,"sub","full",0,0,curdate(),curdate());
+insert into course values (23,"Xamarine nang cao","title javascript",8,6,"thumbnail","avata",450000,"sub","full",0,0,curdate(),curdate());
+insert into course values (24,"Bootstrap 4 co ban","title javascript",6,5,"thumbnail","avata",500000,"sub","full",0,0,curdate(),curdate());
+insert into course values (25,"Bootstrap 4 nang cao","title javascript",6,5,"thumbnail","avata",650000,"sub","full",0,0,curdate(),curdate());
+insert into course values (26,"Build a complete backend with NodeJS","title javascript",9,4,"thumbnail","avata",900000,"sub","full",0,0,curdate(),curdate());
 
 
 insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,1,'2020-09-09');
@@ -161,7 +186,15 @@ insert into coursebought(coursebought.courseID, coursebought.userID, coursebough
 insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,2,'2020-09-09');
 insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,3,'2020-09-09');
 insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (3,3,'2020-09-09');
-
+insert into coursebought values (1,10,curdate());
+insert into coursebought values (5,10,curdate());
+insert into coursebought values (2,10,curdate());
+insert into coursebought values (6,2,curdate());
+insert into coursebought values (6,3,curdate());
+insert into coursebought values (4,1,curdate());
+insert into coursebought values (4,3,curdate());
+insert into coursebought values (6,10,curdate());
+insert into coursebought values (2,3,curdate());
 
 insert into cart(cart.courseID, cart.userID) values (4,1);
 insert into cart(cart.courseID, cart.userID) values (4,2);  
@@ -184,8 +217,8 @@ insert into chapter (chapter.chapterID, chapter.chapterName, chapter.courseID) v
 insert into chapter (chapter.chapterID, chapter.chapterName, chapter.courseID) values (2,"chuong 2", 1);
 insert into chapter (chapter.chapterID, chapter.chapterName, chapter.courseID) values (3,"chuong 1", 2);
 
-insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (1,1,"noi dung bai 1","link");
-insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (2,1,"noi dung bai 2","link");
-insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo) values (3,2,"nội dung bài 2","link");
+insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo, unit.linkVideoPreview) values (1,1,"noi dung bai 1","link","");
+insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo, unit.linkVideoPreview) values (2,1,"noi dung bai 2","link","linkPreview");
+insert into unit (unit.unitID, unit.chapterID, unit.unitContent, unit.linkVideo, unit.linkVideoPreview) values (3,2,"nội dung bài 2","link","");
 
 insert into sale (courseId,percent) values (1,10)

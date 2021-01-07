@@ -36,6 +36,7 @@ module.exports = {
     };
     return db.add(entity, config.DATABASE.TABLE.SALE);
   },
+
   getCourseByName(courseName) {
     const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"`;
     return db.load(sql);
@@ -47,6 +48,13 @@ module.exports = {
   getCourseByCourseName(courseName) {
     const sql = `select * from ${TBL_COURSE} where courseName= "${courseName}"`;
     return db.load(sql);
+  },
+
+  increaseView(entity) {
+    const condition = {
+      courseID: entity.courseID,
+    };
+    return db.patch(entity, condition, TBL_COURSE);
   },
 
   editCourse(entity) {
@@ -102,8 +110,29 @@ module.exports = {
     return db.load(sql);
   },
 
+  getReviewCourseNumb(courseID) {
+    const sql = `select count(*) from ${config.DATABASE.TABLE.REVIEW} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getCourseBoughtNumb(courseID) {
+    const sql = `select count(*) from ${config.DATABASE.TABLE.COURSE_BOUGHT} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getCourseChapters(courseID) {
+    const sql = `select * from ${config.DATABASE.TABLE.CHAPTER} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getCourseUnits(courseID) {
+    const sql = `select distinct u.* from ${config.DATABASE.TABLE.CHAPTER} as c, ${config.DATABASE.TABLE.UNIT} as u
+    where c.courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
   getAveRatingCourse(courseID) {
-    const sql = `select sum(rating)/count(*) from ${config.DATABASE.TABLE.REVIEW} as r, 
+    const sql = `select round(sum(rating)/count(*),2) from ${config.DATABASE.TABLE.REVIEW} as r, 
     ${config.DATABASE.TABLE.COURSE} as c where c.courseID = r.courseID 
     and c.courseID = ${courseID}`;
     return db.load(sql);
@@ -121,5 +150,5 @@ module.exports = {
     const sql = `select * from ${config.DATABASE.TABLE.SALE} as s, 
     ${config.DATABASE.TABLE.COURSE} as c, ${config.DATABASE.TABLE.USER} as u where c.courseID = s.courseID and u.userID = c.userID`;
     return db.load(sql);
-  },
+  }
 };

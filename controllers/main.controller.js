@@ -220,8 +220,71 @@ const mainController = {
         });
     },
 
+    getCourseDetail: async (req, res) => {
+        const courseID = +req.params.id;
+        const course = await courseModel.getCourseByID(courseID);
+        course[0].views += 1; 
+        const type = await courseModel.getTypeOfCourse(courseID, course[0].catID);
+        const instructor = await courseModel.getInstructor(courseID, course[0].userID);
+        const discount = await courseModel.getDiscountCourse(courseID);
+        const catName = await courseModel.getCatName(courseID);
+        const avgRating = await courseModel.getAveRatingCourse(courseID);
+        const reviewNumb = await courseModel.getReviewCourseNumb(courseID);
+        const studentNumb = await courseModel.getCourseBoughtNumb(courseID);
+        const chapters = await courseModel.getCourseChapters(courseID);
+        const units = await courseModel.getCourseUnits(courseID);
+        const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0,10);
+        const discountedPrice = course[0].fee * (1 - discount[0].percent / 100);
+        courseDetail = {
+            discountedPrice,
+            lastUpdateTime,
+            ...discount[0],
+            ...course[0],
+            ...type[0],
+            ...instructor[0],
+            ...catName[0],
+            avgRating: avgRating[0]['round(sum(rating)/count(*),2)'],
+            reviewNumb: reviewNumb[0]['count(*)'],
+            student: studentNumb[0]['count(*)'],
+        }
+
+        // console.log(course);
+
+        // console.log(units);
+
+        const chaptersOfCourse = [];
+        for (let i = 0; i < chapters.length; i++) {
+            const item = {
+                ...chapters[i],
+            }
+            chaptersOfCourse.push(item);
+        };
+
+        const unitsOfCourse = [];
+        for (let i = 0; i < units.length; i++) {
+            const item = {
+                ...units[i],
+            }
+            unitsOfCourse.push(item);
+        };
+
+        console.log(chaptersOfCourse);
+        console.log(unitsOfCourse);
+
+        // const addView = await courseModel.increaseView(course[0]);
+        // if (addView.affectedRows === 1) {
+            res.render("vwDetail/detail", {
+            layout: "main",
+            courseDetail,
+            chaptersOfCourse,
+            unitsOfCourse,
+        });
+        // return;
+        // }
+        // return res.status(404).json({ message: "Something when wrong when increase views of this course!" });
+    },
+
     getAllCourse: async(req, res) => {
-        console.log("Get list course to mainNav !");
         const allCourse = await courseModel.all();
         // console.log(allCourse);
         res.render("vwAdminCourse/home", {

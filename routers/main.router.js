@@ -14,4 +14,10 @@ router.get(
   mainController.getCourseListByCat
 );
 
+router.get(
+  "/course-list/:id",
+  authNav,
+  mainController.getCourseDetail
+);
+
 module.exports = router;
