@@ -8,7 +8,7 @@ const cartController = {
     // get cart page
     getCartPage: async(req, res) => {
         const items = [];
-        console.log(req.session.cart);
+        //  console.log(req.session.cart);
 
         if (!req.session.cart) {
             return res.render("vwCart/Cart", {
@@ -18,21 +18,44 @@ const cartController = {
 
         for (const ci of req.session.cart) {
             const course = await courseModel.getCourseByID(ci.id);
+            const discount = await courseModel.getDiscountCourse(ci.id);
+            //  console.log(course);
             items.push({
                 ...ci,
-                course,
-                amount: ci.quantity * course.fee,
+                ...course[0],
+                ...discount[0],
+                amount: +ci.quantity * course[0].fee,
             });
         }
 
+        //   console.log(items);
+
+        const total = items.reduce((pre, curr) => {
+            console.log("pre : ", pre);
+            console.log(" curr", curr);
+            if (curr.percent) {
+                return pre + curr.fee - (curr.fee * curr.percent) / 100;
+            } else {
+                return pre + curr.fee;
+            }
+        }, 0);
+        //  console.log(items[0].course);
+        //  console.log(total);
+        //  console.log(items);
+
         res.render("vwCart/Cart", {
             layout: "main",
-            items,
-            empty: req.session.cart.length === 0,
+            items: items,
+            empty: items.length === 0,
+            total: total,
         });
     },
     // add course to cart
     addCourseIntoCart: (req, res) => {
+        console.log("Add course into cart!");
+
+        console.log(req.body);
+        console.log("Session cart ", req.session.cart);
         const item = {
             id: +req.body.id,
             quantity: +req.body.quantity,

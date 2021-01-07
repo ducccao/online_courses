@@ -34,11 +34,16 @@
     import { openAlert } from "/utils/alertModal.js"
     function buyCouse() {
         const btnBuy = $("#btnBuy")
-        $(".add-cart").on('click', function (e) {
+        $(".add-item").on('click', function (e) {
             e.preventDefault();
             const id = $(this).data('id');
-            const vl = $("txtCourseName").val(id)
+            const vl = $("#txtCourseID").val(id)
+            const quantity = $("#txtQuantity").val(1);
+            console.log(id)
             console.log(vl)
+            console.log(quantity)
+
+            $("#fmBuy").submit();
         })
     }
     buyCouse();
@@ -216,7 +221,15 @@
         </div>
     </div>
     {{else}}
+
+
     <div class="row">
+
+        <form action="/cart/add" method="POST" id="fmBuy">
+            <input type="text" id="txtCourseID" name="id">
+            <input type="text" id="txtQuantity" name="quantity">
+        </form>
+
         <div class="col-sm-12">
             <form action="/course-list/search" class="formSearchListCourse" id="formSearchListCourse" method="POST">
 
@@ -358,12 +371,11 @@
                                     <button id="btnDetail" class="card-link btn btn-info">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </button>
-                                    <form action="" method="POST">
-                                        <input type="text" id="txtCourseName" name="txtCourseName">
-                                        <button id="btnBuy" class="card-link btn btn-success add-cart ">
-                                            <i class="fa fa-cart-plus mr-2 "></i>Buy
-                                        </button>
-                                    </form>
+
+                                    <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
+                                        class="card-link btn btn-success add-item ">
+                                        <i class="fa fa-cart-plus mr-2 "></i>Buy
+                                    </a>
 
 
                                     {{else}}

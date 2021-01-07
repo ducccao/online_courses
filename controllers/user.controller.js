@@ -60,6 +60,7 @@ const userController = {
         if (isUserExists[0].decentralization === 2 && password === "admin123") {
             req.session.isAuth = true;
             req.session.authUser = isUserExists[0];
+            req.session.cart = [];
 
             return res.json({ redirect: "/admin/dashboard" });
         }
@@ -67,6 +68,7 @@ const userController = {
         if (isUserExists[0].decentralization === 1 && password === "123123") {
             req.session.isAuth = true;
             req.session.authUser = isUserExists[0];
+            req.session.cart = [];
 
             if (req.session.retUrl === "http://localhost:3000/user/register") {
                 return res.json({ redirect: "/" });
@@ -86,6 +88,7 @@ const userController = {
 
         req.session.isAuth = true;
         req.session.authUser = isUserExists[0];
+        req.session.cart = [];
 
         let url = req.session.retUrl || "/";
         if (req.session.retUrl === `${config.devURL.URL}/user/register`) {
@@ -100,6 +103,7 @@ const userController = {
 
         req.session.isAuth = false;
         req.session.authUser = null;
+        //   req.session.cart = [];
 
         let url = req.headers.referer;
         res.redirect(url);

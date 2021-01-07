@@ -1,5 +1,17 @@
 {{#section 'css'}}
 
+<style>
+    .courseAva {
+        height: 50px;
+    }
+
+    td {
+        align-items: center;
+        justify-content: center;
+        align-self: center;
+    }
+</style>
+
 {{/section}}
 
 {{#section 'js'}}
@@ -7,11 +19,18 @@
 
 <section class="jumbotron text-center">
     <div class="container">
+        {{#if empty}}
+        <h1 class="jumbotron-heading"> Cart Is Empty</h1>
+        {{else}}
         <h1 class="jumbotron-heading"> CART</h1>
+        {{/if}}
     </div>
 </section>
 
 <div class="container mb-4">
+    {{#if empty}}
+
+    {{else}}
     <div class="row">
         <div class="col-12">
             <div class="table-responsive">
@@ -20,63 +39,76 @@
                         <tr>
                             <th scope="col"> </th>
                             <th scope="col">Product</th>
-                            <th scope="col">Available</th>
+                            <th>Is Finished</th>
+
                             <th scope="col" class="text-center">Quantity</th>
+
+                            <th scope="col" class="text-center">Discount</th>
                             <th scope="col" class="text-right">Price</th>
                             <th> </th>
                         </tr>
                     </thead>
                     <tbody>
+                        {{#each items }}
                         <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Dada</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">124,90 €</td>
+
+
+
+
+                            <td><img {{#ifCond this.avatar '==' 'avata' }} class="courseAva"
+                                    src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
+                                    {{else}} src="{{this.avatar}}" {{/ifCond}} alt="{{this.avatar}}" /> </td>
+                            <td>
+                                {{this.courseName}}
+                            </td>
+
+                            <td>
+                                {{#ifCond this.isFinished '==' 0}}
+                                <p>Not Complete</p>
+                                {{else}}
+                                <p>Complete</p>
+                                {{/ifCond}}
+                            </td>
+
+                            <td>
+                                <p class="text-center"> 1</p>
+                            </td>
+                            <td class="text-center">
+                                {{#if this.percent}}
+                                {{this.percent}}%
+                                {{else}}
+                                0%
+                                {{/if}}
+
+                            </td>
+                            <td class="text-right">
+                                {{format this.fee}}
+                            </td>
                             <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>
                                 </button> </td>
                         </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Toto</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">33,90 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>
-                                </button> </td>
-                        </tr>
-                        <tr>
-                            <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
-                            <td>Product Name Titi</td>
-                            <td>In stock</td>
-                            <td><input class="form-control" type="text" value="1" /></td>
-                            <td class="text-right">70,00 €</td>
-                            <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>
-                                </button> </td>
-                        </tr>
+                        {{/each}}
+
+                        {{!-- <tr>
+                            <td></td>
+                            <td></td>
+
+                            <td></td>
+                            <td></td>
+                            <td>Discount</td>
+                            <td class="text-right">
+
+                            </td>
+                        </tr> --}}
+
                         <tr>
                             <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Sub-Total</td>
-                            <td class="text-right">255,90 €</td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>Shipping</td>
-                            <td class="text-right">6,90 €</td>
-                        </tr>
-                        <tr>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <td><strong>Total</strong></td>
-                            <td class="text-right"><strong>346,90 €</strong></td>
+                            <td class="text-right"><strong>{{format total}} $</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -93,4 +125,89 @@
             </div>
         </div>
     </div>
+    {{/if}}
 </div>
+
+
+
+{{!-- <div class="row">
+    <div class="col-12">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col"> </th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Available</th>
+                        <th scope="col" class="text-center">Quantity</th>
+                        <th scope="col" class="text-right">Price</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                        <td>Product Name Dada</td>
+                        <td>In stock</td>
+                        <td><input class="form-control" type="text" value="1" /></td>
+                        <td class="text-right">124,90 €</td>
+                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>
+                            </button> </td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                        <td>Product Name Toto</td>
+                        <td>In stock</td>
+                        <td><input class="form-control" type="text" value="1" /></td>
+                        <td class="text-right">33,90 €</td>
+                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>
+                            </button> </td>
+                    </tr>
+                    <tr>
+                        <td><img src="https://dummyimage.com/50x50/55595c/fff" /> </td>
+                        <td>Product Name Titi</td>
+                        <td>In stock</td>
+                        <td><input class="form-control" type="text" value="1" /></td>
+                        <td class="text-right">70,00 €</td>
+                        <td class="text-right"><button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i>
+                            </button> </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Sub-Total</td>
+                        <td class="text-right">255,90 €</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Shipping</td>
+                        <td class="text-right">6,90 €</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><strong>Total</strong></td>
+                        <td class="text-right"><strong>346,90 €</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col mb-2">
+        <div class="row">
+            <div class="col-sm-12  col-md-6">
+                <button class="btn btn-block btn-light">Continue Shopping</button>
+            </div>
+            <div class="col-sm-12 col-md-6 text-right">
+                <button class="btn btn-lg btn-block btn-success text-uppercase">Checkout</button>
+            </div>
+        </div>
+    </div>
+</div> --}}
