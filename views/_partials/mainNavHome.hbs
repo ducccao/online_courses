@@ -37,7 +37,8 @@
                             <ul class="dropdown-menu">
                                 {{#each ../lcAllCategories}}
                                 {{#if (eq subjID ../subjID)}}
-                                <li><a class="dropdown-item mb-1" href="#">{{catName}}</a></li>
+                                <li><a class="dropdown-item mb-1"
+                                        href="course-list/byCat/{{catID}}?page=1">{{catName}}</a></li>
                                 {{/if}}
                                 {{/each}}
                             </ul>

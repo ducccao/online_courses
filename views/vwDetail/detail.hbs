@@ -1,0 +1,295 @@
+{{#section 'css'}}
+<style>
+  .deleted {
+    color: black !important;
+    margin-left: 15px;
+  }
+
+  .discounted {
+    margin-left: 15px;
+    color: green;
+  }
+
+  .my-4 {
+    color: black;
+    font-weight: 700;
+  }
+
+  .hr-section {
+    width: 80%;
+    margin-top: 40px;
+  }
+
+  .wd {
+    width: 100% !important;
+  }
+
+  .btn-chapter {
+    border-radius: 0 !important;
+    border-bottom: 1px solid black;
+    padding: 10px;
+  }
+
+  .btn-chapter:focus {
+    box-shadow: none !important;
+  }
+
+  .dropdown-units {
+    border: 2px solid #858796;
+  }
+
+  .unit-items {
+    display: block;
+    padding: 10px 0;
+  }
+
+  .hr-chapter {
+    margin: 0;
+    padding: 0;
+  }
+
+  .dropdown-units {
+    padding: 0 20px;
+    display: none;
+  }
+
+  .course-main-content a,
+  .course-main-content a:hover,
+  .course-main-content a:visited {
+    text-decoration: none;
+  }
+
+  .course-main-content {
+    margin-top: 40px;
+  }
+
+  .course-main-content>div:first-of-type button {
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px !important;
+  }
+</style>
+{{/section}}
+
+<!-- Page Content -->
+<div class="container">
+
+  <!-- Portfolio Item Heading -->
+  <h1 class="my-4">{{courseDetail.courseName}}</h1>
+
+  <!-- Portfolio Item Row -->
+  <div class="row">
+
+    <div class="col-md-6">
+      <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+    </div>
+
+    <div class="col-md-6">
+      {{!-- <h3 class="my-3">Project Description</h3> --}}
+      <p class="card-text">
+      <h5><strong>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum veritatis libero est saepe! Hic,
+          deleniti. Ad
+          dolorem maxime laboriosam, explicabo error quas reiciendis delectus expedita possimus fuga, nesciunt pariatur.
+          Nobis.</strong></h5>
+      </p>
+      <p class="card-text text-secondary">
+        <span class="font-weight-bolder"> Instructor:</span> {{courseDetail.userName}}
+      </p>
+
+      {{#ifCond courseDetail.isFinished '!=' 0}}
+      <p class="card-text text-success">
+        <span span class="font-weight-bold mr-4">This course is complete</span>
+      </p>
+      {{else}}
+      <p class="card-text text-primary">
+        <span class="font-weight-bold mr-4">This course is not complete yet</span>
+        <span class="font-weight-bolder"> Last Updated:</span> {{courseDetail.lastUpdateTime}}
+      </p>
+      {{/ifCond}}
+
+      <p class="card-text text-success">
+        {{#if_equal courseDetail.rating 'NaN'}}
+        <span class="font-weight-bold mr-3"> Rating: No Rating</span>
+        {{else}}
+        <span class="font-weight-bold mr-3"> Rating: {{courseDetail.avgRating}}</span>
+        {{/if_equal}}
+        <span class="badge badge-success text-md  mr-3">
+          Total Student Rating: {{courseDetail.reviewNumb}}
+        </span>
+        <span class="badge badge-success text-md">
+          Students: {{courseDetail.student}}
+        </span>
+      </p>
+
+      {{#ifCond courseDetail.percent '!=' 0}}
+      <p class="card-text text-danger">
+        <span class="font-weight-bold">{{format
+          courseDetail.discountedPrice}} VNĐ</span>
+        <span class="font-weight-bold deleted"><del>{{format courseDetail.fee}} VNĐ</del></span>
+        <span class="font-weight-bold discounted">{{courseDetail.percent}}% OFF</span>
+      </p>
+      {{else}}
+      <p class="card-text text-danger">
+        <span class="font-weight-bold"></span> {{format courseDetail.fee}} VNĐ
+      </p>
+      {{/ifCond}}
+
+      {{#if isAuth}}
+      <div class="card-text d-flex">
+        <form action="" method="POST" class="mr-5">
+          <button class="card-link btn btn-success add-cart">
+            <i style="color: rgb(211, 48, 48);" class="fa fa-heart mr-2"></i>Add to Watchlist
+          </button>
+        </form>
+        <form action="" method="POST" class="mr-5">
+          <button class="card-link btn btn-success add-cart">
+            <i class="fa fa-cart-plus mr-2 "></i>Add to Cart
+          </button>
+        </form>
+        <form action="" method="POST">
+          <button class="card-link btn btn-success add-cart">
+            <i class="fa fa-shopping-cart mr-2 "></i>Buy Now
+          </button>
+        </form>
+      </div>
+      {{/if}}
+    </div>
+  </div>
+
+  <hr class="hr-section">
+  <h3 class="my-4">Full Description</h3>
+  <div>
+    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
+      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
+      veritatis minus nisi dolor.
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
+      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
+      veritatis minus nisi dolor.
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
+      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
+      veritatis minus nisi dolor.
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
+      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
+      veritatis minus nisi dolor.</p>
+  </div>
+
+  <hr class="hr-section">
+  <h3 class="my-4">Course content</h3>
+  <div>
+    <h5>You can watch the preview videos here</h5>
+    <video controls crossorigin playsinline
+      data-poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+      <!-- Video files -->
+      <source id="video-source" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4" size="720">
+    </video>
+
+  </div>
+  <div>
+    <div class="course-main-content">
+      {{#each chaptersOfCourse}}
+      <div class="chapter-items">
+        <div class="dropdown">
+          <button class="btn btn-secondary wd dropdown-toggle text-left btn-chapter" type="button">
+            chaptername
+            <span class="float-right mr-2"><strong class="mr-4">9 Units</strong>13:03</span>
+          </button>
+
+          <div class="dropdown-units wd">
+            {{#each ../unitsOfCourse}}
+            {{#if (eq chapterID ../chapterID)}}
+            <div class="unit-items">
+              {{#if (eq linkVideoPreview '')}}
+              <a href="#"><i class="fa fa-file mr-2"></i>unit name</a>
+              <div class="float-right">
+                <span class="ml-4">13:03</span>
+              </div>
+              {{else}}
+              <a href="#"><i class="fa fa-play mr-2"></i>unit name</a>
+              <div class="float-right">
+                <a style="cursor: pointer;" class="player-src" data-type="mp4"
+                  data-src="../../vendor/videos/HTML.mp4"><i class="fa fa-eye mr-2"></i>preview</a>
+                <span class="ml-4">13:03</span>
+              </div>
+              {{/if}}
+            </div>
+            {{/if}}
+            {{/each}}
+          </div>
+          <hr class="hr-chapter">
+        </div>
+        {{/each}}
+      </div>
+    </div>
+
+    <!-- Related Projects Row -->
+    <hr class="hr-section">
+    <h3 class="my-4">Related Projects</h3>
+
+    <div class="row">
+
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+        </a>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+        </a>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+        </a>
+      </div>
+
+      <div class="col-md-3 col-sm-6 mb-4">
+        <a href="#">
+          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
+        </a>
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  {{#section 'js'}}
+  <script>
+    $(document).ready(function () {
+      $(".dropdown-units").hide();
+
+      $(".btn-chapter").click(function (e) {
+        $(this).next().slideToggle();
+      });
+
+      const player = new Plyr('#player');
+      // Expose
+      window.player = player;
+
+      $('.player-src').on('click', function () {
+
+        src = $(this).data("src");
+        type = 'video/' + $(this).data("type");
+        poster = $(this).data("poster") || "";
+
+        //update video player
+        player.source = {
+          type: 'video',
+          title: 'Example title',
+          sources: [
+            {
+              src: src,
+              type: type,
+              size: 720
+            }
+          ],
+          poster: poster
+        };
+        player.play();
+      });
+    });
+  </script>
+  {{/section}}

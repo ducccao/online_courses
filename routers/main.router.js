@@ -14,6 +14,12 @@ router.get(
     mainController.getCourseListByCat
 );
 
+router.get(
+    "/course-list/:id",
+    authNav,
+    mainController.getCourseDetail
+);
+
 router.post(
     "/course-list/search",
     mainController.searchCourse

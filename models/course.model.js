@@ -6,19 +6,54 @@ const TBL_CATEGORY = "category";
 const TBL_USER = "user";
 
 module.exports = {
-    all() {
-        const sql = "select * from course";
-        return db.load(sql);
-    },
-    pagiCourse(offset) {
-        const sql = `select * from ${TBL_COURSE} limit ${config.pagination.limit} offset ${offset}`;
-        return db.load(sql);
-    },
+  all() {
+    const sql = "select * from course";
+    return db.load(sql);
+  },
+  pagiCourse(offset) {
+    const sql = `select * from ${TBL_COURSE} limit ${config.pagination.limit} offset ${offset}`;
+    return db.load(sql);
+  },
 
-    pagiListCourse(offset, limit) {
-        const sql = `select * from ${TBL_COURSE} limit ${limit} offset ${offset}`;
-        return db.load(sql);
-    },
+  pagiListCourse(offset, limit) {
+    const sql = `select * from ${TBL_COURSE} limit ${limit} offset ${offset}`;
+    return db.load(sql);
+  },
+  addCourse(entity) {
+    return db.add(entity, TBL_COURSE);
+  },
+  getCourseByName(courseName) {
+    const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"`;
+    return db.load(sql);
+  },
+  getCourseByID(courseID) {
+    const sql = `select * from ${TBL_COURSE} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+  getCourseByCourseName(courseName) {
+    const sql = `select * from ${TBL_COURSE} where courseName= "${courseName}"`;
+    return db.load(sql);
+  },
+
+  increaseView(entity) {
+    const condition = {
+      courseID: entity.courseID,
+    };
+    return db.patch(entity, condition, TBL_COURSE);
+  },
+
+  editCourse(entity) {
+    const condition = {
+      courseID: entity.courseID,
+    };
+    return db.patch(entity, condition, TBL_COURSE);
+  },
+  delCourse(entity) {
+    const condition = {
+      courseID: entity.courseID,
+    };
+    return db.del(condition, TBL_COURSE);
+  },
 
     pagiListCoursePrice(offset, limit) {
         const sql = `select * from ${TBL_COURSE} order by fee limit ${limit} offset ${offset}`;
@@ -49,11 +84,6 @@ module.exports = {
         limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
-
-    addCourse(entity) {
-        return db.add(entity, TBL_COURSE);
-    },
-
     addDiscount(courseID, discount) {
         const entity = {
             courseID: courseID,
@@ -61,32 +91,6 @@ module.exports = {
         };
         return db.add(entity, config.DATABASE.TABLE.SALE);
     },
-    getCourseByName(courseName) {
-        const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"`;
-        return db.load(sql);
-    },
-    getCourseByID(courseID) {
-        const sql = `select * from ${TBL_COURSE} where courseID = ${courseID}`;
-        return db.load(sql);
-    },
-    getCourseByCourseName(courseName) {
-        const sql = `select * from ${TBL_COURSE} where courseName= "${courseName}"`;
-        return db.load(sql);
-    },
-
-    editCourse(entity) {
-        const condition = {
-            courseID: entity.courseID,
-        };
-        return db.patch(entity, condition, TBL_COURSE);
-    },
-    delCourse(entity) {
-        const condition = {
-            courseID: entity.courseID,
-        };
-        return db.del(condition, TBL_COURSE);
-    },
-
     // get type of course
     getTypeOfCourse(courseID, catID) {
         const sql = `select subjID from ${TBL_COURSE} as c, ${TBL_CATEGORY} as cat
@@ -139,7 +143,7 @@ module.exports = {
     where match (c.courseName) against ('${content}')
     or match (cat.catName) against ('${content}')
     order by c.fee
-     limit ${limit} offset ${offset}`;
+    limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
     pagiListSearchCourseStar(content, offset, limit) {
@@ -203,8 +207,29 @@ module.exports = {
         return db.load(sql);
     },
 
-    getAveRatingCourse(courseID) {
-        const sql = `select sum(rating)/count(*) from ${config.DATABASE.TABLE.REVIEW} as r, 
+  getReviewCourseNumb(courseID) {
+    const sql = `select count(*) from ${config.DATABASE.TABLE.REVIEW} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getCourseBoughtNumb(courseID) {
+    const sql = `select count(*) from ${config.DATABASE.TABLE.COURSE_BOUGHT} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getCourseChapters(courseID) {
+    const sql = `select * from ${config.DATABASE.TABLE.CHAPTER} where courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getCourseUnits(courseID) {
+    const sql = `select distinct u.* from ${config.DATABASE.TABLE.CHAPTER} as c, ${config.DATABASE.TABLE.UNIT} as u
+    where c.courseID = ${courseID}`;
+    return db.load(sql);
+  },
+
+  getAveRatingCourse(courseID) {
+    const sql = `select round(sum(rating)/count(*),2) from ${config.DATABASE.TABLE.REVIEW} as r, 
     ${config.DATABASE.TABLE.COURSE} as c where c.courseID = r.courseID 
     and c.courseID = ${courseID}`;
         return db.load(sql);
@@ -221,6 +246,6 @@ module.exports = {
     getAllDiscountCourse() {
         const sql = `select * from ${config.DATABASE.TABLE.SALE} as s, 
     ${config.DATABASE.TABLE.COURSE} as c, ${config.DATABASE.TABLE.USER} as u where c.courseID = s.courseID and u.userID = c.userID`;
-        return db.load(sql);
-    },
+    return db.load(sql);
+  }
 };
