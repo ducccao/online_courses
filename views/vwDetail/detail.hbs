@@ -175,10 +175,13 @@
   <hr class="hr-section">
   <h3 class="my-4">Course content</h3>
   <div>
-    <video controls crossorigin playsinline poster="" id="player">
+    <h5>You can watch the preview videos here</h5>
+    <video controls crossorigin playsinline
+      data-poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
       <!-- Video files -->
-      <source id="video-source" src="../../../video_c/HTML.mp4" type="video/mp4" size="720">
+      <source id="video-source" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4" size="720">
     </video>
+
   </div>
   <div>
     <div class="course-main-content">
@@ -202,7 +205,8 @@
               {{else}}
               <a href="#"><i class="fa fa-play mr-2"></i>unit name</a>
               <div class="float-right">
-                <a class="preview-btn" href="javascript:;"><i class="fa fa-eye mr-2"></i>preview</a>
+                <a style="cursor: pointer;" class="player-src" data-type="mp4"
+                  data-src="../../vendor/videos/HTML.mp4"><i class="fa fa-eye mr-2"></i>preview</a>
                 <span class="ml-4">13:03</span>
               </div>
               {{/if}}
@@ -214,7 +218,6 @@
         </div>
         {{/each}}
       </div>
-      <div></div>
     </div>
 
     <!-- Related Projects Row -->
@@ -262,16 +265,31 @@
         $(this).next().slideToggle();
       });
 
-      $(".preview-btn").click(function (e) {
-        document.getElementById("player").pause();
-        document.getElementById("video-source").src = "../../../video_c/HTML.mp4";
-        document.getElementById("player").load();
-      })
-
       const player = new Plyr('#player');
-
       // Expose
       window.player = player;
+
+      $('.player-src').on('click', function () {
+
+        src = $(this).data("src");
+        type = 'video/' + $(this).data("type");
+        poster = $(this).data("poster") || "";
+
+        //update video player
+        player.source = {
+          type: 'video',
+          title: 'Example title',
+          sources: [
+            {
+              src: src,
+              type: type,
+              size: 720
+            }
+          ],
+          poster: poster
+        };
+        player.play();
+      });
     });
   </script>
   {{/section}}
