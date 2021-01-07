@@ -1,6 +1,6 @@
 drop database  if exists   onlineCourses ;
 
-create database   onlineCourses CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci';
+create database   onlineCourses CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
 
 use onlineCourses;
 

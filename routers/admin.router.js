@@ -31,9 +31,9 @@ router.delete("/categories/delete", authAdmin, adminController.delCate);
 
 // get detail cat
 router.get(
-  "/categories/detailCat/:id",
-  authAdmin,
-  adminController.getDetailCat
+    "/categories/detailCat/:id",
+    authAdmin,
+    adminController.getDetailCat
 );
 /* #endregion */
 

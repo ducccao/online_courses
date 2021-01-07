@@ -9,15 +9,18 @@ router.get("/course-list", authNav, mainController.getListCourses);
 
 // get course list by cat
 router.get(
-  "/course-list/byCat/:id",
-  authNav,
-  mainController.getCourseListByCat
+    "/course-list/byCat/:id",
+    authNav,
+    mainController.getCourseListByCat
 );
 
+router.post(
+    "/course-list/search",
+    mainController.searchCourse
+);
 router.get(
-  "/course-list/:id",
-  authNav,
-  mainController.getCourseDetail
+    "/course-list/search",
+    mainController.searchCourse
 );
 
 module.exports = router;

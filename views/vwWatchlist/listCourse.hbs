@@ -13,6 +13,74 @@
 
 {{#section 'js'}}
 
+<script>
+    $('.button-addon2').on('click', function () {
+        if ($(".searchContentListCourse").val() !== "") {
+            $('.formSearchListCourse').submit();
+
+        }
+    })
+</script>
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function buyCouse() {
+        const btnBuy = $("#btnBuy")
+        $(".add-cart").on('click', function (e) {
+            e.preventDefault();
+            const id = $(this).data('id');
+            const vl = $("txtCourseName").val(id)
+            console.log(vl)
+        })
+    }
+    buyCouse();
+
+</script>
+
+<script>
+    $('.price').on('click', function () {
+        //let url = `/`;
+        let urlParams = new URLSearchParams(location.search)
+        let param = {
+            page: 1,
+            sort: ""
+        }
+
+        for (let key in param) {
+            if (!urlParams.has(key)) {
+                urlParams.append(key, param[key]);
+            }
+        }
+        urlParams.set('sort', "price");
+        let url = window.location.pathname;
+        console.log(url + `?${urlParams.toString()}`);
+        location.href = url + `?${urlParams.toString()}`;
+    })
+</script>
+
+<script>
+    $('.star').on('click', function () {
+        //let url = `/`;
+        let urlParams = new URLSearchParams(location.search)
+        let param = {
+            page: 1,
+            sort: ""
+        }
+
+        for (let key in param) {
+            if (!urlParams.has(key)) {
+                urlParams.append(key, param[key]);
+            }
+        }
+        urlParams.set('sort', "star");
+        let url = window.location.pathname;
+        console.log(url + `?${urlParams.toString()}`);
+
+        location.href = url + `?${urlParams.toString()}`;
+    })
+</script>
+
+
 {{/section}}
 
 <div class="container-fluid mt-4 list-course">
@@ -20,11 +88,18 @@
     {{#if empty}}
     <div class="row">
         <div class="col-sm-12">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Recipient's username"
-                    aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-            </div>
+            <form action="/watchlist/search" class="formSearchListCourse" id="formSearchListCourse" method="POST">
+
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control searchContentListCourse" placeholder="Course"
+                        aria-label="Course" aria-describedby="button-addon2" id="searchContentListCourse"
+                        name="searchContentListCourse">
+                    <button class="btn btn-outline-secondary button-addon2" type="button">Search</button>
+
+                </div>
+            </form>
+
 
         </div>
     </div>
@@ -75,11 +150,11 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
 
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item price" href="#">
                                             <i class="fa fa-money mr-2"></i>Price
                                         </a>
 
-                                        <a class="dropdown-item" href="#;">
+                                        <a class="dropdown-item star" href="#;">
                                             <i class="fa fa-star mr-2"></i>Star
                                         </a>
 
@@ -134,11 +209,17 @@
     {{else}}
     <div class="row">
         <div class="col-sm-12">
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Recipient's username"
-                    aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
-            </div>
+            <form action="/watchlist/search" class="formSearchListCourse" id="formSearchListCourse" method="POST">
+
+                <div class="input-group mb-3">
+
+                    <input type="text" class="form-control searchContentListCourse" placeholder="Course"
+                        aria-label="Course" aria-describedby="button-addon2" id="searchContentListCourse"
+                        name="searchContentListCourse">
+                    <button class="btn btn-outline-secondary button-addon2" type="button">Search</button>
+
+                </div>
+            </form>
 
         </div>
     </div>
@@ -190,11 +271,11 @@
                                         <div class="dropdown-menu dropdown-menu-right"
                                             aria-labelledby="navbarDropdownBlog">
 
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item price" href="#">
                                                 <i class="fa fa-money mr-2"></i>Price
                                             </a>
 
-                                            <a class="dropdown-item" href="#;">
+                                            <a class="dropdown-item star" href="#;">
                                                 <i class="fa fa-star mr-2"></i>Star
                                             </a>
 

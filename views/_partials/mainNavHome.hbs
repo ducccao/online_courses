@@ -66,6 +66,8 @@
                 </li>
                 {{else}}
 
+                {{/if}}
+
                 {{#if isInstructor}}
                 <li class="nav-item mr-3">
                     <a class="nav-link" href="/upload-course">
@@ -103,6 +105,7 @@
                             type="submit"><i class="fa fa-search"></i></button>
                     </form>
                 </li>
+                {{/if}}
 
                 {{#if isAuth}}
                 <li class="nav-item text-lg mr-3 hide-small">
@@ -111,8 +114,10 @@
                 </li>
 
                 <li class="nav-item mr-3 hide-small">
-                    <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart" title="My cart"> <span
-                                class="badge badge-danger">5</span></i>
+                    <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart father-badge" title="My cart"> <span
+                                class="badge badge-danger custom-badge">
+                                {{lcCartQuantity}}
+                            </span></i>
                     </a>
                 </li>
 
@@ -159,8 +164,8 @@
                     </a>
                 </li>
                 {{/if}}
-                {{/if}}
-                {{/if}}
+
+
             </ul>
         </div>
     </div>

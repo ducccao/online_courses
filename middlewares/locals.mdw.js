@@ -17,6 +17,7 @@ module.exports = function(app) {
         //console.log(req.session);
         if (typeof req.session.isAuth === "undefined") {
             req.session.isAuth = false;
+            req.session.cart = [];
         }
         // console.log(req.session.authUser);
         res.locals.isAuth = req.session.isAuth;

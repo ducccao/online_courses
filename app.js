@@ -11,10 +11,11 @@ require("./middlewares/engine.mdw")(app);
 require("./middlewares/session.mdw")(app);
 require("./middlewares/locals.mdw")(app);
 require("./middlewares/assets.mdw")(app);
+require("./middlewares/cart.mdw")(app);
 require("./middlewares/routes.mdw")(app);
 require("./middlewares/barricades.mdw")(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log("Server is running at PORT:",PORT);
+    console.log("Server is running at PORT:", PORT);
 });
