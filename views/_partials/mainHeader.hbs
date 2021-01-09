@@ -1,4 +1,10 @@
 <header>
+
+    <form action="/cart/add" method="POST" id="fmBuy">
+        <input type="hidden" id="txtCourseID" name="id">
+        <input type="hidden" id="txtQuantity" name="quantity">
+    </form>
+
     <div id="banner"></div>
     <div id="banner-content">
         <h1>Get early access, now</h1>
@@ -69,12 +75,15 @@
                         </a>
 
                         {{#if ../isAuth}}
-                        <form action="" method="POST">
-                            <input type="text" id="txtCourseName" name="txtCourseName">
-                            <button class="card-link btn btn-success add-cart">
-                                <i class="fa fa-cart-plus mr-2 "></i>Buy
-                            </button>
-                        </form>
+
+                        <input type="text" id="txtCourseName" name="txtCourseName">
+
+                        <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
+                            class="card-link btn btn-success add-item ">
+                            <i class="fa fa-cart-plus mr-2 "></i>Buy
+                        </a>
+
+
                         {{/if}}
                     </div>
                 </div>
@@ -143,18 +152,21 @@
                         {{/ifCond}}
                     </div>
                     <div class="card-footer">
-                        <a class="card-link btn btn-info">
+                        <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info">
                             <i class="fa fa-info"></i> Detail
                         </a>
 
                         {{#if ../isAuth}}
-                        <form action="" method="POST">
-                            <input type="text" id="txtCourseName" name="txtCourseName">
-                            <button class="card-link btn btn-success add-cart">
-                                <i class="fa fa-cart-plus mr-2 "></i>Buy
-                            </button>
-                        </form>
+
+                        <input type="text" id="txtCourseName" name="txtCourseName">
+                        <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
+                            class="card-link btn btn-success add-item ">
+                            <i class="fa fa-cart-plus mr-2 "></i>Buy
+                        </a>
+
                         {{/if}}
+
+
                     </div>
                 </div>
                 {{!--
@@ -227,12 +239,14 @@
                         </a>
 
                         {{#if ../isAuth}}
-                        <form action="" method="POST">
-                            <input type="text" id="txtCourseName" name="txtCourseName">
-                            <button class="card-link btn btn-success add-cart">
-                                <i class="fa fa-cart-plus mr-2 "></i>Buy
-                            </button>
-                        </form>
+
+                        <input type="text" id="txtCourseName" name="txtCourseName">
+                        <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
+                            class="card-link btn btn-success add-item ">
+                            <i class="fa fa-cart-plus mr-2 "></i>Buy
+                        </a>
+
+
                         {{/if}}
                     </div>
                 </div>
@@ -306,12 +320,16 @@
                         </a>
 
                         {{#if ../isAuth}}
-                        <form action="" method="POST">
-                            <input type="text" id="txtCourseName" name="txtCourseName">
-                            <button class="card-link btn btn-success add-cart">
-                                <i class="fa fa-cart-plus mr-2 "></i>Buy
-                            </button>
-                        </form>
+
+                        <input type="text" id="txtCourseName" name="txtCourseName">
+
+                        <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
+                            class="card-link btn btn-success add-item ">
+                            <i class="fa fa-cart-plus mr-2 "></i>Buy
+                        </a>
+
+
+
                         {{/if}}
                     </div>
                 </div>

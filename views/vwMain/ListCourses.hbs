@@ -368,9 +368,10 @@
                                 <div class="card-footer">
 
                                     {{#if ../isAuth}}
-                                    <button id="btnDetail" class="card-link btn btn-info">
+                                    <a href="/course-list/{{this.courseID}}" id="btnDetail"
+                                        class="card-link btn btn-info">
                                         <i class="fa fa-info mr-2 "></i>Detail
-                                    </button>
+                                    </a>
 
                                     <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
                                         class="card-link btn btn-success add-item ">
@@ -379,7 +380,7 @@
 
 
                                     {{else}}
-                                    <a href="#" class="card-link btn btn-info w-100">
+                                    <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info w-100">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </a>
 

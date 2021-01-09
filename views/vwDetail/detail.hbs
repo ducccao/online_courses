@@ -73,6 +73,11 @@
 <!-- Page Content -->
 <div class="container">
 
+  <form action="/cart/add" method="POST" id="fmBuy">
+    <input type="hidden" id="txtCourseID" name="id">
+    <input type="hidden" id="txtQuantity" name="quantity">
+  </form>
+
   <!-- Portfolio Item Heading -->
   <h1 class="my-4">{{courseDetail.courseName}}</h1>
 
@@ -135,21 +140,24 @@
 
       {{#if isAuth}}
       <div class="card-text d-flex">
-        <form action="" method="POST" class="mr-5">
+        <div class="mr-5">
           <button class="card-link btn btn-success add-cart">
             <i style="color: rgb(211, 48, 48);" class="fa fa-heart mr-2"></i>Add to Watchlist
           </button>
-        </form>
-        <form action="" method="POST" class="mr-5">
-          <button class="card-link btn btn-success add-cart">
+        </div>
+        <div class="mr-5">
+          <a data-id="{{courseDetail.courseID}}" href="javascript:;" id="btnBuy"
+            class="card-link btn btn-success add-cart add-item">
             <i class="fa fa-cart-plus mr-2 "></i>Add to Cart
-          </button>
-        </form>
-        <form action="" method="POST">
+          </a>
+
+
+        </div>
+        <div>
           <button class="card-link btn btn-success add-cart">
             <i class="fa fa-shopping-cart mr-2 "></i>Buy Now
           </button>
-        </form>
+        </div>
       </div>
       {{/if}}
     </div>
@@ -291,5 +299,25 @@
         player.play();
       });
     });
+  </script>
+
+  <script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function buyCouse() {
+      const btnBuy = $("#btnBuy")
+      $(".add-item").on('click', function (e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        const vl = $("#txtCourseID").val(id)
+        const quantity = $("#txtQuantity").val(1);
+        console.log(id)
+        console.log(vl)
+        console.log(quantity)
+
+        $("#fmBuy").submit();
+      })
+    }
+    buyCouse();
+
   </script>
   {{/section}}
