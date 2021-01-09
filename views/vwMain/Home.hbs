@@ -165,5 +165,25 @@
             });
         });
     </script>
+
+    <script type="module">
+        import { openAlert } from "/utils/alertModal.js"
+        function buyCouse() {
+            const btnBuy = $("#btnBuy")
+            $(".add-item").on('click', function (e) {
+                e.preventDefault();
+                const id = $(this).data('id');
+                const vl = $("#txtCourseID").val(id)
+                const quantity = $("#txtQuantity").val(1);
+                console.log(id)
+                console.log(vl)
+                console.log(quantity)
+
+                $("#fmBuy").submit();
+            })
+        }
+        buyCouse();
+
+    </script>
     {{/section}}
 </body>

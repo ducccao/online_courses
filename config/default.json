@@ -7,6 +7,11 @@
             "limit": 9
         }
     },
+    "purchasedCourses": {
+        "pagination": {
+            "limit": 8
+        }
+    },
     "devURL": "http://localhost:3000",
     "productionURL": "",
     "DATABASE": {
@@ -22,7 +27,9 @@
             "SESSIONS": "SESSIONS",
             "UNIT": "UNIT",
             "USER": "USER",
-            "WATCH_LIST": "WATCHLIST"
+            "WATCH_LIST": "WATCHLIST",
+            "ORDERS": "ORDERS",
+            "ORDERDETAILS": "ORDERDETAILS"
         },
         "USERS": {
             "COMMON": {
