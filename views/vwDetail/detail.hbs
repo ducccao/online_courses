@@ -67,6 +67,43 @@
     border-top-left-radius: 5px !important;
     border-top-right-radius: 5px !important;
   }
+
+  .review {
+    margin: 0, 20, 0, 0;
+  }
+
+  .stars-outer {
+    position: relative;
+    display: inline-block;
+  }
+
+  .stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+
+  }
+
+  .stars-outer::before {
+    content: "\f005  \f005  \f005  \f005  \f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: lightgray;
+    font-size: 20px;
+  }
+
+  .stars-inner::before {
+    content: "\f005  \f005  \f005  \f005  \f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #F7DD00;
+    font-size: 20px;
+  }
+
+  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="crossorigin="anonymous"/>
 </style>
 {{/section}}
 
@@ -253,6 +290,29 @@
     </div>
     <!-- /.row -->
 
+    <div class="review">
+      <div class="row">
+        <div class="col-1">
+          <img>
+        </div>
+        <div class="col-11">
+          <div style="color: black;">
+            <h5><b>Tên của học viên</b></h4>
+          </div>
+          <div class="">
+            <div class="stars-outer">
+              <div class="stars-inner">
+              </div>
+            </div>
+            <span class="number-rating"></span>
+          </div>
+          <div>
+            đánh giá của học viên
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
   <!-- /.container -->
 
@@ -291,5 +351,13 @@
         player.play();
       });
     });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', getRating);
+    function getRating() {
+      console.log("hello")
+      document.querySelector('.stars-inner').style.width = "52%";
+
+    }
   </script>
   {{/section}}

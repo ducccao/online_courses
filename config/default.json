@@ -27,7 +27,7 @@
         "USERS": {
             "COMMON": {
                 "USER": "root",
-                "PASSWORD": "root"
+                "PASSWORD": "password"
             },
             "LONG": {
                 "USER": "root",
