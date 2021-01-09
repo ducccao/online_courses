@@ -1,6 +1,11 @@
 const moment = require("moment");
 const accountModel = require("../models/account.model");
 const bcryptjs = require("bcryptjs");
+const cateModel = require("./../models/category.model");
+const courseModel = require("./../models/course.model");
+const userModel = require("./../models/user.model");
+const config = require("./../config/default.json");
+const { averageArrayRating } = require("./../utils/utilsFunction");
 module.exports = {
     getProfile: (req, res) => {
         console.log("get Profile");
@@ -130,9 +135,49 @@ module.exports = {
         }
     },
 
-    getPurchasedCourses: (req, res) => {
+    getPurchasedCourses: async(req, res) => {
+        const user = req.session.authUser;
+        // console.log(user);
+        const purchasedCourse = await accountModel.getPurchasedCourses(user.userID);
+        //  console.log(purchasedCourse);
+        const courseCards = [];
+        for (let i = 0; i < purchasedCourse.length; ++i) {
+            const item = await courseModel.getCourseByID(purchasedCourse[i].courseID);
+            courseCards.push({
+                ...item[0],
+            });
+        }
+        console.log(courseCards);
+
+        // let page = +req.query.page || 1;
+        // if (page < 0) {
+        //     page = 1;
+        // }
+        // const limit = config.purchasedCourses.pagination.limit;
+        // const offset = (page - 1) * 6;
+        // const rows = await courseModel.pagiListCourse(offset, limit);
+        // const total = courseCards.length;
+        // const nPage = Math.ceil(total / limit);
+        // const pagiItem = [];
+
+        // for (let i = 1; i <= nPage; i++) {
+        //     const item = {
+        //         value: i,
+        //         isActive: page === i,
+        //     };
+        //     pagiItem.push(item);
+        // }
+
         res.render("vwAccount/PurchasedCourses", {
             layout: "main",
+            courseCards,
+            // pagi
+            // showPagi: true,
+            // pagiItem,
+            // can_go_prev: page > 1,
+            // can_go_next: page < nPage,
+            // go_next_page: page + 1,
+            // go_previous_page: page - 1,
         });
     },
 };
