@@ -67,6 +67,43 @@
     border-top-left-radius: 5px !important;
     border-top-right-radius: 5px !important;
   }
+
+  .review {
+    margin: 0, 20, 0, 0;
+  }
+
+  .stars-outer {
+    position: relative;
+    display: inline-block;
+  }
+
+  .stars-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+
+  }
+
+  .stars-outer::before {
+    content: "\f005  \f005  \f005  \f005  \f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: lightgray;
+    font-size: 20px;
+  }
+
+  .stars-inner::before {
+    content: "\f005  \f005  \f005  \f005  \f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: #F7DD00;
+    font-size: 20px;
+  }
+
+  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="crossorigin="anonymous"/>
 </style>
 {{/section}}
 
@@ -116,6 +153,7 @@
         <span class="font-weight-bold mr-3"> Rating: No Rating</span>
         {{else}}
         <span class="font-weight-bold mr-3"> Rating: {{courseDetail.avgRating}}</span>
+
         {{/if_equal}}
         <span class="badge badge-success text-md  mr-3">
           Total Student Rating: {{courseDetail.reviewNumb}}
@@ -124,6 +162,17 @@
           Students: {{courseDetail.student}}
         </span>
       </p>
+      {{#if_equal courseDetail.rating 'NaN'}}
+      {{else}}
+      <div class="review" style="margin: 0px 0px 20px 0px; ">
+        <div class="stars-outer">
+          <div id="star-rating-avg" data-rating="{{courseDetail.avgRating}}" class="stars-inner">
+          </div>
+        </div>
+        <br>
+      </div>
+
+      {{/if_equal}}
 
       {{#ifCond courseDetail.percent '!=' 0}}
       <p class="card-text text-danger">
@@ -261,10 +310,64 @@
     </div>
     <!-- /.row -->
 
+    {{#if courseDetail.reviewEmpty}}
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-12 ">
+          <h5 class="text-danger font-weight-bold">Review is empty!!!</h5>
+        </div>
+      </div>
+    </div>
+    {{else}}
+
+    {{#each courseDetail.review}}
+    <div class="review">
+      <div class="row">
+        <div class="col-1">
+          <img src="../../vendor/img/review/man.png" style="width: 100%; border-radius: 50%; background: coral">
+        </div>
+        <div class="col-11">
+          <div style="color: black;">
+            <h5><b>{{userName}}</b></h4>
+          </div>
+          <div class="">
+            <div class="stars-outer">
+              <div class="stars-inner" style="width: {{rating}}%">
+              </div>
+            </div>
+            <span class=" number-rating"></span>
+          </div>
+          <div>
+            {{content}}
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    {{/each}}
+
+    {{/if}}
+
+
+
+
   </div>
+
   <!-- /.container -->
 
   {{#section 'js'}}
+  <script>
+    function avgRating() {
+      const rating = $("#star-rating-avg").data('rating') * 20;
+      const ratingRounded = Math.round(rating);
+      const percent = `${ratingRounded}%`
+      document.querySelector("#star-rating-avg").style.width = percent;
+      console.log(percent);
+    }
+
+    $(document).ready(avgRating);
+  </script>
+
   <script>
     $(document).ready(function () {
       $(".dropdown-units").hide();
@@ -301,6 +404,7 @@
     });
   </script>
 
+
   <script type="module">
     import { openAlert } from "/utils/alertModal.js"
     function buyCouse() {
@@ -318,6 +422,5 @@
       })
     }
     buyCouse();
-
   </script>
   {{/section}}

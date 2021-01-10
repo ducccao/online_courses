@@ -3,6 +3,7 @@ const courseModel = require("./../models/course.model");
 const userModel = require("./../models/user.model");
 const config = require("./../config/default.json");
 const { averageArrayRating } = require("./../utils/utilsFunction");
+const reviewModel = require("./../models/review.model");
 
 const mainController = {
     // get List Course page
@@ -327,6 +328,8 @@ const mainController = {
         const units = await courseModel.getCourseUnits(courseID);
         const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
         const discountedPrice = course[0].fee * (1 - discount[0].percent / 100);
+        const review = await reviewModel.getReview(courseID);
+
         courseDetail = {
             discountedPrice,
             lastUpdateTime,
@@ -338,6 +341,8 @@ const mainController = {
             avgRating: avgRating[0]["round(sum(rating)/count(*),2)"],
             reviewNumb: reviewNumb[0]["count(*)"],
             student: studentNumb[0]["count(*)"],
+            review: review,
+            reviewEmpty: review.length === 0,
         };
 
         // console.log(course);
@@ -366,6 +371,7 @@ const mainController = {
         console.log(courseDetail);
         // const addView = await courseModel.increaseView(course[0]);
         // if (addView.affectedRows === 1) {
+        res.locals.review = review;
         res.render("vwDetail/detail", {
             layout: "main",
             courseDetail,
