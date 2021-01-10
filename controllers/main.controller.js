@@ -287,6 +287,13 @@ const mainController = {
         }
         // console.log(fourthRows);
 
+        // active cate
+        for (let c of courseInCat) {
+            if (c.catID === +req.params.id) {
+                c.isActive = true;
+            }
+        }
+        console.log(courseInCat);
         res.render("vwMain/ListCourses", {
             layout: "main",
             courseInCat: courseInCat,
