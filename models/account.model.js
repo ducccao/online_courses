@@ -1,7 +1,7 @@
 const db = require("../utils/db");
 const config = require("./../config/default.json");
 
-const TBL_USER = "user";
+const TBL_USER = "users";
 
 module.exports = {
     // find user by email
