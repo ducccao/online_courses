@@ -17,6 +17,15 @@ const pool = mysql.createPool({
     connectionLimit: 50,
 });
 
+const pool_dev = mysql.createPool({
+    host: COMMON_HOST,
+    port: COMMON_PORT,
+    user: COMMON_USER,
+    password: COMMON_PASSWORD,
+    database: COMMON_DB_NAME,
+    connectionLimit: 50,
+});
+
 // promisify bind pool to a promise and remove callback
 const poo_query = util.promisify(pool.query).bind(pool);
 module.exports = {

@@ -75,7 +75,7 @@ module.exports = function(app) {
     });
 
     handlebars.registerHelper("PRODUCTION_URL", function() {
-        const PRODUCTION_URL = config.devURL;
+        const PRODUCTION_URL = config.productionURL;
         return PRODUCTION_URL;
     });
 };

@@ -1,9 +1,3 @@
-drop database  if exists   onlineCourses ;
-
-create database   onlineCourses CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
-
-use onlineCourses;
-
 
 DROP TABLE IF EXISTS `users`;
 create table users(
@@ -62,7 +56,7 @@ courseID int,
 );
   
   
-  DROP TABLE IF EXISTS `courseBought`;
+DROP TABLE IF EXISTS `courseBought`;
 create table courseBought (
 courseID int,
   userID int,
@@ -173,13 +167,13 @@ insert into course (courseID , courseName, title , catID, userID , thumbnail , a
 values (6, "CSS nang cao", "title css nang cao", 2, 5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
 
 
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,1,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,2,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,3,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,1,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,2,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,3,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (3,3,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,1,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,2,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,3,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,1,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,2,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,3,'2020-09-09');
+insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (3,3,'2020-09-09');
 
 
 insert into cart(cart.courseID, cart.userID) values (4,1);
