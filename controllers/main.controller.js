@@ -3,6 +3,7 @@ const courseModel = require("./../models/course.model");
 const userModel = require("./../models/user.model");
 const config = require("./../config/default.json");
 const { averageArrayRating } = require("./../utils/utilsFunction");
+const reviewModel = require("./../models/review.model");
 
 const mainController = {
     // get List Course page
@@ -130,10 +131,17 @@ const mainController = {
         let page = [];
         let nPage = [];
 
-        if (req.session.searchContentListCourse !== undefined && req.session.searchContentListCourse !== "") {
-            courseInCat = await cateModel.allSearchWithDetails(req.session.searchContentListCourse);
+        if (
+            req.session.searchContentListCourse !== undefined &&
+            req.session.searchContentListCourse !== ""
+        ) {
+            courseInCat = await cateModel.allSearchWithDetails(
+                req.session.searchContentListCourse
+            );
             //  console.log(courseInCat);
-            const allCourse = await courseModel.getAllSearchCoure(req.session.searchContentListCourse);
+            const allCourse = await courseModel.getAllSearchCoure(
+                req.session.searchContentListCourse
+            );
             const catID = +req.params.id;
             page = +req.query.page || 1;
 
@@ -153,11 +161,21 @@ const mainController = {
             const limit = config.listCourses.pagination.limit;
             const offset = (page - 1) * limit;
             if (sort === "price") {
-                rows = await courseModel.pagiListSearchCourseByCatPrice(req.session.searchContentListCourse, catID, offset, limit);
+                rows = await courseModel.pagiListSearchCourseByCatPrice(
+                    req.session.searchContentListCourse,
+                    catID,
+                    offset,
+                    limit
+                );
             } else if (sort === "star") {
                 rows = await courseModel.pagiListCourseByCatStar(catID, offset, limit);
             } else {
-                rows = await courseModel.pagiListSearchCourseByCat(req.session.searchContentListCourse, catID, offset, limit);
+                rows = await courseModel.pagiListSearchCourseByCat(
+                    req.session.searchContentListCourse,
+                    catID,
+                    offset,
+                    limit
+                );
             }
             //   console.log("row len: ", rows.length);
             //  console.log("total ", total);
@@ -169,7 +187,6 @@ const mainController = {
                 };
                 pagiItem.push(item);
             }
-
         } else {
             courseInCat = await cateModel.allWithDetails();
             //  console.log(courseInCat);
@@ -210,7 +227,6 @@ const mainController = {
                 };
                 pagiItem.push(item);
             }
-
         }
 
         // get cat type
@@ -287,12 +303,15 @@ const mainController = {
         });
     },
 
-    getCourseDetail: async (req, res) => {
+    getCourseDetail: async(req, res) => {
         const courseID = +req.params.id;
         const course = await courseModel.getCourseByID(courseID);
-        course[0].views += 1; 
+        course[0].views += 1;
         const type = await courseModel.getTypeOfCourse(courseID, course[0].catID);
-        const instructor = await courseModel.getInstructor(courseID, course[0].userID);
+        const instructor = await courseModel.getInstructor(
+            courseID,
+            course[0].userID
+        );
         const discount = await courseModel.getDiscountCourse(courseID);
         const catName = await courseModel.getCatName(courseID);
         const avgRating = await courseModel.getAveRatingCourse(courseID);
@@ -300,8 +319,10 @@ const mainController = {
         const studentNumb = await courseModel.getCourseBoughtNumb(courseID);
         const chapters = await courseModel.getCourseChapters(courseID);
         const units = await courseModel.getCourseUnits(courseID);
-        const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0,10);
+        const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
         const discountedPrice = course[0].fee * (1 - discount[0].percent / 100);
+        const review = await reviewModel.getReview(courseID);
+
         courseDetail = {
             discountedPrice,
             lastUpdateTime,
@@ -310,10 +331,12 @@ const mainController = {
             ...type[0],
             ...instructor[0],
             ...catName[0],
-            avgRating: avgRating[0]['round(sum(rating)/count(*),2)'],
-            reviewNumb: reviewNumb[0]['count(*)'],
-            student: studentNumb[0]['count(*)'],
-        }
+            avgRating: avgRating[0]["round(sum(rating)/count(*),2)"],
+            reviewNumb: reviewNumb[0]["count(*)"],
+            student: studentNumb[0]["count(*)"],
+            review: review,
+            reviewEmpty: review.length === 0,
+        };
 
         // console.log(course);
 
@@ -323,24 +346,26 @@ const mainController = {
         for (let i = 0; i < chapters.length; i++) {
             const item = {
                 ...chapters[i],
-            }
+            };
             chaptersOfCourse.push(item);
-        };
+        }
 
         const unitsOfCourse = [];
         for (let i = 0; i < units.length; i++) {
             const item = {
                 ...units[i],
-            }
+            };
             unitsOfCourse.push(item);
-        };
+        }
 
-        console.log(chaptersOfCourse);
-        console.log(unitsOfCourse);
+        //  console.log(chaptersOfCourse);
+        //   console.log(unitsOfCourse);
 
+        console.log(courseDetail);
         // const addView = await courseModel.increaseView(course[0]);
         // if (addView.affectedRows === 1) {
-            res.render("vwDetail/detail", {
+        res.locals.review = review;
+        res.render("vwDetail/detail", {
             layout: "main",
             courseDetail,
             chaptersOfCourse,
@@ -365,13 +390,20 @@ const mainController = {
         let sort = req.query.sort || "";
         //  const allCate = await cateModel.all();
         console.log(req.body.searchContentListCourse);
-        if (req.body.searchContentListCourse !== undefined || req.session.searchContentListCourse !== undefined) {
+        if (
+            req.body.searchContentListCourse !== undefined ||
+            req.session.searchContentListCourse !== undefined
+        ) {
             if (req.body.searchContentListCourse !== undefined) {
                 req.session.searchContentListCourse = req.body.searchContentListCourse;
             }
-            const courseInCat = await cateModel.allSearchWithDetails(req.session.searchContentListCourse);
+            const courseInCat = await cateModel.allSearchWithDetails(
+                req.session.searchContentListCourse
+            );
             //console.log(courseInCat);
-            const allCourse = await courseModel.getAllSearchCoure(req.session.searchContentListCourse);
+            const allCourse = await courseModel.getAllSearchCoure(
+                req.session.searchContentListCourse
+            );
 
             let page = +req.query.page || 1;
             if (page < 0) {
@@ -384,11 +416,23 @@ const mainController = {
             let rows = [];
             if (sort === "price") {
                 console.log("-------------------------------------");
-                rows = await courseModel.pagiListSearchCoursePrice(req.session.searchContentListCourse, offset, limit);
+                rows = await courseModel.pagiListSearchCoursePrice(
+                    req.session.searchContentListCourse,
+                    offset,
+                    limit
+                );
             } else if (sort === "star") {
-                rows = await courseModel.pagiListSearchCourseStar(req.session.searchContentListCourse, offset, limit);
+                rows = await courseModel.pagiListSearchCourseStar(
+                    req.session.searchContentListCourse,
+                    offset,
+                    limit
+                );
             } else {
-                rows = await courseModel.pagiListSearchCourse(req.session.searchContentListCourse, offset, limit);
+                rows = await courseModel.pagiListSearchCourse(
+                    req.session.searchContentListCourse,
+                    offset,
+                    limit
+                );
             }
 
             // const rows = await courseModel.pagiListCourse(offset, limit);
@@ -477,12 +521,10 @@ const mainController = {
                 go_next_page: page + 1,
                 go_previous_page: page - 1,
             });
-
         } else {
             res.redirect("/course-list");
         }
-
-    }
+    },
 };
 
 module.exports = mainController;

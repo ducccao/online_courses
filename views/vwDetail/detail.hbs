@@ -110,6 +110,11 @@
 <!-- Page Content -->
 <div class="container">
 
+  <form action="/cart/add" method="POST" id="fmBuy">
+    <input type="hidden" id="txtCourseID" name="id">
+    <input type="hidden" id="txtQuantity" name="quantity">
+  </form>
+
   <!-- Portfolio Item Heading -->
   <h1 class="my-4">{{courseDetail.courseName}}</h1>
 
@@ -148,6 +153,7 @@
         <span class="font-weight-bold mr-3"> Rating: No Rating</span>
         {{else}}
         <span class="font-weight-bold mr-3"> Rating: {{courseDetail.avgRating}}</span>
+
         {{/if_equal}}
         <span class="badge badge-success text-md  mr-3">
           Total Student Rating: {{courseDetail.reviewNumb}}
@@ -156,6 +162,17 @@
           Students: {{courseDetail.student}}
         </span>
       </p>
+      {{#if_equal courseDetail.rating 'NaN'}}
+      {{else}}
+      <div class="review" style="margin: 0px 0px 20px 0px; ">
+        <div class="stars-outer">
+          <div id="star-rating-avg" data-rating="{{courseDetail.avgRating}}" class="stars-inner">
+          </div>
+        </div>
+        <br>
+      </div>
+
+      {{/if_equal}}
 
       {{#ifCond courseDetail.percent '!=' 0}}
       <p class="card-text text-danger">
@@ -172,21 +189,24 @@
 
       {{#if isAuth}}
       <div class="card-text d-flex">
-        <form action="" method="POST" class="mr-5">
+        <div class="mr-5">
           <button class="card-link btn btn-success add-cart">
             <i style="color: rgb(211, 48, 48);" class="fa fa-heart mr-2"></i>Add to Watchlist
           </button>
-        </form>
-        <form action="" method="POST" class="mr-5">
-          <button class="card-link btn btn-success add-cart">
+        </div>
+        <div class="mr-5">
+          <a data-id="{{courseDetail.courseID}}" href="javascript:;" id="btnBuy"
+            class="card-link btn btn-success add-cart add-item">
             <i class="fa fa-cart-plus mr-2 "></i>Add to Cart
-          </button>
-        </form>
-        <form action="" method="POST">
+          </a>
+
+
+        </div>
+        <div>
           <button class="card-link btn btn-success add-cart">
             <i class="fa fa-shopping-cart mr-2 "></i>Buy Now
           </button>
-        </form>
+        </div>
       </div>
       {{/if}}
     </div>
@@ -290,33 +310,64 @@
     </div>
     <!-- /.row -->
 
-    <div class="review">
+    {{#if courseDetail.reviewEmpty}}
+    <div class="card-body">
       <div class="row">
-        <div class="col-1">
-          <img>
-        </div>
-        <div class="col-11">
-          <div style="color: black;">
-            <h5><b>Tên của học viên</b></h4>
-          </div>
-          <div class="">
-            <div class="stars-outer">
-              <div class="stars-inner">
-              </div>
-            </div>
-            <span class="number-rating"></span>
-          </div>
-          <div>
-            đánh giá của học viên
-          </div>
+        <div class="col-lg-12 ">
+          <h5 class="text-danger font-weight-bold">Review is empty!!!</h5>
         </div>
       </div>
     </div>
+    {{else}}
+
+    {{#each courseDetail.review}}
+    <div class="review">
+      <div class="row">
+        <div class="col-1">
+          <img src="../../vendor/img/review/man.png" style="width: 100%; border-radius: 50%; background: coral">
+        </div>
+        <div class="col-11">
+          <div style="color: black;">
+            <h5><b>{{userName}}</b></h4>
+          </div>
+          <div class="">
+            <div class="stars-outer">
+              <div class="stars-inner" style="width: {{rating}}%">
+              </div>
+            </div>
+            <span class=" number-rating"></span>
+          </div>
+          <div>
+            {{content}}
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+    {{/each}}
+
+    {{/if}}
+
+
+
 
   </div>
+
   <!-- /.container -->
 
   {{#section 'js'}}
+  <script>
+    function avgRating() {
+      const rating = $("#star-rating-avg").data('rating') * 20;
+      const ratingRounded = Math.round(rating);
+      const percent = `${ratingRounded}%`
+      document.querySelector("#star-rating-avg").style.width = percent;
+      console.log(percent);
+    }
+
+    $(document).ready(avgRating);
+  </script>
+
   <script>
     $(document).ready(function () {
       $(".dropdown-units").hide();
@@ -352,12 +403,24 @@
       });
     });
   </script>
-  <script>
-    document.addEventListener('DOMContentLoaded', getRating);
-    function getRating() {
-      console.log("hello")
-      document.querySelector('.stars-inner').style.width = "52%";
 
+
+  <script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function buyCouse() {
+      const btnBuy = $("#btnBuy")
+      $(".add-item").on('click', function (e) {
+        e.preventDefault();
+        const id = $(this).data('id');
+        const vl = $("#txtCourseID").val(id)
+        const quantity = $("#txtQuantity").val(1);
+        console.log(id)
+        console.log(vl)
+        console.log(quantity)
+
+        $("#fmBuy").submit();
+      })
     }
+    buyCouse();
   </script>
   {{/section}}
