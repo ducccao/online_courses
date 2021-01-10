@@ -1,17 +1,23 @@
 const expressSession = require("express-session");
 var session = require("express-session");
 const config = require("./../config/default.json");
+
 // express session
+
+const COMMON_HOST = "localhost";
+const COMMON_USER = config.DATABASE.USERS.COMMON.USER;
+const COMMON_PASSWORD = config.DATABASE.USERS.COMMON.PASSWORD;
+const COMMON_DB_NAME = config.DATABASE.NAME;
 
 module.exports = function(app) {
     var MySQLStore = require("express-mysql-session")(session);
 
     var options = {
-        host: "localhost",
+        host: "sql9.freemysqlhosting.net",
         port: 3306,
-        user: `${config.DATABASE.USERS.COMMON.USER}`,
-        password: `${config.DATABASE.USERS.COMMON.PASSWORD}`,
-        database: `${config.DATABASE.NAME}`,
+        user: `sql9386070`,
+        password: `bxM9yUkHRK`,
+        database: `sql9386070`,
 
         charset: "utf8",
         schema: {

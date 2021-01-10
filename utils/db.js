@@ -2,12 +2,18 @@ const mysql = require("mysql");
 const util = require("util");
 const config = require("./../config/default.json");
 
+const COMMON_HOST = "localhost";
+const COMMON_PORT = 3306;
+const COMMON_USER = config.DATABASE.USERS.COMMON.USER;
+const COMMON_PASSWORD = config.DATABASE.USERS.COMMON.PASSWORD;
+const COMMON_DB_NAME = config.DATABASE.NAME;
+
 const pool = mysql.createPool({
-    host: "localhost",
+    host: "sql9.freemysqlhosting.net",
     port: "3306",
-    user: `${config.DATABASE.USERS.COMMON.USER}`,
-    password: `${config.DATABASE.USERS.COMMON.PASSWORD}`,
-    database: `${config.DATABASE.NAME}`,
+    user: `sql9386070`,
+    password: `bxM9yUkHRK`,
+    database: `sql9386070`,
     connectionLimit: 50,
 });
 
