@@ -31,6 +31,24 @@ module.exports = function(app) {
         },
     };
 
+    var options_2 = {
+        host: "remotemysql.com",
+        port: 3306,
+        user: `wqzZCi0KgY`,
+        password: `qfezpR0PLS`,
+        database: `wqzZCi0KgY`,
+
+        charset: "utf8",
+        schema: {
+            tableName: "sessions",
+            columnNames: {
+                session_id: "session_id",
+                expires: "expires",
+                data: "data",
+            },
+        },
+    };
+
     var options_dev = {
         host: COMMON_HOST,
         port: COMMON_PORT,
@@ -49,7 +67,7 @@ module.exports = function(app) {
         },
     };
 
-    var sessionStore = new MySQLStore(options);
+    var sessionStore = new MySQLStore(options_2);
 
     app.set("trust proxy", 1); // trust first proxy
     app.use(

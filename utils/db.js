@@ -17,6 +17,16 @@ const pool = mysql.createPool({
     connectionLimit: 50,
 });
 
+const pool_2 = mysql.createPool({
+    host: "remotemysql.com",
+    port: 3306,
+    user: `wqzZCi0KgY`,
+    password: `qfezpR0PLS`,
+    database: `wqzZCi0KgY`,
+
+    connectionLimit: 50,
+});
+
 const pool_dev = mysql.createPool({
     host: COMMON_HOST,
     port: COMMON_PORT,
@@ -27,7 +37,7 @@ const pool_dev = mysql.createPool({
 });
 
 // promisify bind pool to a promise and remove callback
-const poo_query = util.promisify(pool.query).bind(pool);
+const poo_query = util.promisify(pool_2.query).bind(pool_2);
 module.exports = {
     load: (sql) => {
         return poo_query(sql);

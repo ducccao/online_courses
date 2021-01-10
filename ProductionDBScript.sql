@@ -167,13 +167,13 @@ insert into course (courseID , courseName, title , catID, userID , thumbnail , a
 values (6, "CSS nang cao", "title css nang cao", 2, 5, "thumbnail", "avata",500000, "sub", "full", 0, 0, '2020-09-09', '2020-09-09');
 
 
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,1,'2020-09-09');
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,2,'2020-09-09');
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,3,'2020-09-09');
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,1,'2020-09-09');
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,2,'2020-09-09');
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,3,'2020-09-09');
-insert into coursebought (coursebought.courseID, coursebought.userID, coursebought.dayBought) values (3,3,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (1,1,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (1,2,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (1,3,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (2,1,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (2,2,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (2,3,'2020-09-09');
+insert into courseBought (courseBought.courseID, courseBought.userID, courseBought.dayBought) values (3,3,'2020-09-09');
 
 
 insert into cart(cart.courseID, cart.userID) values (4,1);
@@ -182,10 +182,10 @@ insert into cart(cart.courseID, cart.userID) values (5,1);
 insert into cart(cart.courseID, cart.userID) values (5,2);  
 insert into cart(cart.courseID, cart.userID) values (6,1);
 
-insert into watchlist(watchlist.courseID, watchlist.userID) values (1,1);
-insert into watchlist(watchlist.courseID, watchlist.userID) values (1,2);
-insert into watchlist(watchlist.courseID, watchlist.userID) values (2,1);
-insert into watchlist(watchlist.courseID, watchlist.userID) values (2,3);
+insert into watchList(watchList.courseID, watchList.userID) values (1,1);
+insert into watchList(watchList.courseID, watchList.userID) values (1,2);
+insert into watchList(watchList.courseID, watchList.userID) values (2,1);
+insert into watchList(watchList.courseID, watchList.userID) values (2,3);
 
 insert into review (review.courseID, review.userID, review.content, review.rating) values (1,1,"hay",4);
 insert into review (review.courseID, review.userID, review.content, review.rating) values (1,2,"tuyet voi",5);
