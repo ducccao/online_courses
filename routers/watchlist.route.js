@@ -23,5 +23,9 @@ router.get(
     watchlistController.searchCourse
 );
 
+router.post(
+    "/method",
+    watchlistController.editWatchlist
+);
 
 module.exports = router;

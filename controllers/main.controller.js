@@ -4,6 +4,7 @@ const userModel = require("./../models/user.model");
 const config = require("./../config/default.json");
 const { averageArrayRating } = require("./../utils/utilsFunction");
 const reviewModel = require("./../models/review.model");
+const watchlistModel = require("../models/watchlist.model");
 
 const mainController = {
     // get List Course page
@@ -288,6 +289,13 @@ const mainController = {
         }
         // console.log(fourthRows);
 
+        // active cate
+        for (let c of courseInCat) {
+            if (c.catID === +req.params.id) {
+                c.isActive = true;
+            }
+        }
+        //    console.log(courseInCat);
         res.render("vwMain/ListCourses", {
             layout: "main",
             courseInCat: courseInCat,
@@ -323,6 +331,14 @@ const mainController = {
         const discountedPrice = course[0].fee * (1 - discount[0].percent / 100);
         const review = await reviewModel.getReview(courseID);
 
+        let isExistedWatchlist = true;
+        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+            const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
+            isExistedWatchlist = course.length === 1;
+        }
+        console.log(isExistedWatchlist);
+
+
         courseDetail = {
             discountedPrice,
             lastUpdateTime,
@@ -336,9 +352,10 @@ const mainController = {
             student: studentNumb[0]["count(*)"],
             review: review,
             reviewEmpty: review.length === 0,
+            isExistedWatchlist,
         };
-
-        // console.log(course);
+        console.log(courseDetail)
+            // console.log(course);
 
         // console.log(units);
 
@@ -524,6 +541,91 @@ const mainController = {
         } else {
             res.redirect("/course-list");
         }
+    },
+
+    getLearnCoure: async(req, res) => {
+        const courseID = +req.params.id;
+        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+            const isOrdered = ((await courseModel.getOrderCourseByUserIDAndCourseID(courseID, res.locals.authUser.userID)).length === 1);
+            if (isOrdered === true) {
+                const course = await courseModel.getCourseByID(courseID);
+                course[0].views += 1;
+                const type = await courseModel.getTypeOfCourse(courseID, course[0].catID);
+                const instructor = await courseModel.getInstructor(
+                    courseID,
+                    course[0].userID
+                );
+                const catName = await courseModel.getCatName(courseID);
+                const avgRating = await courseModel.getAveRatingCourse(courseID);
+                const reviewNumb = await courseModel.getReviewCourseNumb(courseID);
+                const studentNumb = await courseModel.getCourseBoughtNumb(courseID);
+                const chapters = await courseModel.getCourseChapters(courseID);
+                const units = await courseModel.getCourseUnits(courseID);
+                const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
+                const review = await reviewModel.getReview(courseID);
+                const hasReviewed = (await reviewModel.getReviewByCourseIDandUserID(courseID, res.locals.authUser.userID)).length !== 1;
+                let isExistedWatchlist = true;
+                if (res.locals.authUser.userID !== undefined) {
+                    const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
+                    isExistedWatchlist = course.length === 1;
+                }
+
+
+                courseDetail = {
+                    lastUpdateTime,
+                    ...course[0],
+                    ...type[0],
+                    ...instructor[0],
+                    ...catName[0],
+                    avgRating: avgRating[0]["round(sum(rating)/count(*),2)"],
+                    reviewNumb: reviewNumb[0]["count(*)"],
+                    student: studentNumb[0]["count(*)"],
+                    review: review,
+                    reviewEmpty: review.length === 0,
+                    isExistedWatchlist,
+                    hasReviewed,
+                };
+                console.log(courseDetail)
+                    // console.log(course);
+
+                // console.log(units);
+
+                const chaptersOfCourse = [];
+                for (let i = 0; i < chapters.length; i++) {
+                    const item = {
+                        ...chapters[i],
+                    };
+                    chaptersOfCourse.push(item);
+                }
+
+                const unitsOfCourse = [];
+                for (let i = 0; i < units.length; i++) {
+                    const item = {
+                        ...units[i],
+                    };
+                    unitsOfCourse.push(item);
+                }
+
+                //  console.log(chaptersOfCourse);
+                //   console.log(unitsOfCourse);
+
+                console.log(courseDetail);
+                // const addView = await courseModel.increaseView(course[0]);
+                // if (addView.affectedRows === 1) {
+                res.render("vwLearn/learn", {
+                    layout: "main",
+                    courseDetail,
+                    chaptersOfCourse,
+                    unitsOfCourse,
+                });
+            } else {
+                res.redirect("/account/purchased-course")
+            }
+        } else {
+            res.redirect("/");
+        }
+
+
     },
 };
 

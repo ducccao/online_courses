@@ -29,4 +29,6 @@ router.get(
     mainController.searchCourse
 );
 
+router.get("/course/learn/:id", mainController.getLearnCoure)
+
 module.exports = router;

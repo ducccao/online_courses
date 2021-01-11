@@ -9,4 +9,5 @@ module.exports = function(app) {
     app.use("/watchlist", require("./../routers/watchlist.route"));
     app.use("/account", require("./../routers/account.router"));
     app.use("/cart", require("./../routers/cart.router"));
+    app.use("/review", require("./../routers/review.route"));
 };
