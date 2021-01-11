@@ -294,7 +294,7 @@ const mainController = {
                 c.isActive = true;
             }
         }
-        console.log(courseInCat);
+    //    console.log(courseInCat);
         res.render("vwMain/ListCourses", {
             layout: "main",
             courseInCat: courseInCat,
