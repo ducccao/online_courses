@@ -147,7 +147,7 @@ module.exports = {
                 ...item[0],
             });
         }
-        console.log(courseCards);
+        // console.log(courseCards);
 
         // let page = +req.query.page || 1;
         // if (page < 0) {
