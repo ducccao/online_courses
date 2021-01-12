@@ -14,21 +14,11 @@ router.get(
     mainController.getCourseListByCat
 );
 
-router.get(
-    "/course-list/:id",
-    authNav,
-    mainController.getCourseDetail
-);
+router.get("/course-list/:id", authNav, mainController.getCourseDetail);
 
-router.post(
-    "/course-list/search",
-    mainController.searchCourse
-);
-router.get(
-    "/course-list/search",
-    mainController.searchCourse
-);
+router.post("/course-list/search", mainController.searchCourse);
+router.get("/course-list/search", authNav, mainController.searchCourse);
 
-router.get("/course/learn/:id", mainController.getLearnCoure)
+router.get("/course/learn/:id", authNav, mainController.getLearnCoure);
 
 module.exports = router;
