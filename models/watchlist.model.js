@@ -113,11 +113,9 @@ limit ${limit} offset ${offset}`;
     },
 
     delWatchlistCourse(entity) {
-        const condition = {
-            courseID: entity.courseID,
-            userID: entity.userID,
-        };
-        return db.del(condition, TBL_WATCHLIST);
+
+        const sql = `delete from watchlist w where w.courseID = ${entity.courseID} and w.userID = ${entity.userID}`
+        return db.load(sql);
     },
     getAllSearchCoure(content, userID) {
         const sql = `select c.* from course c join category cat 
@@ -199,5 +197,9 @@ limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
 
+    getCourseByCourseIDAndUserID(courseID, userID) {
+        const sql = `select * from watchlist w where w.courseID =${courseID} and w.userID = ${userID}`;
+        return db.load(sql);
+    }
 
 };

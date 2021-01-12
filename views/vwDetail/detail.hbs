@@ -222,6 +222,11 @@
     <input type="hidden" id="txtQuantity" name="quantity">
   </form>
 
+  <form action="/watchlist/method" method="POST" id="fmWatchlist">
+    <input type="hidden" id="txtCourseID-watchlist" name="courseID">
+    <input type="hidden" id="txtMethod-watchlist" name="method">
+  </form>
+
   <!-- Portfolio Item Heading -->
   <h1 style="" class="my-4 courseName">{{courseDetail.courseName}}</h1>
 
@@ -303,8 +308,14 @@
       {{#if isAuth}}
       <div class="card-text d-flex">
         <div class="mr-5">
-          <button class="card-link btn btn-success add-cart">
-            <i style="color: rgb(211, 48, 48);" class="fa fa-heart mr-2"></i>Add to Watchlist
+          <button class="card-link btn btn-success add-cart" id="add-to-watchlist-button"
+            data-id="{{courseDetail.courseID}}" data-existed="{{courseDetail.isExistedWatchlist}}" data-abc="abc">
+            {{#if courseDetail.isExistedWatchlist}}
+            <i style="color:  rgb(211, 48, 48);" class="fa fa-heart mr-2"></i>Delete Watchlist
+
+            {{else}}
+            <i style="color:black;" class="fa fa-heart mr-2"></i>Add to Watchlist
+            {{/if}}
           </button>
         </div>
         <div class="mr-5">

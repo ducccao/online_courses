@@ -9,4 +9,14 @@ module.exports = {
         where r.courseID = ${courseID}`;
         return db.load(sql);
     },
+    getReviewByCourseIDandUserID: (courseID, userID) => {
+        const sql = `select *
+        from review r  join ${config.DATABASE.TABLE.USER} u 
+        on r.userID = u.userID
+        where r.courseID = ${courseID} and r.userID = ${userID}`;
+        return db.load(sql);
+    },
+    addReview: (entity) => {
+        return db.add(entity, "review");
+    }
 };

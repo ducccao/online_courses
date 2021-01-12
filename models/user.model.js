@@ -6,7 +6,7 @@ const TBL_USER = "users";
 module.exports = {
     // get all user
     getAllUser() {
-        const sql = `select * from user`;
+        const sql = `select * from ${config.DATABASE.TABLE.USER}`;
         return db.load(sql);
     },
     // find user by email and passwod
@@ -36,7 +36,7 @@ module.exports = {
 
     // get user by ID
     getUserByID(userID) {
-        const sql = `select* from user where userID = ${userID}`;
+        const sql = `select* from ${config.DATABASE.TABLE.USER} where userID = ${userID}`;
         return db.load(sql);
     },
 
