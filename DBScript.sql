@@ -116,8 +116,29 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`orderID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+insert into orders values (1, '2020-11-11', 10, 2);
+insert into orders values (2, '2020-12-12', 10, 1);
+insert into orders values (3, curdate(), 1, 2);
+insert into orders values (4,'2020-12-11', 3, 2);
+insert into orders values (5, curdate(), 10, 2);
+insert into orders values (6, curdate(), 2, 4);
+insert into orders values (7, curdate(), 10, 2);
 
-
+insert into orderdetails values (1, 1, 3, 500000, 450000);
+insert into orderdetails values (2, 1, 5, 500000, 450000);
+insert into orderdetails values (3, 2, 4, 500000, 450000);
+insert into orderdetails values (4, 3, 3, 500000, 450000);
+insert into orderdetails values (5, 3, 4, 500000, 450000);
+insert into orderdetails values (6, 4, 5, 500000, 450000);
+insert into orderdetails values (7, 4, 4, 500000, 450000);
+insert into orderdetails values (8, 3, 6, 500000, 450000);
+insert into orderdetails values (9, 3, 1, 500000, 450000);
+insert into orderdetails values (10, 6, 3, 500000, 450000);
+insert into orderdetails values (11, 6, 7, 500000, 450000);
+insert into orderdetails values (12, 6, 5, 500000, 450000);
+insert into orderdetails values (13, 6, 1, 500000, 450000);
+insert into orderdetails values (14, 7, 1, 500000, 450000);
+insert into orderdetails values (15, 7, 7, 500000, 450000);
 
 insert into user (userID, userName, email, password,DOB, decentralization,verify,OTP_URL) values (1, "Duong Boi Long", "boilongcttg170@gmail.com","123123",'1999-12-12', 0,1,"");
 insert into user (userID, userName, email,password, DOB,decentralization,verify,OTP_URL) values (2, "Anh Duc", "anhduc.com","123123", '1999-12-12',0,1,"");
@@ -179,22 +200,6 @@ insert into course values (25,"Bootstrap 4 nang cao","title javascript",6,5,"thu
 insert into course values (26,"Build a complete backend with NodeJS","title javascript",9,4,"thumbnail","avata",900000,"sub","full",0,0,curdate(),curdate());
 
 
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,1,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,2,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (1,3,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,1,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,2,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (2,3,'2020-09-09');
-insert into coursebought(coursebought.courseID, coursebought.userID, coursebought.dayBought) values (3,3,'2020-09-09');
-insert into coursebought values (1,10,curdate());
-insert into coursebought values (5,10,curdate());
-insert into coursebought values (2,10,curdate());
-insert into coursebought values (6,2,curdate());
-insert into coursebought values (6,3,curdate());
-insert into coursebought values (4,1,curdate());
-insert into coursebought values (4,3,curdate());
-insert into coursebought values (6,10,curdate());
-insert into coursebought values (2,3,curdate());
 
 insert into cart(cart.courseID, cart.userID) values (4,1);
 insert into cart(cart.courseID, cart.userID) values (4,2);  

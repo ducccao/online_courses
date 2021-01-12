@@ -14,12 +14,28 @@
         text-overflow: ellipsis;
         white-space: nowrap;
     }
+
+    .card-items {
+        background-color: blueviolet;
+    }
 </style>
 {{/section}}
 
 
 {{#section 'js'}}
-
+<script>
+    $(document).ready(function (e) {
+        // executes when HTML-Document is loaded and DOM is ready
+        console.log("document is ready");
+        $(".card-items").hover(
+            function () {
+                $(this).addClass('shadow-lg').css('cursor', 'pointer');
+            }, function () {
+                $(this).removeClass('shadow-lg');
+            }
+        );
+    });
+</script>
 
 <script>
     $('.button-addon2').on('click', function () {
@@ -92,8 +108,6 @@
         location.href = url + `?${urlParams.toString()}`;
     })
 </script>
-
-
 {{/section}}
 
 <div class="container-fluid mt-4 list-course">
@@ -222,18 +236,14 @@
                 <div class="card-header">
                     <h4>
                         Purchased Courses
-                        <span class="float-right">
-
-
-
-                        </span>
+                        <span class="float-right"></span>
                     </h4>
 
                 </div>
                 <div class="card-body">
                     <div class="row">
                         {{#each courseCards }}
-                        <div class="col-lg-3">
+                        <div class="col-lg-3 card-items">
                             <div class="card mb-5">
                                 <img class="card-img-top"
                                     src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
@@ -243,6 +253,7 @@
                                         {{this.courseName}}
                                     </h4>
 
+                                    <p class="card-description card-text text-primary">{{this.subDescription}}</p>
 
                                     {{#if_equal this.subjID 1 }}
 
@@ -253,53 +264,16 @@
                                         Development</p>
                                     {{/if_equal}}
 
-                                    <p class="card-text text-secondary">
-                                        <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
-                                    </p>
-                                    <p class="card-text text-success">
-                                        <span class="font-weight-bold"> Rating:</span>
-                                        {{#if_equal this.rating 'NaN'}}
-                                        No Rating
-                                        {{else}}
-                                        {{this.rating}}
-                                        {{/if_equal}}
-                                        <span class="badge badge-success text-md">
-                                            Total Student Rating: {{this.countPeopleRating}}
-                                        </span>
-                                    </p>
-
-
-
-                                    {{#ifCond this.discount '!=' 0}}
-                                    <p class="card-text text-warning">
-                                        <span class="font-weight-bolder"> Discount:</span> {{this.discount}}%
-                                    </p>
-
-                                    {{else}}
-
-                                    {{/ifCond}}
-                                    </p>
-
-
-
-                                    <p class="card-text text-danger">
-                                        <span class="font-weight-bold"> Fee:</span> {{format this.fee}} VNĐ
-                                    </p>
-                                </div>
-                                <div class="card-footer">
-
                                     {{#if ../isAuth}}
                                     <a href="/course/learn/{{this.courseID}}" class="btn btn-success w-100">
                                         Learn
 
                                     </a>
 
-
                                     {{else}}
                                     <a href="#" class="card-link btn btn-info w-100">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </a>
-
                                     {{/if}}
                                 </div>
                             </div>
@@ -340,6 +314,4 @@
         </div>
     </div>
     {{/if}}
-
-
 </div>

@@ -74,6 +74,11 @@
         margin-top: -15px;
     }
 
+    .slick-show p {
+        margin: 0;
+        padding: 0;
+    }
+
     .prev-arrow {
         left: -40px;
         width: 0;
@@ -121,11 +126,6 @@
         font-size: 14px;
     }
 
-    .slick-show p {
-        margin: 0;
-        padding: 0;
-    }
-
     .heart-watchlist {
         color: rgb(255, 255, 255);
         position: absolute;
@@ -158,10 +158,34 @@
         $(document).ready(function () {
             $('.slick-show').slick({
                 infinite: true,
+                speed: 800,
                 slidesToShow: 4,
                 slidesToScroll: 4,
                 prevArrow: '<button class="slick-btn slide-arrow prev-arrow"></button>',
-                nextArrow: '<button class="slick-btn slide-arrow next-arrow"></button>'
+                nextArrow: '<button class="slick-btn slide-arrow next-arrow"></button>',
+                responsive: [
+                    {
+                        breakpoint: 1125,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3,
+                        }
+                    },
+                    {
+                        breakpoint: 870,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 2
+                        }
+                    },
+                    {
+                        breakpoint: 500,
+                        settings: {
+                            slidesToShow: 1,
+                            slidesToScroll: 1
+                        }
+                    }
+                ]
             });
         });
     </script>

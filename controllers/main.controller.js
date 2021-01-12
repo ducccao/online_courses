@@ -4,6 +4,8 @@ const userModel = require("./../models/user.model");
 const config = require("./../config/default.json");
 const { averageArrayRating } = require("./../utils/utilsFunction");
 const reviewModel = require("./../models/review.model");
+const chapterModel = require("./../models/chapter.model");
+const unitModel = require("./../models/unit.model");
 const watchlistModel = require("../models/watchlist.model");
 
 const mainController = {
@@ -325,19 +327,63 @@ const mainController = {
         const avgRating = await courseModel.getAveRatingCourse(courseID);
         const reviewNumb = await courseModel.getReviewCourseNumb(courseID);
         const studentNumb = await courseModel.getCourseBoughtNumb(courseID);
-        const chapters = await courseModel.getCourseChapters(courseID);
-        const units = await courseModel.getCourseUnits(courseID);
         const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
         const discountedPrice = course[0].fee * (1 - discount[0].percent / 100);
         const review = await reviewModel.getReview(courseID);
 
-        let isExistedWatchlist = true;
-        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
-            const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
-            isExistedWatchlist = course.length === 1;
-        }
-        console.log(isExistedWatchlist);
+        const firstRow = await courseModel.getTopFiveRelated(type[0].subjID);
 
+        const secondRow = [];
+        for (let i = 0; i < firstRow.length; i++) {
+            const course = await courseModel.getCourseByID(firstRow[i].courseID);
+            secondRow.push(course);
+        }
+
+
+        const thirdRows = [];
+        for (let i = 0; i < secondRow.length; ++i) {
+            const instructor = await courseModel.getInstructor(
+                secondRow[i][0].courseID,
+                secondRow[i][0].userID
+            );
+            //console.log(instructor);
+            const item = {
+                ...secondRow[i][0],
+                ...instructor[0],
+            };
+            thirdRows.push(item);
+        }
+        // console.log(thirdRows);
+        // rating course
+        const fourthRows = [];
+        for (let i = 0; i < thirdRows.length; i++) {
+            // rating
+            const ratingArray = await courseModel.getRatingCourse(
+                thirdRows[i].courseID
+            );
+            // console.log(ratingArray);
+
+            const averageRating = averageArrayRating(ratingArray);
+            // discount
+            const discount = await courseModel.getDiscountCourse(
+                thirdRows[i].courseID
+            );
+
+            const _discount = discount.length !== 0 ? discount[0].percent : 0;
+
+            const discountedPrice = thirdRows[i].fee * (1 - _discount / 100);
+            //  console.log(discount);
+            const item = {
+                ...thirdRows[i],
+                rating: averageRating,
+                countPeopleRating: ratingArray.length,
+                discount: _discount,
+                discountedPrice,
+            };
+            fourthRows.push(item);
+        }
+
+        // console.log(fourthRows);
 
         courseDetail = {
             discountedPrice,
@@ -354,43 +400,87 @@ const mainController = {
             reviewEmpty: review.length === 0,
             isExistedWatchlist,
         };
-        console.log(courseDetail)
-            // console.log(course);
 
-        // console.log(units);
+        const chapters = await chapterModel.getAllChapterWithDurationByCourseID(courseID);
 
         const chaptersOfCourse = [];
+        const unitsOfCourse = [];
+        let totalHour= 0;
+        let totalMin= 0;
+        let totalSec= 0;
+        let totalChapter = chaptersOfCourse.length;
+        let totalUnit = 0;
         for (let i = 0; i < chapters.length; i++) {
+            totalUnit += +chapters[i].unitInChapter;
+
+            let hour = +chapters[i].chapterTotalHour;
+            let min = +chapters[i].chapterTotalMin;
+            let sec = +chapters[i].chapterTotalSec;
+
+            if (sec >= 60) {
+                min += ~~(sec / 60);
+                sec = sec % 60;
+            }
+
+            if (min >= 60) {
+                hour += ~~(min / 60);
+                min = min % 60;
+            }
+
+            totalHour += hour;
+            totalMin += min;
+            totalSec += sec;
+
+            const formatedSec = sec > 9 ? sec : `0${sec}`;
+            const duration = `${hour}h:${min}m:${formatedSec}s`;
+
             const item = {
                 ...chapters[i],
+                duration,
             };
+            const units = await unitModel.getAllUnitByChapterID(item.chapterID);
+            for (let i = 0; i < units.length; i++) {
+                const formatedSec = units[i].duration_sec > 9 ? units[i].duration_sec : `0${units[i].duration_sec}`;
+                const duration = `${units[i].duration_hour}h:${units[i].duration_min}m:${formatedSec}s`
+                const unitItem = {
+                    ...units[i],
+                    duration,
+                };
+                unitsOfCourse.push(unitItem);
+                }
             chaptersOfCourse.push(item);
         }
 
-        const unitsOfCourse = [];
-        for (let i = 0; i < units.length; i++) {
-            const item = {
-                ...units[i],
-            };
-            unitsOfCourse.push(item);
+        if (totalSec >= 60) {
+            totalMin += ~~(totalSec / 60);
+            totalSec = totalSec % 60;
         }
 
-        //  console.log(chaptersOfCourse);
-        //   console.log(unitsOfCourse);
+        if (totalMin >= 60) {
+            totalHour += ~~(totalMin / 60);
+            totalMin = totalMin % 60;
+        }
 
-        console.log(courseDetail);
-        // const addView = await courseModel.increaseView(course[0]);
-        // if (addView.affectedRows === 1) {
+        const formatedSec = totalSec > 9 ? totalSec : `0${totalSec}`;
+        const duration = `${totalHour}h:${totalMin}m:${formatedSec}s`
+        console.log(duration);
+        console.log(chaptersOfCourse);
+        console.log(unitsOfCourse);
+        
+        const addView = await courseModel.increaseView(course[0]);
+        if (addView.affectedRows === 1) {
         res.locals.review = review;
         res.render("vwDetail/detail", {
             layout: "main",
             courseDetail,
             chaptersOfCourse,
             unitsOfCourse,
+            fourthRows,
+            duration,
         });
-        // return;
-        // }
-        // return res.status(404).json({ message: "Something when wrong when increase views of this course!" });
+        return;
+        }
+        return res.status(404).json({ message: "Something when wrong when increase views of this course!" });
     },
 
     getAllCourse: async(req, res) => {

@@ -84,7 +84,6 @@
     white-space: nowrap;
     overflow: hidden;
     width: 0;
-
   }
 
   .stars-outer::before {
@@ -103,13 +102,121 @@
     font-size: 20px;
   }
 
-  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="crossorigin="anonymous"/>
+  .custom-carousel {
+    width: 90%;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .carousel-items {
+    margin: 20px;
+    max-width: 300px;
+    position: relative;
+  }
+
+  .slick-btn button {
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+
+  .slide-arrow {
+    position: absolute;
+    top: 50%;
+    margin-top: -15px;
+  }
+
+  .slick-show p {
+    margin: 0;
+    padding: 0;
+  }
+
+  .prev-arrow {
+    left: -40px;
+    width: 0;
+    height: 0;
+    border-left: 0 solid transparent;
+    border-right: 15px solid #113463;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+
+  .next-arrow {
+    right: -40px;
+    width: 0;
+    height: 0;
+    border-right: 0 solid transparent;
+    border-left: 15px solid #113463;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+  }
+
+  .card-header {
+    padding-top: 15px;
+    padding-bottom: 7px;
+    background-color: rgb(202, 214, 255);
+  }
+
+  .card-title {
+    max-width: fit-content;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card-footer span {
+    margin-left: 32px !important;
+  }
+
+  .middle {
+    padding-left: 35px !important;
+  }
+
+  .deleted {
+    margin-left: 25px;
+    color: rgb(39, 22, 9);
+    font-size: 14px;
+  }
+
+  .heart-watchlist {
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 5px;
+    right: 12px;
+    cursor: pointer;
+    font-size: 20px;
+  }
+
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .card-footer input {
+    display: none;
+  }
+
+  .card-footer a,
+  .card-footer button {
+    width: 100px !important;
+  }
 </style>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.3/plyr.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+  integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+  crossorigin="anonymous" />
 {{/section}}
 
 <!-- Page Content -->
 <div class="container">
-
   <form action="/cart/add" method="POST" id="fmBuy">
     <input type="hidden" id="txtCourseID" name="id">
     <input type="hidden" id="txtQuantity" name="quantity">
@@ -121,11 +228,10 @@
   </form>
 
   <!-- Portfolio Item Heading -->
-  <h1 class="my-4">{{courseDetail.courseName}}</h1>
+  <h1 style="" class="my-4 courseName">{{courseDetail.courseName}}</h1>
 
   <!-- Portfolio Item Row -->
   <div class="row">
-
     <div class="col-md-6">
       <img class="img-fluid" src="http://placehold.it/750x500" alt="">
     </div>
@@ -133,11 +239,18 @@
     <div class="col-md-6">
       {{!-- <h3 class="my-3">Project Description</h3> --}}
       <p class="card-text">
-      <h5><strong>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Laborum veritatis libero est saepe! Hic,
-          deleniti. Ad
-          dolorem maxime laboriosam, explicabo error quas reiciendis delectus expedita possimus fuga, nesciunt pariatur.
-          Nobis.</strong></h5>
+      <h5><strong>{{courseDetail.subDescription}}</strong></h5>
       </p>
+
+      {{!-- <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+      </p>
+      <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
+        Development</p> --}}
+
+      {{!-- <p class="card-text text-primary">
+        <span class="font-weight-bolder"> Category:</span>courseDetail.catName
+      </p> --}}
+
       <p class="card-text text-secondary">
         <span class="font-weight-bolder"> Instructor:</span> {{courseDetail.userName}}
       </p>
@@ -226,18 +339,7 @@
   <hr class="hr-section">
   <h3 class="my-4">Full Description</h3>
   <div>
-    <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
-      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
-      veritatis minus nisi dolor.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
-      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
-      veritatis minus nisi dolor.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
-      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
-      veritatis minus nisi dolor.
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, commodi debitis itaque saepe
-      tempora aperiam error obcaecati corporis alias reprehenderit, minima fugit omnis molestiae doloribus numquam
-      veritatis minus nisi dolor.</p>
+    <p class="card-text">{{courseDetail.fullDescription}}</p>
   </div>
 
   <hr class="hr-section">
@@ -249,78 +351,48 @@
       <!-- Video files -->
       <source id="video-source" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4" size="720">
     </video>
-
   </div>
-  <div>
-    <div class="course-main-content">
-      {{#each chaptersOfCourse}}
-      <div class="chapter-items">
-        <div class="dropdown">
-          <button class="btn btn-secondary wd dropdown-toggle text-left btn-chapter" type="button">
-            chaptername
-            <span class="float-right mr-2"><strong class="mr-4">9 Units</strong>13:03</span>
-          </button>
+  <div class="course-main-content">
+    {{#each chaptersOfCourse}}
+    <div class="chapter-items">
+      <div class="dropdown">
+        <button class="btn btn-secondary wd dropdown-toggle text-left btn-chapter" type="button">
+          {{this.chapterName}}
+          <span class="float-right mr-2"><strong class="mr-4">{{this.unitInChapter}}
+              Units</strong>{{this.duration}}</span>
+        </button>
 
-          <div class="dropdown-units wd">
-            {{#each ../unitsOfCourse}}
-            {{#if (eq chapterID ../chapterID)}}
-            <div class="unit-items">
-              {{#if (eq linkVideoPreview '')}}
-              <a href="#"><i class="fa fa-file mr-2"></i>unit name</a>
-              <div class="float-right">
-                <span class="ml-4">13:03</span>
-              </div>
-              {{else}}
-              <a href="#"><i class="fa fa-play mr-2"></i>unit name</a>
-              <div class="float-right">
-                <a style="cursor: pointer;" class="player-src" data-type="mp4"
-                  data-src="../../vendor/videos/HTML.mp4"><i class="fa fa-eye mr-2"></i>preview</a>
-                <span class="ml-4">13:03</span>
-              </div>
-              {{/if}}
+        <div class="dropdown-units wd">
+          {{#each ../unitsOfCourse}}
+          {{#if (eq chapterID ../chapterID)}}
+          <div class="unit-items">
+            {{#if (eq flagReviewable '0')}}
+            <a href="#"><i class="fa fa-file mr-2"></i>{{this.unitContent}}</a>
+            <div class="float-right">
+              <span class="ml-4">{{this.duration}}</span>
+            </div>
+            {{else}}
+            <a href="#"><i class="fa fa-play mr-2"></i>{{this.unitContent}}</a>
+            <div class="float-right">
+              <a style="cursor: pointer;" class="player-src" data-type="mp4" data-src="../../vendor/videos/HTML.mp4"><i
+                  class="fa fa-eye mr-2"></i>preview</a>
+              <span class="ml-4">{{this.duration}}</span>
             </div>
             {{/if}}
-            {{/each}}
           </div>
-          <hr class="hr-chapter">
+          {{/if}}
+          {{/each}}
         </div>
-        {{/each}}
+        <hr class="hr-chapter">
       </div>
     </div>
+    {{/each}}
+  </div>
 
-    <!-- Related Projects Row -->
-    <hr class="hr-section">
-    <h3 class="my-4">Related Projects</h3>
-
-    <div class="row">
-
-      <div class="col-md-3 col-sm-6 mb-4">
-        <a href="#">
-          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </a>
-      </div>
-
-      <div class="col-md-3 col-sm-6 mb-4">
-        <a href="#">
-          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </a>
-      </div>
-
-      <div class="col-md-3 col-sm-6 mb-4">
-        <a href="#">
-          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </a>
-      </div>
-
-      <div class="col-md-3 col-sm-6 mb-4">
-        <a href="#">
-          <img class="img-fluid" src="http://placehold.it/500x300" alt="">
-        </a>
-      </div>
-
-    </div>
-    <!-- /.row -->
-
+  <!-- /.row -->
+  <hr class="hr-section">
+  <h3 class="my-4">Reviews about this course</h3>
+  <div>
     {{#if courseDetail.reviewEmpty}}
     <div class="card-body">
       <div class="row">
@@ -330,7 +402,6 @@
       </div>
     </div>
     {{else}}
-
     {{#each courseDetail.review}}
     <div class="review">
       <div class="row">
@@ -356,105 +427,178 @@
       <hr>
     </div>
     {{/each}}
-
     {{/if}}
-
-
-
-
   </div>
+  <hr class="hr-section">
+  <h3 class="my-4">Related Courses</h3>
+</div>
+</div>
+<div class="slick-show custom-carousel">
+  {{#each fourthRows }}
+  {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
+    <div class="card mb-3 carousel-items">
+      <img class="card-img-top"
+        src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
+        alt="Card image cap">
+      {{#if ../isAuth}}
+      <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+      {{/if}}
+      <div class="card-body">
+        <h4 class="card-title text-dark font-weight-bolder">
+          {{this.courseName}}
+        </h4>
 
-  <!-- /.container -->
 
-  {{#section 'js'}}
-  <script>
-    function avgRating() {
-      const rating = $("#star-rating-avg").data('rating') * 20;
-      const ratingRounded = Math.round(rating);
-      const percent = `${ratingRounded}%`
-      document.querySelector("#star-rating-avg").style.width = percent;
-      console.log(percent);
-    }
+        {{#if_equal this.subjID 1 }}
 
-    $(document).ready(avgRating);
-  </script>
+        <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+        </p>
+        {{else}}
+        <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
+          Development</p>
+        {{/if_equal}}
 
-  <script>
-    $(document).ready(function () {
-      $(".dropdown-units").hide();
+        <p class="card-text text-secondary">
+          <span class="font-weight-bolder"></span> {{this.catName}}
+        </p>
 
-      $(".btn-chapter").click(function (e) {
-        $(this).next().slideToggle();
-      });
+        <p class="card-text text-secondary">
+          <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
+        </p>
+        <p class="card-text text-success">
+          <span class="font-weight-bold"> Rating:</span>
+          {{#if_equal this.rating 'NaN'}}
+          No Rating
+          {{else}}
+          {{this.rating}} ({{this.countPeopleRating}})
+          {{/if_equal}}
+        </p>
 
-      const player = new Plyr('#player');
-      // Expose
-      window.player = player;
+        {{#ifCond this.discount '!=' 0}}
+        <p class="card-text text-danger">
+          <span class="font-weight-bold"></span> {{format this.discountedPrice}} VNĐ
+          <span class="font-weight-bold deleted"><del>{{format this.fee}} VNĐ</del></span>
+        </p>
+        {{else}}
+        <p class="card-text text-danger">
+          <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+        </p>
+        {{/ifCond}}
+      </div>
+      <div class="card-footer">
+        <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info">
+          <i class="fa fa-info"></i> Detail
+        </a>
 
-      $('.player-src').on('click', function () {
+        {{#if ../isAuth}}
 
-        src = $(this).data("src");
-        type = 'video/' + $(this).data("type");
-        poster = $(this).data("poster") || "";
+        <input type="text" id="txtCourseName" name="txtCourseName">
+        <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy" class="card-link btn btn-success add-item ">
+          <i class="fa fa-cart-plus mr-2 "></i>Buy
+        </a>
 
-        //update video player
-        player.source = {
-          type: 'video',
-          title: 'Example title',
-          sources: [
-            {
-              src: src,
-              type: type,
-              size: 720
-            }
-          ],
-          poster: poster
-        };
-        player.play();
-      });
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+</div>
+<!-- Related Projects Row -->
+
+<!-- /.container -->
+
+{{#section 'js'}}
+<script>
+  function avgRating() {
+    const rating = $("#star-rating-avg").data('rating') * 20;
+    const ratingRounded = Math.round(rating);
+    const percent = `${ratingRounded}%`
+    document.querySelector("#star-rating-avg").style.width = percent;
+    console.log(percent);
+  }
+
+  $(document).ready(avgRating);
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('.slick-show').slick({
+      infinite: true,
+      speed: 800,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      prevArrow: '<button class="slick-btn slide-arrow prev-arrow"></button>',
+      nextArrow: '<button class="slick-btn slide-arrow next-arrow"></button>',
+      responsive: [
+        {
+          breakpoint: 1125,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: 700,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+      ]
     });
-  </script>
+
+    $(".dropdown-units").hide();
+
+    $(".btn-chapter").click(function (e) {
+      $(this).next().slideToggle();
+    });
+
+    const player = new Plyr('#player');
+    // Expose
+    window.player = player;
+
+    $('.player-src').on('click', function () {
+
+      src = $(this).data("src");
+      type = 'video/' + $(this).data("type");
+      poster = $(this).data("poster") || "";
+
+      //update video player
+      player.source = {
+        type: 'video',
+        title: 'Example title',
+        sources: [
+          {
+            src: src,
+            type: type,
+            size: 720
+          }
+        ],
+        poster: poster
+      };
+      player.play();
+    });
+  });
+</script>
 
 
-  <script type="module">
-    import { openAlert } from "/utils/alertModal.js"
-    function buyCouse() {
-      const btnBuy = $("#btnBuy")
-      $(".add-item").on('click', function (e) {
-        e.preventDefault();
-        const id = $(this).data('id');
-        const vl = $("#txtCourseID").val(id)
-        const quantity = $("#txtQuantity").val(1);
-        console.log(id)
-        console.log(vl)
-        console.log(quantity)
+<script type="module">
+  import { openAlert } from "/utils/alertModal.js"
+  function buyCouse() {
+    const btnBuy = $("#btnBuy")
+    $(".add-item").on('click', function (e) {
+      e.preventDefault();
+      const id = $(this).data('id');
+      const vl = $("#txtCourseID").val(id)
+      const quantity = $("#txtQuantity").val(1);
+      console.log(id)
+      console.log(vl)
+      console.log(quantity)
 
-        $("#fmBuy").submit();
-      })
-    }
-    buyCouse();
-  </script>
-
-  <script type="module">
-    import { openAlert } from "/utils/alertModal.js"
-    function actionWatchlist() {
-      const btnBuy = $("#add-to-watchlist-button")
-      $("#add-to-watchlist-button").on('click', function (e) {
-        e.preventDefault();
-        const courseID = $(this).data('id');
-        const id = $("#txtCourseID-watchlist").val(courseID);
-        const existed = $(this).data('existed');
-        let method = "add";
-        if (existed === true) {
-          method = "delete";
-        }
-        $("#txtMethod-watchlist").val(method);
-        console.log(id)
-        console.log(method)
-
-        $("#fmWatchlist").submit();
-      })
-    }
-    actionWatchlist();
-  </script>
-  {{/section}}
+      $("#fmBuy").submit();
+    })
+  }
+  buyCouse();
+</script>
+<script src="https://cdn.plyr.io/3.6.3/plyr.polyfilled.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+{{/section}}

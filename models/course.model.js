@@ -173,7 +173,7 @@ module.exports = {
     where match (c.courseName) against ('${content}')
     or match (cat.catName) against ('${content}')
     order by c.fee
-     limit ${limit} offset ${offset}`;
+    limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
     pagiListSearchCourseByCatStar(content, catID, offset, limit) {
@@ -203,6 +203,15 @@ module.exports = {
     group by cb.courseID
     order by count(cb.courseID) desc
     limit 4;`;
+        return db.load(sql);
+    },
+
+    getTopFiveRelated(subjectID) {
+        const sql = `select o.courseID
+        from ${config.DATABASE.TABLE.ORDERDETAILS} o, ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.CATEGORY} cat
+        where o.courseID = c.courseID and c.catID = cat.catId and cat.subjId = ${subjectID}
+        group by o.courseID
+        limit 5`;
         return db.load(sql);
     },
 
