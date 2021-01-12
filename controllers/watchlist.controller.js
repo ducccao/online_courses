@@ -444,6 +444,22 @@ const mainController = {
             throw Error("access denied");
         }
 
+    },
+
+    editWatchlist: (req, res) => {
+        const method = req.body.method;
+        const enity = {
+            courseID: req.body.courseID,
+            userID: res.locals.authUser.userID,
+        }
+        if (method === "add") {
+
+            watchlistModel.addWatchlistCourse(enity);
+        } else {
+            watchlistModel.delWatchlistCourse(enity);
+        }
+        let url = req.headers.referer || "/";
+        res.redirect(url);
     }
 };
 

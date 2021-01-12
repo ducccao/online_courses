@@ -3,10 +3,10 @@ const router = express.Router();
 const courseController = require("./../controllers/course.controller");
 const adminController = require("./../controllers/admin.controller");
 const {
-  auth,
-  authAdmin,
-  authOTP,
-  authNav,
+    auth,
+    authAdmin,
+    authOTP,
+    authNav,
 } = require("./../middlewares/auth.mdw");
 /* #region  Course */
 
@@ -33,10 +33,11 @@ router.delete("/courses/delete", authAdmin, courseController.delCourse);
 
 // get detail cat
 router.get(
-  "/courses/detailCourse/:id",
-  authAdmin,
-  courseController.getDetailCourse
+    "/courses/detailCourse/:id",
+    authAdmin,
+    courseController.getDetailCourse
 );
+
 /* #endregion */
 
 // 404 not found

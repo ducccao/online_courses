@@ -247,4 +247,10 @@ module.exports = {
     ${config.DATABASE.TABLE.COURSE} as c, ${config.DATABASE.TABLE.USER} as u where c.courseID = s.courseID and u.userID = c.userID`;
         return db.load(sql);
     },
+    getOrderCourseByUserIDAndCourseID(courseID, userID) {
+        const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${config.DATABASE.TABLE.ORDERDETAILS} od  
+                    on o.orderID = od.orderID 
+                    where  o.userID = ${[userID]} and od.courseID = ${courseID}`;
+        return db.load(sql);
+    }
 };
