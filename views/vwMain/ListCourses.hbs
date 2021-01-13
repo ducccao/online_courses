@@ -315,6 +315,27 @@
                         {{#each allCourse }}
                         <div class="col-lg-4">
                             <div class="card mb-5">
+                                <div class="row" style="margin: 5px 0 5px 0; height: 30px">
+                                    <div class="col-lg-6">
+                                        {{#if this.isBestSeller}}
+                                        <span class="badge badge-warning"
+                                            style="height: 30px; font-size: 15px; vertical-align: middle">Best
+                                            Seller
+                                        </span>
+
+                                        {{/if}}
+                                    </div>
+                                    {{#if this.isNewCourse}}
+                                    <div class="col-lg-5 text-right">
+                                        <span class="badge badge-danger align-middle"
+                                            style="height: 30px; font-size: 15px;">New Course
+                                        </span>
+
+                                    </div>
+                                    {{/if}}
+
+
+                                </div>
                                 <img class="card-img-top"
                                     src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                                     alt="Card image cap">
