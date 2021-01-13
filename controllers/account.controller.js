@@ -135,6 +135,36 @@ module.exports = {
         }
     },
 
+    getInstructorCourse: async(req, res) => {
+        const user = req.session.authUser;
+        // console.log(user);
+        const _isInstructor = user.decentralization == 1 ? 1 : 0;
+        // console.log(_isInstructor);
+
+        const purchasedCourse = await accountModel.getInstructorCourse(user.userID);
+        //  console.log(purchasedCourse);
+        const courseCards = [];
+        for (let i = 0; i < purchasedCourse.length; ++i) {
+            const item = await courseModel.getCourseByID(purchasedCourse[i].courseID);
+            courseCards.push({
+                ...item[0],
+            });
+        }
+
+        res.render("vwAccount/PurchasedCourses", {
+            layout: "main",
+            _isInstructor,
+            courseCards,
+            // pagi
+            // showPagi: true,
+            // pagiItem,
+            // can_go_prev: page > 1,
+            // can_go_next: page < nPage,
+            // go_next_page: page + 1,
+            // go_previous_page: page - 1,
+        });
+    },
+
     getPurchasedCourses: async(req, res) => {
         const user = req.session.authUser;
         // console.log(user);

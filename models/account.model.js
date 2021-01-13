@@ -32,4 +32,10 @@ module.exports = {
         `;
         return db.load(sql);
     },
+
+    getInstructorCourse(isntructorID) {
+        const sql = `select * from ${config.DATABASE.TABLE.COURSE} as c
+        where ${isntructorID} = c.userID`;
+        return db.load(sql);
+    }
 };

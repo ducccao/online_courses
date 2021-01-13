@@ -9,6 +9,8 @@ const { sendOTP } = require("./../utils/mail");
 const moment = require("moment");
 const multer = require("multer");
 const userModel = require("./../models/user.model");
+const fs = require("fs");
+const chapterModel = require("../models/chapter.model");
 
 const userController = {
     // get all user
@@ -228,11 +230,14 @@ const userController = {
         try {
             // avatar
             console.log("Uploading Course !!");
-            //    console.log(req.body);
+            // console.log("alo alo " + req.body);
             let avaName = "";
+            const allCourse = await courseModel.all();
+            const savePath = `./public/courses/course-${allCourse.length + 1}/img`;
             const storage = multer.diskStorage({
                 destination: function(req, file, cb) {
-                    cb(null, "./public/course/img/");
+                    fs.mkdirSync(savePath, { recursive: true })
+                    cb(null, savePath);
                 },
                 filename: function(req, file, cb) {
                     avaName = file.originalname;
@@ -244,7 +249,6 @@ const userController = {
             const upload = multer({ storage });
 
             upload.single("ulAva")(req, res, async function(er) {
-                console.log(req.body);
                 if (er) {
                     console.log(er);
                 } else {
@@ -259,7 +263,7 @@ const userController = {
 
                     // console.log("Is cousrse exists", isCourseNameExists);
                     console.log(avaName);
-                    const avataURL = `${config.devURL}/public/course/img/${avaName}`;
+                    const avataURL = "../." + savePath + "/" + avaName;
                     //console.log(avataURL);
                     console.log(isCatExists);
                     if (isCatExists.length === 0) {
@@ -273,12 +277,13 @@ const userController = {
 
                     if (isCourseNameExists.length !== 0) {
                         console.log("Course is exists erorr!");
-                        return res.status(400).json({ message: "Course Is Exists!" });
+                        return res.status(400).json({ message: "CourseName Is Already Existed!" });
                     }
                     //  console.log("Cat ID: ", isCatExists[0].catID);
-
+                    const courseIdToAddChapter = allCourse.length + 1;
+                    // const fulDesText = req.body.txtFullDes,
                     const entity = {
-                        courseID: allCourse.length + Math.random() * 3000,
+                        courseID: allCourse.length + 1,
                         courseName: req.body.courseName,
                         title: "",
                         catID: isCatExists[0].catID,
@@ -304,15 +309,169 @@ const userController = {
                     );
 
                     const firstRet = await courseModel.addCourse(entity);
-                    //console.log(firstRet);
-                    //console.log(isAddDiscount);
-                    //console.log("entity ", entity);
+
+                    const str = req.body.txtSyllabus;
+                    const str2 = str.slice(10,str.length - 12);
+                    const arr = str2.split("</li>\r\n<li>");
+                    // console.log(arr);
+                    const _chapterMaxId = await chapterModel.getChapterMaxId();
+                    // console.log(_chapterMaxId[0].chapterMaxID);
+                    let chapterMaxId = _chapterMaxId[0].chapterMaxID;
+                    // console.log(chapterMaxId);
+                    arr.map(async(chapter) => {
+                        chapterMaxId++;
+                        const entityChapter = {
+                            courseID: courseIdToAddChapter,
+                            chapterID: chapterMaxId,
+                            chapterName: chapter,
+                        }
+                        const firstRet = await chapterModel.addChapter(entityChapter);
+                    })
 
                     res.render("vwUser/UploadCourse", {
                         layout: "main",
                     });
                 }
             });
+
+            // multer
+
+            // res.render("vwUser/UploadCourse", {
+            //   layout: "main",
+            // });
+
+            // console.log(req.session.authUser);
+
+            // upload.array("ulAva", 3)(req, res, (er) => {
+            //   if (er) {
+            //     console.log(er);
+            //   } else {
+            //     console.log("Upload File Success");
+            //     res.render("vwUser/UploadCourse", {
+            //       layout: "main",
+            //     });
+            //   }
+            // });
+        } catch (er) {
+            console.log(er);
+            return res.status(500).json({ message: er.sqlMessage });
+        }
+    },
+
+    // get upload course page
+    getUploadChapterPage: async(req, res) => {
+        const userID = req.session.authUser.userID;
+        const allCourse = await courseModel.getAllCouseByInstructorId(userID);
+        console.log(allCourse);
+        res.render("vwUser/UploadChapter", {
+            layout: "main",
+            allCourse
+        });
+    },
+    // post upload course
+
+    postUploadChapterPage: async(req, res) => {
+        try {
+            // avatar
+            console.log("Uploading Course !!");
+            console.log(req.body);
+            // const { chapterName, courseName } = req.body;
+            const userID = req.session.authUser.userID;
+            const allCourse = await courseModel.getAllCouseByInstructorId(userID);
+            console.log(allCourse);
+            res.render("vwUser/UploadChapter", {
+                layout: "main",
+                allCourse
+            });
+            // console.log("alo alo " + req.body);
+            // let avaName = "";
+            // const allCourse = await courseModel.all();
+            // const savePath = `./public/courses/course-${allCourse.length + 1}/img`;
+            // const storage = multer.diskStorage({
+            //     destination: function(req, file, cb) {
+            //         fs.mkdirSync(savePath, { recursive: true })
+            //         cb(null, savePath);
+            //     },
+            //     filename: function(req, file, cb) {
+            //         avaName = file.originalname;
+            //         //  console.log(file);
+            //         cb(null, file.originalname);
+            //     },
+            // });
+
+            // const upload = multer({ storage });
+
+            // upload.single("ulAva")(req, res, async function(er) {
+            //     console.log(req.body);
+            //     if (er) {
+            //         console.log(er);
+            //     } else {
+                    // const allCourse = await courseModel.all();
+                    // const isCatExists = await adminModel.getCatByCatName(
+                    //     req.body.catName
+                    // );
+
+                    // const isCourseNameExists = await courseModel.getCourseByCourseName(
+                    //     req.body.courseName
+                    // );
+
+                    // // console.log("Is cousrse exists", isCourseNameExists);
+                    // console.log(avaName);
+                    // const avataURL = "../." + savePath + "/" + avaName;
+                    // //console.log(avataURL);
+                    // console.log(isCatExists);
+                    // if (isCatExists.length === 0) {
+                    //     console.log(
+                    //         "I dont understand why are you always jump into here !"
+                    //     );
+                    //     return res
+                    //         .status(400)
+                    //         .json({ message: "Category Does Not Exists!" });
+                    // }
+
+                    // if (isCourseNameExists.length !== 0) {
+                    //     console.log("Course is exists erorr!");
+                    //     return res.status(400).json({ message: "CourseName Is Already Existed!" });
+                    // }
+                    // //  console.log("Cat ID: ", isCatExists[0].catID);
+
+                    // // const fulDesText = req.body.txtFullDes,
+                    // const entity = {
+                    //     courseID: allCourse.length + 1,
+                    //     courseName: req.body.courseName,
+                    //     title: "",
+                    //     catID: isCatExists[0].catID,
+                    //     userID: req.session.authUser.userID,
+                    //     thumbnail: "",
+                    //     avatar: avataURL,
+                    //     fee: +req.body.txtCoursePrice,
+                    //     subDescription: req.body.txtShortDes,
+                    //     fullDescription: req.body.txtFullDes,
+                    //     isFinished: req.body.txtIsDone === "on" ? true : false,
+                    //     views: 0,
+                    //     dayPost: moment().format("YYYY-MM-DD"),
+                    //     lastUpdate: moment().format("YYYY-MM-DD"),
+                    // };
+
+                    // if (typeof entity.catID === "undefined") {
+                    //     console.log("Cat id is undefined!");
+                    //     throw new Error("Cat ID is undefined!");
+                    // }
+
+                    // const isAddDiscount = await courseModel.addDiscount(
+                    //     entity.courseID, +req.body.txtCourseDiscount
+                    // );
+
+                    // const firstRet = await courseModel.addCourse(entity);
+                    // //console.log(firstRet);
+                    // //console.log(isAddDiscount);
+                    // //console.log("entity ", entity);
+
+                    // res.render("vwUser/UploadChapter", {
+                    //     layout: "main",
+                    // });
+            //     }
+            // });
 
             // multer
 
