@@ -382,6 +382,11 @@ const mainController = {
             };
             fourthRows.push(item);
         }
+        let isExistedWatchlist = true;
+        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+            const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
+            isExistedWatchlist = course.length === 1;
+        }
 
         // console.log(fourthRows);
 
@@ -405,9 +410,9 @@ const mainController = {
 
         const chaptersOfCourse = [];
         const unitsOfCourse = [];
-        let totalHour= 0;
-        let totalMin= 0;
-        let totalSec= 0;
+        let totalHour = 0;
+        let totalMin = 0;
+        let totalSec = 0;
         let totalChapter = chaptersOfCourse.length;
         let totalUnit = 0;
         for (let i = 0; i < chapters.length; i++) {
@@ -447,7 +452,7 @@ const mainController = {
                     duration,
                 };
                 unitsOfCourse.push(unitItem);
-                }
+            }
             chaptersOfCourse.push(item);
         }
 
@@ -466,19 +471,19 @@ const mainController = {
         console.log(duration);
         console.log(chaptersOfCourse);
         console.log(unitsOfCourse);
-        
+
         const addView = await courseModel.increaseView(course[0]);
         if (addView.affectedRows === 1) {
-        res.locals.review = review;
-        res.render("vwDetail/detail", {
-            layout: "main",
-            courseDetail,
-            chaptersOfCourse,
-            unitsOfCourse,
-            fourthRows,
-            duration,
-        });
-        return;
+            res.locals.review = review;
+            res.render("vwDetail/detail", {
+                layout: "main",
+                courseDetail,
+                chaptersOfCourse,
+                unitsOfCourse,
+                fourthRows,
+                duration,
+            });
+            return;
         }
         return res.status(404).json({ message: "Something when wrong when increase views of this course!" });
     },
@@ -655,10 +660,11 @@ const mainController = {
                 const review = await reviewModel.getReview(courseID);
                 const hasReviewed = (await reviewModel.getReviewByCourseIDandUserID(courseID, res.locals.authUser.userID)).length !== 1;
                 let isExistedWatchlist = true;
-                if (res.locals.authUser.userID !== undefined) {
+                if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
                     const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
                     isExistedWatchlist = course.length === 1;
                 }
+                console.log(isExistedWatchlist);
 
 
                 courseDetail = {
