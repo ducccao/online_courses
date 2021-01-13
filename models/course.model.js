@@ -261,5 +261,10 @@ module.exports = {
                     on o.orderID = od.orderID 
                     where  o.userID = ${[userID]} and od.courseID = ${courseID}`;
         return db.load(sql);
+    },
+
+    getAllCouseByInstructorId(instructorID) {
+        const sql = `select courseName, courseID from ${TBL_COURSE} where userID = ${instructorID}`;
+        return db.load(sql);
     }
 };

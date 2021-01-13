@@ -27,4 +27,11 @@ router.get(
     accountController.getPurchasedCourses
 );
 
+router.get(
+    "/my-courses",
+    auth,
+    authOTP,
+    accountController.getInstructorCourse
+);
+
 module.exports = router;

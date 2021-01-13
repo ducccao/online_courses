@@ -15,8 +15,13 @@
         white-space: nowrap;
     }
 
-    .card-items {
-        background-color: blueviolet;
+    .card-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 70px;
     }
 </style>
 {{/section}}
@@ -187,12 +192,7 @@
                                             href="?page={{this.value}}">
                                             {{this.value}}
                                         </a></li>
-
                                     {{/each}}
-
-
-
-
                                     <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a
                                             class="page-link" href="?page={{go_next_page}}">Next</a></li>
                                 </ul>
@@ -206,9 +206,7 @@
     </div>
     {{else}}
 
-
     <div class="row">
-
         <form action="/cart/add" method="POST" id="fmBuy">
             <input type="hidden" id="txtCourseID" name="id">
             <input type="hidden" id="txtQuantity" name="quantity">
@@ -235,7 +233,11 @@
             <div class="card">
                 <div class="card-header">
                     <h4>
+                        {{#if_equal _isInstructor 1}}
+                        My Classes
+                        {{else}}
                         Purchased Courses
+                        {{/if_equal}}
                         <span class="float-right"></span>
                     </h4>
 
@@ -264,17 +266,24 @@
                                         Development</p>
                                     {{/if_equal}}
 
+                                    {{#if_equal ../_isInstructor 1}}
+                                    <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info w-100">
+                                        <i class="fa fa-info mr-2 "></i>Detail
+                                    </a>
+                                    <a style="margin: 0 auto;" href="#" class="card-link btn btn-warning w-100 mt-1">
+                                        <i class="fa fa-pen mr-2"></i>Modify
+                                    </a>
+                                    {{else}}
                                     {{#if ../isAuth}}
                                     <a href="/course/learn/{{this.courseID}}" class="btn btn-success w-100">
                                         Learn
-
                                     </a>
-
                                     {{else}}
-                                    <a href="#" class="card-link btn btn-info w-100">
-                                        <i class="fa fa-info mr-2 "></i>Detail
+                                    <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info w-100">
+                                        Detail
                                     </a>
                                     {{/if}}
+                                    {{/if_equal}}
                                 </div>
                             </div>
                         </div>
@@ -296,12 +305,7 @@
                                             href="?page={{this.value}}">
                                             {{this.value}}
                                         </a></li>
-
                                     {{/each}}
-
-
-
-
                                     <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a
                                             class="page-link" href="?page={{go_next_page}}">Next</a></li>
                                 </ul>

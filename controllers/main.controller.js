@@ -328,9 +328,12 @@ const mainController = {
         const reviewNumb = await courseModel.getReviewCourseNumb(courseID);
         const studentNumb = await courseModel.getCourseBoughtNumb(courseID);
         const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
-        const discountedPrice = course[0].fee * (1 - discount[0].percent / 100);
+        const _discountP = discount.length > 0 ? discount[0].percent : 0;
+        const discountedPrice = course[0].fee * (1 - _discountP / 100);
         const review = await reviewModel.getReview(courseID);
 
+
+        //get 5 related courses
         const firstRow = await courseModel.getTopFiveRelated(type[0].subjID);
 
         const secondRow = [];
@@ -388,7 +391,7 @@ const mainController = {
         courseDetail = {
             discountedPrice,
             lastUpdateTime,
-            ...discount[0],
+            _discountP,
             ...course[0],
             ...type[0],
             ...instructor[0],
@@ -398,8 +401,9 @@ const mainController = {
             student: studentNumb[0]["count(*)"],
             review: review,
             reviewEmpty: review.length === 0,
-            isExistedWatchlist,
         };
+
+        console.log(courseDetail);
 
         const chapters = await chapterModel.getAllChapterWithDurationByCourseID(courseID);
 
@@ -408,7 +412,6 @@ const mainController = {
         let totalHour= 0;
         let totalMin= 0;
         let totalSec= 0;
-        let totalChapter = chaptersOfCourse.length;
         let totalUnit = 0;
         for (let i = 0; i < chapters.length; i++) {
             totalUnit += +chapters[i].unitInChapter;
@@ -451,6 +454,8 @@ const mainController = {
             chaptersOfCourse.push(item);
         }
 
+        let totalChapter = chaptersOfCourse.length;
+
         if (totalSec >= 60) {
             totalMin += ~~(totalSec / 60);
             totalSec = totalSec % 60;
@@ -463,9 +468,14 @@ const mainController = {
 
         const formatedSec = totalSec > 9 ? totalSec : `0${totalSec}`;
         const duration = `${totalHour}h:${totalMin}m:${formatedSec}s`
-        console.log(duration);
-        console.log(chaptersOfCourse);
-        console.log(unitsOfCourse);
+        // console.log(totalChapter);
+        // console.log(totalUnit);
+        // console.log(duration);
+        const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(courseID);
+
+        const firstPreviewVideoLink = _firstPreviewVideoLink.length != 0 ? _firstPreviewVideoLink[0].linkVideo : '0';
+
+        // console.log(firstPreviewVideoLink);
         
         const addView = await courseModel.increaseView(course[0]);
         if (addView.affectedRows === 1) {
@@ -477,6 +487,9 @@ const mainController = {
             unitsOfCourse,
             fourthRows,
             duration,
+            totalChapter,
+            totalUnit,
+            firstPreviewVideoLink
         });
         return;
         }
