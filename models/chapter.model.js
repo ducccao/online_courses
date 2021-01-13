@@ -11,9 +11,19 @@ module.exports = {
 
   getAllChapterWithDurationByCourseID(courseID) {
     const sql = `select sum(duration_hour) as chapterTotalHour, sum(duration_min) as chapterTotalMin, sum(duration_sec) as chapterTotalSec, count(unitId) as unitInChapter, c.*
-    from ${config.DATABASE.TABLE.UNIT} u, ${config.DATABASE.TABLE.CHAPTER} c
+    from ${config.DATABASE.TABLE.UNIT} u, ${TBL_CHAPTER} c
     where u.chapterID = c.chapterID and c.courseId = ${courseID}
-    group by u.chapterID`;
+    group by u.chapterID
+    order by c.chapterID`;
     return db.load(sql);
   },
+
+  getChapterMaxId() {
+    const sql = `SELECT count(*) as chapterMaxID FROM ${TBL_CHAPTER}`;
+    return db.load(sql);
+  },
+
+  addChapter(entity) {
+    return db.add(entity, TBL_CHAPTER);
+},
 }

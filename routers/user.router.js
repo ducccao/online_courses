@@ -37,7 +37,12 @@ router.get("/profile", auth, authOTP, userController.getProfile);
 
 // get upload course
 router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
+
 // post upload course
 router.post("/upload-course", authOTP, userController.postUploadCourse);
+
+router.get("/upload-chapter", auth, authNav, userController.getUploadChapterPage);
+
+router.post("/upload-chapter", authOTP, userController.postUploadChapterPage);
 
 module.exports = router;

@@ -1,0 +1,128 @@
+{{#section 'css'}}
+<style>
+    .upload-wrapper {
+        max-width: 1140px;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+{{/section}}
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src='https://cdn.tiny.cloud/1/6a2wdzaqh764emfqjwf4g5s2kr8ajq1vbfrcipng9eu1o2il/tinymce/5/tinymce.min.js'
+    referrerpolicy="origin"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/explorer-fa/theme.min.js"
+    integrity="sha512-hg/NmpjshDPjmZAAGr5j6UlcV1GotL1IBbFH96Q2fFGkr/OaMwAuZTl5j6swzyxUU3eihRUhRWn0rASVuyXGxw=="
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"
+    integrity="sha512-eur4+EF8SPJo3fhe8mMkdSwopFRsMtCU2NvPm8aKjxWFs3/9naJn5HbYi+KPGwAinR5xYzz0/njHcGzifM9KCg=="
+    crossorigin="anonymous"></script>
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+
+    tinymce.init({
+        selector: '#txtFullDes',
+        height: 200,
+        plugins: "paste image link autolink lists table media",
+        menubar: false,
+        toolbar: ['undo redo| bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media']
+    });
+
+    tinymce.init({
+        selector: '#txtSyllabus',
+        height: 200,
+        plugins: "paste image link autolink lists table media",
+        menubar: false,
+        toolbar: ['undo redo| bold italic underline strikethrough | numlist bullist | alignleft aligncenter alignright | forecolor backcolor | table link image media']
+
+    })
+
+    $("#ulAva").fileinput({
+        theme: 'fa',
+        dropZoneEnabled: false,
+        allowedFileExtensions: ['png', 'jpg', 'gif'],
+    })
+
+
+    function uploadCourse() {
+        const fmUpload = $("#fmUpload");
+        const chapterName = $("#chapterName");
+        const courseName = "12345"
+        const txtIsDone = $("#txtIsDone");
+
+        let error = false;
+
+        fmUpload.on("submit", e => {
+            //e.preventDefault();
+            const data = {
+                courseName: courseName.val(),
+                chapterName: chapterName.val(),
+            }
+
+            if (data.chapterName === "" || data.courseName === "") {
+                error = true;
+            }
+            else {
+                error = false;
+            }
+
+            if (error === true) {
+                console.log(data)
+                e.preventDefault();
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'warning',
+                    title: "Invalid Content!"
+                }
+
+                openAlert(messageTrigger)
+                return;
+            }
+
+            //  e.preventDefault();
+            const url = `/user/upload-chapter/upload`;
+        })
+    }
+    uploadCourse();
+</script>
+
+{{/section}}
+<div class="container-fluid my-4 upload-wrapper">
+    <form action="/user/upload-chapter" method="POST" id="fmUpload">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-text font-weight-bold ">What You See Is What You Get Editor</h4>
+                <h4 class="card-text text-center font-weight-bold text-success">Add a new chapter to your existing
+                    course
+                </h4>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="form-group">
+                        <label for="courseControlSelect">Choose your course to add this chapter</label>
+                        <select class="form-control" id="courseControlSelect">
+                            {{#each allCourse}}
+                            <option>CourseID: {{this.courseID}} -- Course name: {{this.courseName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="chapterName" class="font-weight-bold">Chapter Name</label>
+                    <input type="text" name="chapterName" id="chapterName" class="form-control" required="required" />
+                </div>
+            </div>
+            <div class="card-footer ">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-upload mr-2"></i>Add this chapter
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

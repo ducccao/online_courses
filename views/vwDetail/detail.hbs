@@ -233,7 +233,8 @@
   <!-- Portfolio Item Row -->
   <div class="row">
     <div class="col-md-6">
-      <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+      <img class="img-fluid" src="../../public/courses/course-32/img/css.jpg" alt=""
+        style="width: 520px; height: 330px">
     </div>
 
     <div class="col-md-6">
@@ -267,7 +268,7 @@
       {{/ifCond}}
 
       <p class="card-text text-success">
-        {{#if_equal courseDetail.rating 'NaN'}}
+        {{#if_equal courseDetail.reviewNumb 0}}
         <span class="font-weight-bold mr-3"> Rating: No Rating</span>
         {{else}}
         <span class="font-weight-bold mr-3"> Rating: {{courseDetail.avgRating}}</span>
@@ -292,7 +293,7 @@
 
       {{/if_equal}}
 
-      {{#ifCond courseDetail.percent '!=' 0}}
+      {{#ifCond courseDetail._discountP '!=' 0}}
       <p class="card-text text-danger">
         <span class="font-weight-bold">{{format
           courseDetail.discountedPrice}} VNĐ</span>
@@ -345,14 +346,23 @@
   <hr class="hr-section">
   <h3 class="my-4">Course content</h3>
   <div>
-    <h5>You can watch the preview videos here</h5>
-    <video controls crossorigin playsinline
-      data-poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+    {{#if_equal firstPreviewVideoLink '0'}}
+    <h5 class="text-center text-success">Sorry, this course has no preivew video</h5>
+    {{else}}
+    <h5 class="text-center text-success">You can watch the preview videos here</h5>
+    <video controls crossorigin playsinline data-poster="../../public/courses/course-32/img/css.jpg" id="player">
       <!-- Video files -->
       <source id="video-source" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4" size="720">
     </video>
+    {{/if_equal}}
+    <hr class="hr-section">
   </div>
   <div class="course-main-content">
+    {{#if_equal totalChapter 0}}
+    <h5 class="text-center text-success">This course doesn't have any chapter yet... :/</h5>
+    {{else}}
+    <h5 class="text-center text-success">{{totalChapter}} chapters &#8226; {{totalUnit}} units &#8226; {{duration}}
+      total length</h5>
     {{#each chaptersOfCourse}}
     <div class="chapter-items">
       <div class="dropdown">
@@ -361,7 +371,6 @@
           <span class="float-right mr-2"><strong class="mr-4">{{this.unitInChapter}}
               Units</strong>{{this.duration}}</span>
         </button>
-
         <div class="dropdown-units wd">
           {{#each ../unitsOfCourse}}
           {{#if (eq chapterID ../chapterID)}}
@@ -387,6 +396,7 @@
       </div>
     </div>
     {{/each}}
+    {{/if_equal}}
   </div>
 
   <!-- /.row -->
