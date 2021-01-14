@@ -805,8 +805,6 @@ const mainController = {
         } else {
             res.redirect("/");
         }
-
-
     },
 };
 
