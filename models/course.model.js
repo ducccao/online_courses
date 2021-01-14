@@ -266,5 +266,19 @@ module.exports = {
     getAllCouseByInstructorId(instructorID) {
         const sql = `select courseName, courseID from ${TBL_COURSE} where userID = ${instructorID}`;
         return db.load(sql);
+    },
+
+    getCourseBestSeller() {
+        const sql = `select od.courseID as courseID, count(*) as amount  from orders o join orderdetails od on o.orderID = od.orderID
+        group by od.courseID
+        order by count(*) desc
+        limit 2`
+        return db.load(sql);
+    },
+    getCourseNew() {
+        const sql = `select *
+        from course c 
+        where datediff( curdate(),c.dayPost) < 7`
+        return db.load(sql);
     }
 };

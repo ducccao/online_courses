@@ -8,6 +8,14 @@ const chapterModel = require("./../models/chapter.model");
 const unitModel = require("./../models/unit.model");
 const watchlistModel = require("../models/watchlist.model");
 
+async function bestSeller() {
+    return await courseModel.getCourseBestSeller();
+}
+
+async function newCourse() {
+    return await courseModel.getCourseNew();
+}
+
 const mainController = {
     // get List Course page
     getListCourses: async(req, res) => {
@@ -108,12 +116,33 @@ const mainController = {
             };
             fourthRows.push(item);
         }
+        const fifthRows = [];
+        for (let i = 0; i < rows.length; i++) {
+            let isBestSeller = false;
+            let isNewCourse = false;
+
+            if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                isBestSeller = true;
+            };
+
+            if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                isNewCourse = true;
+            };
+            const item = {
+                ...fourthRows[i],
+                isBestSeller,
+                isNewCourse,
+            };
+            fifthRows.push(item);
+        }
+
+
         // console.log(fourthRows);
 
         res.render("vwMain/ListCourses", {
             layout: "main",
             courseInCat: courseInCat,
-            allCourse: fourthRows,
+            allCourse: fifthRows,
             //   isAdmin: isAdmin,
             //pagi
             showPagi: true,
@@ -289,6 +318,26 @@ const mainController = {
             };
             fourthRows.push(item);
         }
+
+        const fifthRows = [];
+        for (let i = 0; i < rows.length; i++) {
+            let isBestSeller = false;
+            let isNewCourse = false;
+
+            if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                isBestSeller = true;
+            };
+
+            if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                isNewCourse = true;
+            };
+            const item = {
+                ...fourthRows[i],
+                isBestSeller,
+                isNewCourse,
+            };
+            fifthRows.push(item);
+        }
         // console.log(fourthRows);
 
         // active cate
@@ -301,7 +350,7 @@ const mainController = {
         res.render("vwMain/ListCourses", {
             layout: "main",
             courseInCat: courseInCat,
-            allCourse: fourthRows,
+            allCourse: fifthRows,
             empty: rows.length === 0,
             //pagi
             showPagi: true,
@@ -385,6 +434,11 @@ const mainController = {
             };
             fourthRows.push(item);
         }
+        let isExistedWatchlist = true;
+        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+            const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
+            isExistedWatchlist = course.length === 1;
+        }
 
         // console.log(fourthRows);
 
@@ -409,9 +463,9 @@ const mainController = {
 
         const chaptersOfCourse = [];
         const unitsOfCourse = [];
-        let totalHour= 0;
-        let totalMin= 0;
-        let totalSec= 0;
+        let totalHour = 0;
+        let totalMin = 0;
+        let totalSec = 0;
         let totalUnit = 0;
         for (let i = 0; i < chapters.length; i++) {
             totalUnit += +chapters[i].unitInChapter;
@@ -452,7 +506,7 @@ const mainController = {
                     duration,
                 };
                 unitsOfCourse.push(unitItem);
-                }
+            }
             chaptersOfCourse.push(item);
         }
 
@@ -479,22 +533,22 @@ const mainController = {
         const firstPreviewVideoLink = _firstPreviewVideoLink.length != 0 ? _firstPreviewVideoLink[0].linkVideo : '0';
 
         // console.log(firstPreviewVideoLink);
-        
+
         const addView = await courseModel.increaseView(course[0]);
         if (addView.affectedRows === 1) {
-        res.locals.review = review;
-        res.render("vwDetail/detail", {
-            layout: "main",
-            courseDetail,
-            chaptersOfCourse,
-            unitsOfCourse,
-            fourthRows,
-            duration,
-            totalChapter,
-            totalUnit,
-            firstPreviewVideoLink
-        });
-        return;
+            res.locals.review = review;
+            res.render("vwDetail/detail", {
+                layout: "main",
+                courseDetail,
+                chaptersOfCourse,
+                unitsOfCourse,
+                fourthRows,
+                duration,
+                totalChapter,
+                totalUnit,
+                firstPreviewVideoLink
+            });
+            return;
         }
         return res.status(404).json({ message: "Something when wrong when increase views of this course!" });
     },
@@ -629,12 +683,32 @@ const mainController = {
                 };
                 fourthRows.push(item);
             }
+
+            const fifthRows = [];
+            for (let i = 0; i < rows.length; i++) {
+                let isBestSeller = false;
+                let isNewCourse = false;
+
+                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isBestSeller = true;
+                };
+
+                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isNewCourse = true;
+                };
+                const item = {
+                    ...fourthRows[i],
+                    isBestSeller,
+                    isNewCourse,
+                };
+                fifthRows.push(item);
+            }
             // console.log(fourthRows);
 
             res.render("vwMain/ListCourses", {
                 layout: "main",
                 courseInCat: courseInCat,
-                allCourse: fourthRows,
+                allCourse: fifthRows,
                 //   isAdmin: isAdmin,
                 //pagi
                 showPagi: true,
@@ -671,10 +745,11 @@ const mainController = {
                 const review = await reviewModel.getReview(courseID);
                 const hasReviewed = (await reviewModel.getReviewByCourseIDandUserID(courseID, res.locals.authUser.userID)).length !== 1;
                 let isExistedWatchlist = true;
-                if (res.locals.authUser.userID !== undefined) {
+                if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
                     const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
                     isExistedWatchlist = course.length === 1;
                 }
+                console.log(isExistedWatchlist);
 
 
                 courseDetail = {

@@ -6,6 +6,14 @@ const { averageArrayRating } = require("./../utils/utilsFunction");
 
 const watchlistModel = require("../models/watchlist.model");
 
+async function bestSeller() {
+    return await courseModel.getCourseBestSeller();
+}
+
+async function newCourse() {
+    return await courseModel.getCourseNew();
+}
+
 const mainController = {
     // get List Course page
     getListCourses: async(req, res) => {
@@ -111,12 +119,34 @@ const mainController = {
                 };
                 fourthRows.push(item);
             }
+
+            const fifthRows = [];
+            for (let i = 0; i < rows.length; i++) {
+                let isBestSeller = false;
+                let isNewCourse = false;
+
+                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isBestSeller = true;
+                };
+
+                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isNewCourse = true;
+                };
+                const item = {
+                    ...fourthRows[i],
+                    isBestSeller,
+                    isNewCourse,
+                };
+                fifthRows.push(item);
+            }
+
+
             // console.log(fourthRows);
 
             res.render("vwWatchlist/listCourse", {
                 layout: "main",
                 courseInCat: courseInCat,
-                allCourse: fourthRows,
+                allCourse: fifthRows,
                 //   isAdmin: isAdmin,
                 //pagi
                 showPagi: true,
@@ -292,12 +322,39 @@ const mainController = {
                 };
                 fourthRows.push(item);
             }
+
+            const fifthRows = [];
+            for (let i = 0; i < rows.length; i++) {
+                let isBestSeller = false;
+                let isNewCourse = false;
+
+                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isBestSeller = true;
+                };
+
+                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isNewCourse = true;
+                };
+                const item = {
+                    ...fourthRows[i],
+                    isBestSeller,
+                    isNewCourse,
+                };
+                fifthRows.push(item);
+            }
+
+            for (let c of courseInCat) {
+                if (c.catID === +req.params.id) {
+                    c.isActive = true;
+                }
+            }
+
             // console.log(fourthRows);
 
             res.render("vwWatchlist/listCourse", {
                 layout: "main",
                 courseInCat: courseInCat,
-                allCourse: fourthRows,
+                allCourse: fifthRows,
                 empty: rows.length === 0,
                 //pagi
                 showPagi: true,
@@ -424,12 +481,34 @@ const mainController = {
                 };
                 fourthRows.push(item);
             }
+
+            const fifthRows = [];
+            for (let i = 0; i < rows.length; i++) {
+                let isBestSeller = false;
+                let isNewCourse = false;
+
+                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isBestSeller = true;
+                };
+
+                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                    isNewCourse = true;
+                };
+                const item = {
+                    ...fourthRows[i],
+                    isBestSeller,
+                    isNewCourse,
+                };
+                fifthRows.push(item);
+            }
+
+
             // console.log(fourthRows);
 
             res.render("vwWatchlist/listCourse", {
                 layout: "main",
                 courseInCat: courseInCat,
-                allCourse: fourthRows,
+                allCourse: fifthRows,
                 //   isAdmin: isAdmin,
                 //pagi
                 showPagi: true,
