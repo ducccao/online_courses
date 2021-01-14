@@ -49,20 +49,22 @@
     })
 
 
-    function uploadCourse() {
+    function uploadChapter() {
         const fmUpload = $("#fmUpload");
         const chapterName = $("#chapterName");
-        const courseName = "12345"
+        const courseName = $("#courseControlSelect");
         const txtIsDone = $("#txtIsDone");
 
         let error = false;
 
         fmUpload.on("submit", e => {
-            //e.preventDefault();
+            e.preventDefault();
             const data = {
                 courseName: courseName.val(),
                 chapterName: chapterName.val(),
             }
+
+            //console.log(data);
 
             if (data.chapterName === "" || data.courseName === "") {
                 error = true;
@@ -70,31 +72,64 @@
             else {
                 error = false;
             }
+            //console.log(data);
+
 
             if (error === true) {
-                console.log(data)
+                //console.log(data);
                 e.preventDefault();
                 const messageTrigger = {
                     timer: 1500,
                     html: '',
                     icon: 'warning',
-                    title: "Invalid Content!"
+                    title: "Please fill in Chapter name!"
                 }
 
                 openAlert(messageTrigger)
                 return;
-            }
+            };
 
-            //  e.preventDefault();
-            const url = `/user/upload-chapter/upload`;
+            const title = `Chapter "${data.chapterName}" added to your selected course successfully!`;
+
+            $.ajax({
+                type: 'post',
+                url: '/user/upload-chapter',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    //console.log(data)
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title
+                    }
+                    openAlert(messageTrigger);
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
         })
     }
-    uploadCourse();
+    uploadChapter();
 </script>
 
 {{/section}}
 <div class="container-fluid my-4 upload-wrapper">
-    <form action="/user/upload-chapter" method="POST" id="fmUpload">
+    <form action="" method="POST" id="fmUpload">
         <div class="card">
             <div class="card-header">
                 <h4 class="card-text font-weight-bold ">What You See Is What You Get Editor</h4>
@@ -105,7 +140,9 @@
             <div class="card-body">
                 <div class="form-group">
                     <div class="form-group">
-                        <label for="courseControlSelect">Choose your course to add this chapter</label>
+                        <label for="courseControlSelect" class="font-weight-bold">Choose your chapter and course to add
+                            this
+                            unit</label>
                         <select class="form-control" id="courseControlSelect">
                             {{#each allCourse}}
                             <option>CourseID: {{this.courseID}} -- Course name: {{this.courseName}}</option>
@@ -115,7 +152,7 @@
                 </div>
                 <div class="form-group">
                     <label for="chapterName" class="font-weight-bold">Chapter Name</label>
-                    <input type="text" name="chapterName" id="chapterName" class="form-control" required="required" />
+                    <input type="text" name="chapterName" id="chapterName" class="form-control" />
                 </div>
             </div>
             <div class="card-footer ">

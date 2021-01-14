@@ -4,6 +4,11 @@ const config = require("./../config/default.json");
 const TBL_CHAPTER = "chapter";
 
 module.exports = {
+  All() {
+    const sql = `select * from ${TBL_CHAPTER}`;
+    db.load(sql);
+  },
+
   getAllChapterByCourseID(courseID) {
     const sql = `select * from ${TBL_CHAPTER} where courseID = ${courseID}`;
     return db.load(sql);
@@ -23,7 +28,17 @@ module.exports = {
     return db.load(sql);
   },
 
+  getChapterById(chapterID) {
+    const sql = `SELECT * FROM ${TBL_CHAPTER} where chapterID = ${chapterID}`;
+    return db.load(sql);
+  },
+
   addChapter(entity) {
     return db.add(entity, TBL_CHAPTER);
-},
+  },
+
+  getChapterOfCourseByChapterName(courseID, chapterName) {
+    const sql = `select * from ${TBL_CHAPTER} where courseID = ${courseID} and chapterName = "${chapterName}"`;
+    return db.load(sql);
+  }
 }

@@ -17,5 +17,19 @@ module.exports = {
     order by u.unitID
     limit 1`;
     return db.load(sql);
-  }
+  },
+
+  getUnitMaxId() {
+    const sql = `SELECT count(*) as unitMaxID FROM ${TBL_UNIT}`;
+    return db.load(sql);
+  },
+
+  addUnit(entity) {
+    return db.add(entity, TBL_UNIT);
+  },
+
+  getUnitOfchapterByUnitName(chapterID, unitName) {
+    const sql = `select * from ${TBL_UNIT} where chapterID = ${chapterID} and unitContent = "${unitName}"`;
+    return db.load(sql);
+  },
 }
