@@ -48,10 +48,8 @@
         allowedFileExtensions: ['png', 'jpg', 'gif'],
     })
 
-
     function uploadCourse() {
         const fmUpload = $("#fmUpload");
-
         const courseName = $("#courseName");
         const txtShortDes = $("#txtShortDes");
         const txtFullDes = $("#txtFullDes");
@@ -61,15 +59,10 @@
         const catName = $("#catName");
         const txtIsDone = $("#txtIsDone");
 
-
         let error = false;
-
-
-
 
         fmUpload.on("submit", e => {
             //e.preventDefault();
-
             const data = {
                 courseName: courseName.val(),
                 txtShortDes: txtShortDes.val(),
@@ -79,17 +72,13 @@
                 txtSyllabus: txtSyllabus.val(),
                 catName: catName.val(),
                 txtIsDone: txtIsDone.is(":checked"),
-
             }
-
-
             if (data.catName === "" || data.courseName === "" || data.txtShortDes === "" || data.txtFullDes === "" || data.txtCoursePrice === "") {
                 error = true;
             }
             else {
                 error = false;
             }
-
             if (isNaN(data.txtCoursePrice)) {
                 e.preventDefault();
                 const messageTrigger = {
@@ -98,14 +87,9 @@
                     icon: 'warning',
                     title: "Price Must Be Number!"
                 }
-
-
-
                 openAlert(messageTrigger)
                 return;
             }
-
-
             if (isNaN(data.txtCourseDiscount)) {
                 e.preventDefault();
                 const messageTrigger = {
@@ -114,13 +98,9 @@
                     icon: 'warning',
                     title: "Discount Must Be Number!"
                 }
-
-
-
                 openAlert(messageTrigger)
                 return;
             }
-
             if (error === true) {
                 console.log(data)
                 e.preventDefault();
@@ -130,17 +110,11 @@
                     icon: 'warning',
                     title: "Invalid Content!"
                 }
-
-
-
                 openAlert(messageTrigger)
                 return;
             }
-
             //  e.preventDefault();
             const url = `/user/upload-course/upload`;
-
-
         })
     }
     uploadCourse();
@@ -157,8 +131,12 @@
             </div>
             <div class="card-body">
                 <div class="form-group">
-                    <label for="ulAva" class="font-weight-bold">Course Avatar </label>
-                    <input id="ulAva" name="ulAva" type="file" class="file">
+                    <label for="ulAva" class="font-weight-bold">Course Avatar and Thumbnail
+                        <p class="text-warning">note: the thumbnail image name must contains the word "thumbnail", and
+                            the avatar image
+                            mustn't</p>
+                    </label>
+                    <input id="ulAva" name="ulAva" type="file" multiple class="file">
                 </div>
                 <div class="form-group">
                     <label for="courseName" class="font-weight-bold">Course Name</label>
@@ -188,18 +166,13 @@
 
                 <div class="form-group">
                     <label for="txtSyllabus" class="font-weight-bold">List chapter of this course
-                        <ul style="list-style: none;">Example:
+                        <ul style="list-style: none;" class="text-warning">Example:
                             <li>1. Chapter 1</li>
                             <li>2. Chapter 2</li>
                             <li>3. Chapter 3</li>
                         </ul>
                     </label>
                     <textarea class="form-control" name="txtSyllabus" id="txtSyllabus" cols="30" rows="10"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="txtIsDone" class="font-weight-bold"> Is Done ? </label>
-                    <input type="checkbox" name="txtIsDone" id="txtIsDone">
                 </div>
             </div>
             <div class="card-footer ">

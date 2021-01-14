@@ -11,6 +11,8 @@ const multer = require("multer");
 const userModel = require("./../models/user.model");
 const fs = require("fs");
 const chapterModel = require("../models/chapter.model");
+const categoryModel = require("./../models/category.model");
+const unitModel = require("./../models/unit.model");
 
 const userController = {
     // get all user
@@ -232,15 +234,21 @@ const userController = {
             console.log("Uploading Course !!");
             // console.log("alo alo " + req.body);
             let avaName = "";
+            let thumbnailName = "";
             const allCourse = await courseModel.all();
-            const savePath = `./public/courses/course-${allCourse.length + 1}/img`;
+            const savePath = `./public/courses/course-${allCourse.length + 1}`;
             const storage = multer.diskStorage({
                 destination: function(req, file, cb) {
                     fs.mkdirSync(savePath, { recursive: true })
                     cb(null, savePath);
                 },
                 filename: function(req, file, cb) {
-                    avaName = file.originalname;
+                    if (file.originalname.includes("thumbnail"))
+                    {
+                        thumbnailName = file.originalname;
+                    } else {
+                        avaName = file.originalname;
+                    }
                     //  console.log(file);
                     cb(null, file.originalname);
                 },
@@ -248,7 +256,7 @@ const userController = {
 
             const upload = multer({ storage });
 
-            upload.single("ulAva")(req, res, async function(er) {
+            upload.array("ulAva", 2)(req, res, async function(er) {
                 if (er) {
                     console.log(er);
                 } else {
@@ -262,8 +270,9 @@ const userController = {
                     );
 
                     // console.log("Is cousrse exists", isCourseNameExists);
-                    console.log(avaName);
+                    console.log(avaName + " and " + thumbnailName);
                     const avataURL = "../." + savePath + "/" + avaName;
+                    const thumbnailURL = "../." + savePath + "/" + thumbnailName;
                     //console.log(avataURL);
                     console.log(isCatExists);
                     if (isCatExists.length === 0) {
@@ -288,12 +297,12 @@ const userController = {
                         title: "",
                         catID: isCatExists[0].catID,
                         userID: req.session.authUser.userID,
-                        thumbnail: "",
+                        thumbnail: thumbnailURL,
                         avatar: avataURL,
                         fee: +req.body.txtCoursePrice,
                         subDescription: req.body.txtShortDes,
                         fullDescription: req.body.txtFullDes,
-                        isFinished: req.body.txtIsDone === "on" ? true : false,
+                        isFinished: false,
                         views: 0,
                         dayPost: moment().format("YYYY-MM-DD"),
                         lastUpdate: moment().format("YYYY-MM-DD"),
@@ -327,7 +336,6 @@ const userController = {
                         }
                         const firstRet = await chapterModel.addChapter(entityChapter);
                     })
-
                     res.render("vwUser/UploadCourse", {
                         layout: "main",
                     });
@@ -362,7 +370,7 @@ const userController = {
     getUploadChapterPage: async(req, res) => {
         const userID = req.session.authUser.userID;
         const allCourse = await courseModel.getAllCouseByInstructorId(userID);
-        console.log(allCourse);
+        // console.log(allCourse);
         res.render("vwUser/UploadChapter", {
             layout: "main",
             allCourse
@@ -371,107 +379,165 @@ const userController = {
     // post upload course
 
     postUploadChapterPage: async(req, res) => {
-        try {
-            // avatar
-            console.log("Uploading Course !!");
-            console.log(req.body);
-            // const { chapterName, courseName } = req.body;
-            const userID = req.session.authUser.userID;
-            const allCourse = await courseModel.getAllCouseByInstructorId(userID);
-            console.log(allCourse);
+        console.log("Uploading chapter !!");
+        // console.log("alo alo " + req.body);
+        const allCourse = await courseModel.all();
+
+        const { chapterName, courseName } = req.body;
+
+        const courseID = courseName.split(" -- ")[0].slice(10);
+
+        const check = await chapterModel.getChapterOfCourseByChapterName(courseID, chapterName)
+
+        const checkChapterNameExisted = check.length == 0 ? 0 : 1;
+
+        if (checkChapterNameExisted) {
+            return res.status(500).json({ message: "The chapter name you have submitted already existed in this course!" });
+        } else {
+            const _chapterMaxId = await chapterModel.getChapterMaxId();
+            let chapterMaxId = _chapterMaxId[0].chapterMaxID;
+            const entity = {
+                courseID,
+                chapterID: chapterMaxId + 1,
+                chapterName,
+            }
+            const firstRet = await chapterModel.addChapter(entity);
+
+            const course = await courseModel.getCourseByID(courseID);
+
+            course[0].lastUpdate = moment().format("YYYY-MM-DD");
+
+            console.log(course[0]);
+
+            const updateLastUpdateCourse = await courseModel.editCourse(course[0]);
+            console.log(updateLastUpdateCourse);
+
             res.render("vwUser/UploadChapter", {
                 layout: "main",
                 allCourse
             });
+        }
+    },
+
+    //get cart page
+    getCartPage: (req, res) => {
+        res.render("vwUser/Cart", {
+            layout: "main",
+        });
+    },
+
+    getUploadUnitPage: async(req, res) => {
+        console.log("Get into upload Unit !!");
             // console.log("alo alo " + req.body);
-            // let avaName = "";
+
+        const userID = req.session.authUser.userID;
+        const allInstructorCourse = await courseModel.getAllCouseByInstructorId(userID);
+
+        const allInstructorChapter = [];
+        for (let i = 0; i < allInstructorCourse.length; i++) {
+            const chapterSubArr = await chapterModel.getAllChapterByCourseID(allInstructorCourse[i].courseID);
+            chapterSubArr.map(chapter => {
+                allInstructorChapter.push(chapter);
+            })
+        }
+        res.render("vwUser/UploadUnit", {
+            layout: "main",
+            allInstructorCourse,
+            allInstructorChapter,
+        });
+    },
+    // post upload course
+
+    postUploadUnit: async(req, res) => {
+        try {
+            // avatar
+            console.log("Uploading Course !!");
+            // console.log("alo alo " + req.body);
+            let vidName = "";
+            const savePath = `./public/courses/coursevideos-${moment().format("DD-MM-YYYY").slice(0,2)}`;
+            const storage = multer.diskStorage({
+                destination: function(req, file, cb) {
+                    fs.mkdirSync(savePath, { recursive: true })
+                    cb(null, savePath);
+                },
+                filename: function(req, file, cb) {
+                    vidName = file.originalname;
+                    //  console.log(file);
+                    cb(null, file.originalname);
+                },
+            });
             // const allCourse = await courseModel.all();
-            // const savePath = `./public/courses/course-${allCourse.length + 1}/img`;
-            // const storage = multer.diskStorage({
-            //     destination: function(req, file, cb) {
-            //         fs.mkdirSync(savePath, { recursive: true })
-            //         cb(null, savePath);
-            //     },
-            //     filename: function(req, file, cb) {
-            //         avaName = file.originalname;
-            //         //  console.log(file);
-            //         cb(null, file.originalname);
-            //     },
-            // });
+            const upload = multer({ storage });
 
-            // const upload = multer({ storage });
+            upload.single("ulVideo")(req, res, async function(er) {
+                if (er) {
+                    console.log(er);
+                } else {
+                    console.log(savePath);
+                    // console.log(req.body.videoLength);
+                    const check = await unitModel.getUnitOfchapterByUnitName(req.body.chapterID, req.body.unitName);
 
-            // upload.single("ulAva")(req, res, async function(er) {
-            //     console.log(req.body);
-            //     if (er) {
-            //         console.log(er);
-            //     } else {
-                    // const allCourse = await courseModel.all();
-                    // const isCatExists = await adminModel.getCatByCatName(
-                    //     req.body.catName
-                    // );
+                    if (check.length > 0) {
+                        return res.status(400).json({ message: "This unit name already exists in the chapter of course u chose!"});
+                    }
+                    else {
+                        const time = req.body.videoLength;
 
-                    // const isCourseNameExists = await courseModel.getCourseByCourseName(
-                    //     req.body.courseName
-                    // );
+                        const hour = time.slice(0,2);
 
-                    // // console.log("Is cousrse exists", isCourseNameExists);
-                    // console.log(avaName);
-                    // const avataURL = "../." + savePath + "/" + avaName;
-                    // //console.log(avataURL);
-                    // console.log(isCatExists);
-                    // if (isCatExists.length === 0) {
-                    //     console.log(
-                    //         "I dont understand why are you always jump into here !"
-                    //     );
-                    //     return res
-                    //         .status(400)
-                    //         .json({ message: "Category Does Not Exists!" });
-                    // }
+                        const min = time.slice(4,6);
 
-                    // if (isCourseNameExists.length !== 0) {
-                    //     console.log("Course is exists erorr!");
-                    //     return res.status(400).json({ message: "CourseName Is Already Existed!" });
-                    // }
-                    // //  console.log("Cat ID: ", isCatExists[0].catID);
+                        const sec = time.slice(8,10);
 
-                    // // const fulDesText = req.body.txtFullDes,
-                    // const entity = {
-                    //     courseID: allCourse.length + 1,
-                    //     courseName: req.body.courseName,
-                    //     title: "",
-                    //     catID: isCatExists[0].catID,
-                    //     userID: req.session.authUser.userID,
-                    //     thumbnail: "",
-                    //     avatar: avataURL,
-                    //     fee: +req.body.txtCoursePrice,
-                    //     subDescription: req.body.txtShortDes,
-                    //     fullDescription: req.body.txtFullDes,
-                    //     isFinished: req.body.txtIsDone === "on" ? true : false,
-                    //     views: 0,
-                    //     dayPost: moment().format("YYYY-MM-DD"),
-                    //     lastUpdate: moment().format("YYYY-MM-DD"),
-                    // };
+                        const _unitMaxId = await unitModel.getUnitMaxId();
+                        let unitMaxId = _unitMaxId[0].unitMaxID;
 
-                    // if (typeof entity.catID === "undefined") {
-                    //     console.log("Cat id is undefined!");
-                    //     throw new Error("Cat ID is undefined!");
-                    // }
+                        const entity = {
+                            unitID: unitMaxId + 1,
+                            chapterID: req.body.chapterID,
+                            unitContent: req.body.unitName,
+                            linkVideo: "../." + savePath + "/" + vidName,
+                            flagReviewable: req.body.txtIsReviewable == "on" ? 1 : 0,
+                            duration_hour: hour,
+                            duration_min: min,
+                            duration_sec: sec
+                        };
 
-                    // const isAddDiscount = await courseModel.addDiscount(
-                    //     entity.courseID, +req.body.txtCourseDiscount
-                    // );
+                        // console.log(entity);
+                        const firstRet = await unitModel.addUnit(entity);
+                        
+                        // console.log(entity);
+                        const course = await courseModel.getCourseByID(req.body.courseID);
+                        
+                        course[0].lastUpdate = moment().format("YYYY-MM-DD");
+                        
+                        const flagComplete = req.body.txtIsDone == "on" ? 1 : 0;
+                        
+                        if (flagComplete) {
+                            course[0].isFinished = 1;
+                        }
+                        // console.log(course);
 
-                    // const firstRet = await courseModel.addCourse(entity);
-                    // //console.log(firstRet);
-                    // //console.log(isAddDiscount);
-                    // //console.log("entity ", entity);
+                        const secondRet = await courseModel.editCourse(course[0]);
 
-                    // res.render("vwUser/UploadChapter", {
-                    //     layout: "main",
-                    // });
-            //     }
-            // });
+                        const userID = req.session.authUser.userID;
+                        const allInstructorCourse = await courseModel.getAllCouseByInstructorId(userID);
+
+                        const allInstructorChapter = [];
+                        for (let i = 0; i < allInstructorCourse.length; i++) {
+                            const chapterSubArr = await chapterModel.getAllChapterByCourseID(allInstructorCourse[i].courseID);
+                            chapterSubArr.map(chapter => {
+                                allInstructorChapter.push(chapter);
+                            })
+                        }
+                        res.render("vwUser/UploadUnit", {
+                            layout: "main",
+                            allInstructorCourse,
+                            allInstructorChapter,
+                        });
+                    }
+                }
+            });
 
             // multer
 
@@ -495,13 +561,6 @@ const userController = {
             console.log(er);
             return res.status(500).json({ message: er.sqlMessage });
         }
-    },
-
-    //get cart page
-    getCartPage: (req, res) => {
-        res.render("vwUser/Cart", {
-            layout: "main",
-        });
     },
 
     postCart: async(req, res) => {},

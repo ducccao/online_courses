@@ -1,0 +1,162 @@
+{{#section 'css'}}
+<style>
+    .upload-wrapper {
+        max-width: 1140px;
+    }
+
+    .hidden-input {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        visibility: hidden;
+    }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/css/fileinput.min.css">
+{{/section}}
+
+<div class="container-fluid my-4 upload-wrapper">
+    <form method="POST" id="fmUpload" enctype="multipart/form-data">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-text font-weight-bold ">What You See Is What You Get Editor</h4>
+                <h4 class="card-text text-center font-weight-bold text-success">Add a new unit</h4>
+            </div>
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="courseChapterControlSelect">Choose your course and chapter to add this unit</label>
+                    <select class="form-control" id="courseChapterControlSelect">
+                        {{#each allInstructorCourse}}
+                        {{#each ../allInstructorChapter}}
+                        {{#if_equal courseID ../courseID }}
+                        <option>
+                            CourseID: {{../courseID}} - Course name: {{../courseName}} -- ChapterID: {{this.chapterID}}
+                            - Chapter name: {{this.chapterName}}
+                        </option>
+                        {{/if_equal}}
+                        {{/each}}
+                        {{/each}}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="ulVideo" class="font-weight-bold">Unit Video</label>
+                    <input id="ulVideo" name="ulVideo" type="file" class="file">
+                </div>
+
+                <div class="form-group">
+                    <label for="unitName" class="font-weight-bold">Unit Name</label>
+                    <input type="text" name="unitName" id="unitName" class="form-control" />
+                </div>
+
+                <div class="form-group hidden-input">
+                    <label for="courseID" class="font-weight-bold">Course ID</label>
+                    <input type="text" name="courseID" id="courseID" class="form-control" />
+                </div>
+
+                <div class="form-group hidden-input">
+                    <label for="chapterID" class="font-weight-bold">Chapter ID</label>
+                    <input type="text" name="chapterID" id="chapterID" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="videoLength" class="font-weight-bold">Video length (hh:mm:ss)
+                        <p>Example: 03h:34m:43s</p>
+                    </label>
+                    <input type="text" name="videoLength" id="videoLength" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtIsReviewable" class="font-weight-bold"> Is Unit video Reviewable ? </label>
+                    <input type="checkbox" name="txtIsReviewable" id="txtIsReviewable">
+                </div>
+
+                <div class="form-group">
+                    <label for="txtIsDone" class="font-weight-bold"> Is Course Done ? </label>
+                    <input type="checkbox" name="txtIsDone" id="txtIsDone">
+                </div>
+
+
+            </div>
+            <div class="card-footer ">
+                <button class="btn btn-primary" type="submit">
+                    <i class="fa fa-upload mr-2"></i>Add this Unit
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script src='https://cdn.tiny.cloud/1/6a2wdzaqh764emfqjwf4g5s2kr8ajq1vbfrcipng9eu1o2il/tinymce/5/tinymce.min.js'
+    referrerpolicy="origin"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/js/fileinput.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/explorer-fa/theme.min.js"
+    integrity="sha512-hg/NmpjshDPjmZAAGr5j6UlcV1GotL1IBbFH96Q2fFGkr/OaMwAuZTl5j6swzyxUU3eihRUhRWn0rASVuyXGxw=="
+    crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.1.3/themes/fa/theme.min.js"
+    integrity="sha512-eur4+EF8SPJo3fhe8mMkdSwopFRsMtCU2NvPm8aKjxWFs3/9naJn5HbYi+KPGwAinR5xYzz0/njHcGzifM9KCg=="
+    crossorigin="anonymous"></script>
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+
+    $("#ulVideo").fileinput({
+        theme: 'fa',
+        dropZoneEnabled: false,
+        allowedFileExtensions: ['mp4', 'mov', 'wmv', 'avi'],
+    })
+
+    function uploadUnit() {
+        const fmUpload = $("#fmUpload");
+        //        const courseChapterName = $("#courseChapterControlSelect");
+        const txtIsDone = $("#txtIsDone");
+        const unitName = $("#unitName");
+        const videoLength = $("#videoLength");
+
+        let error = false;
+
+
+        fmUpload.on("submit", e => {
+            //          e.preventDefault();
+            const arr = $("#courseChapterControlSelect").val().split(" -- ");
+            const courseID = arr[0].split(" - ")[0].slice(10);
+            const chapterID = arr[1].split(" - ")[0].slice(11);
+
+            $("#courseID").val(courseID);
+            $("#chapterID").val(chapterID);
+
+            const data = {
+                unitName: $("#unitName").val(),
+                txtIsDone: txtIsDone.is(":checked"),
+                videoLength: videoLength.val(),
+            }
+            if (data.unitName === "" || data.videoLength === "") {
+                error = true;
+            }
+            else {
+                error = false;
+            }
+            if (error === true) {
+                console.log(data);
+                e.preventDefault();
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'warning',
+                    title: "Please fill in Unit name and video length!"
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+            //e.preventDefault();
+            //console.log(data);
+            const url = `/user/upload-unit/upload`;
+        })
+    }
+    uploadUnit();
+</script>
+
+{{/section}}
