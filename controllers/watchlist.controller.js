@@ -526,15 +526,19 @@ const mainController = {
     },
 
     editWatchlist: (req, res) => {
+        console.log("hello");
         const method = req.body.method;
         const enity = {
             courseID: req.body.courseID,
             userID: res.locals.authUser.userID,
         }
+        console.log(method);
         if (method === "add") {
-
+            console.log("*********************************************");
             watchlistModel.addWatchlistCourse(enity);
         } else {
+            console.log("*****4444444444444444444444444444444444444444444444*****************");
+
             watchlistModel.delWatchlistCourse(enity);
         }
         let url = req.headers.referer || "/";

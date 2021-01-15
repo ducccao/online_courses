@@ -92,6 +92,7 @@ const userController = {
 
         req.session.isAuth = true;
         req.session.authUser = isUserExists[0];
+
         req.session.cart = [];
 
         let url = req.session.retUrl || "/";
@@ -243,8 +244,7 @@ const userController = {
                     cb(null, savePath);
                 },
                 filename: function(req, file, cb) {
-                    if (file.originalname.includes("thumbnail"))
-                    {
+                    if (file.originalname.includes("thumbnail")) {
                         thumbnailName = file.originalname;
                     } else {
                         avaName = file.originalname;
@@ -320,7 +320,7 @@ const userController = {
                     const firstRet = await courseModel.addCourse(entity);
 
                     const str = req.body.txtSyllabus;
-                    const str2 = str.slice(10,str.length - 12);
+                    const str2 = str.slice(10, str.length - 12);
                     const arr = str2.split("</li>\r\n<li>");
                     // console.log(arr);
                     const _chapterMaxId = await chapterModel.getChapterMaxId();
@@ -428,7 +428,7 @@ const userController = {
 
     getUploadUnitPage: async(req, res) => {
         console.log("Get into upload Unit !!");
-            // console.log("alo alo " + req.body);
+        // console.log("alo alo " + req.body);
 
         const userID = req.session.authUser.userID;
         const allInstructorCourse = await courseModel.getAllCouseByInstructorId(userID);
@@ -478,16 +478,15 @@ const userController = {
                     const check = await unitModel.getUnitOfchapterByUnitName(req.body.chapterID, req.body.unitName);
 
                     if (check.length > 0) {
-                        return res.status(400).json({ message: "This unit name already exists in the chapter of course u chose!"});
-                    }
-                    else {
+                        return res.status(400).json({ message: "This unit name already exists in the chapter of course u chose!" });
+                    } else {
                         const time = req.body.videoLength;
 
-                        const hour = time.slice(0,2);
+                        const hour = time.slice(0, 2);
 
-                        const min = time.slice(4,6);
+                        const min = time.slice(4, 6);
 
-                        const sec = time.slice(8,10);
+                        const sec = time.slice(8, 10);
 
                         const _unitMaxId = await unitModel.getUnitMaxId();
                         let unitMaxId = _unitMaxId[0].unitMaxID;
@@ -505,14 +504,14 @@ const userController = {
 
                         // console.log(entity);
                         const firstRet = await unitModel.addUnit(entity);
-                        
+
                         // console.log(entity);
                         const course = await courseModel.getCourseByID(req.body.courseID);
-                        
+
                         course[0].lastUpdate = moment().format("YYYY-MM-DD");
-                        
+
                         const flagComplete = req.body.txtIsDone == "on" ? 1 : 0;
-                        
+
                         if (flagComplete) {
                             course[0].isFinished = 1;
                         }

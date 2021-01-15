@@ -25,7 +25,8 @@
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">
                     {{#if ../isAuth}}
-                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"
+                            onclick="editWatchlist()" data-id="{{this.courseID}}"></i></span>
                     {{/if}}
                     <div class="card-body">
                         <h4 class="card-title text-dark font-weight-bolder">
@@ -107,7 +108,8 @@
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">
                     {{#if ../isAuth}}
-                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"
+                            onclick="editWatchlist()" data-id="{{this.courseID}}"></i></span>
                     {{/if}}
                     <div class="card-body">
                         <h4 class="card-title text-dark font-weight-bolder">
@@ -181,6 +183,10 @@
                 Top 10 Most Views
             </h4>
         </div>
+        <form action="/watchlist/method" method="POST" id="fmWatchlist">
+            <input type="hidden" id="txtCourseID-watchlist" name="courseID">
+            <input type="hidden" id="txtMethod-watchlist" name="method">
+        </form>
         <div class="slick-show custom-carousel">
             {{#each allCourse }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
@@ -189,7 +195,9 @@
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">
                     {{#if ../isAuth}}
-                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"
+                            data-id="{{this.courseName}}" id="fa-heart{{this.courseID}}"
+                            onclick="editWatchlist()"></i></span>
                     {{/if}}
                     <div class="card-body">
                         <h4 class="card-title text-dark font-weight-bolder">
