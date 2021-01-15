@@ -492,7 +492,8 @@ const mainController = {
             totalSec += sec;
 
             const formatedSec = sec > 9 ? sec : `0${sec}`;
-            const duration = `${hour}h:${min}m:${formatedSec}s`;
+            const formatedMin = min > 9 ? min : `0${min}`;
+            const duration = `${hour}h:${formatedMin}m:${formatedSec}s`;
 
             const item = {
                 ...chapters[i],
@@ -501,7 +502,8 @@ const mainController = {
             const units = await unitModel.getAllUnitByChapterID(item.chapterID);
             for (let i = 0; i < units.length; i++) {
                 const formatedSec = units[i].duration_sec > 9 ? units[i].duration_sec : `0${units[i].duration_sec}`;
-                const duration = `${units[i].duration_hour}h:${units[i].duration_min}m:${formatedSec}s`
+                const formatedMin = units[i].duration_min > 9 ? units[i].duration_min : `0${units[i].duration_min}`;
+                const duration = `${units[i].duration_hour}h:${formatedMin}m:${formatedSec}s`
                 const unitItem = {
                     ...units[i],
                     duration,
@@ -523,11 +525,12 @@ const mainController = {
             totalMin = totalMin % 60;
         }
 
+        const formatedMin = totalMin > 9 ? totalMin : `0${totalMin}`;
         const formatedSec = totalSec > 9 ? totalSec : `0${totalSec}`;
-        const duration = `${totalHour}h:${totalMin}m:${formatedSec}s`
-            // console.log(totalChapter);
-            // console.log(totalUnit);
-            // console.log(duration);
+        const duration = `${totalHour}h:${formatedMin}m:${formatedSec}s`
+        // console.log(totalChapter);
+        // console.log(totalUnit);
+        // console.log(duration);
         const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(courseID);
 
         const firstPreviewVideoLink = _firstPreviewVideoLink.length != 0 ? _firstPreviewVideoLink[0].linkVideo : '0';
@@ -805,8 +808,6 @@ const mainController = {
         } else {
             res.redirect("/");
         }
-
-
     },
 };
 
