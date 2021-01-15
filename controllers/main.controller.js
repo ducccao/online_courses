@@ -381,7 +381,6 @@ const mainController = {
         const discountedPrice = course[0].fee * (1 - _discountP / 100);
         const review = await reviewModel.getReview(courseID);
 
-
         //get 5 related courses
         const firstRow = await courseModel.getTopFiveRelated(type[0].subjID);
 
@@ -405,6 +404,8 @@ const mainController = {
             };
             thirdRows.push(item);
         }
+
+
         // console.log(thirdRows);
         // rating course
         const fourthRows = [];
@@ -434,8 +435,10 @@ const mainController = {
             };
             fourthRows.push(item);
         }
+
         let isExistedWatchlist = true;
-        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+        if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
+            console.log("hllo");
             const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
             isExistedWatchlist = course.length === 1;
         }
@@ -722,7 +725,7 @@ const mainController = {
 
     getLearnCoure: async(req, res) => {
         const courseID = +req.params.id;
-        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+        if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
             const isOrdered = ((await courseModel.getOrderCourseByUserIDAndCourseID(courseID, res.locals.authUser.userID)).length === 1);
             if (isOrdered === true) {
                 const course = await courseModel.getCourseByID(courseID);
