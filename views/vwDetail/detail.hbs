@@ -502,7 +502,7 @@
 
         {{#if ../isAuth}}
 
-        <input type="text" id="txtCourseName" name="txtCourseName">
+        <input type="text" class="txtCourseName" name="txtCourseName">
         <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy" class="card-link btn btn-success add-item ">
           <i class="fa fa-cart-plus mr-2 "></i>Buy
         </a>
@@ -609,6 +609,34 @@
   }
   buyCouse();
 </script>
+<script type="module">
+  import { openAlert } from "/utils/alertModal.js"
+  function editWatchlist() {
+    const btnBuy = $("#btnBuy")
+    $("#add-to-watchlist-button").on('click', function (e) {
+      e.preventDefault();
+      const id = $(this).data('id');
+      const isWatchlist = $(this).data('existed');
+
+      const check = $('#txtCourseID-watchlist').val(id);
+      let method = "add";
+      console.log(isWatchlist);
+      if (isWatchlist === true) {
+        method = "delete"
+      }
+      const test = $('#txtMethod-watchlist').val(method);
+      console.log(test);
+      console.log(check);
+
+      $("#fmWatchlist").submit();
+    })
+  }
+  editWatchlist();
+</script>
+
+
+
+
 <script src="https://cdn.plyr.io/3.6.3/plyr.polyfilled.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 {{/section}}
