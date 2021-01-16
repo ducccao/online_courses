@@ -293,4 +293,11 @@ module.exports = {
         `;
         return db.load(sql);
     },
+
+    getAllInstructor() {
+        const sql = `select userName from ${config.DATABASE.TABLE.USER} 
+        where decentralization = 1
+        `;
+        return db.load(sql);
+    },
 };

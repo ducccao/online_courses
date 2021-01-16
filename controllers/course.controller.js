@@ -47,7 +47,7 @@ const courseController = {
                 catName: catOfCourse[0].catName,
             });
         }
-        const thirdRows = [];
+        let thirdRows = [];
         for (let nh = 0; nh < secondRows.length; ++nh) {
             const insOfCourse = await courseModel.getInstructorOfCourse(
                 secondRows[nh].courseID
@@ -56,8 +56,23 @@ const courseController = {
                 ...secondRows[nh],
                 instructorName: insOfCourse[0].userName,
             });
-            console.log(insOfCourse);
+            //  console.log(insOfCourse);
         }
+
+        const allInstructor = await courseModel.getAllInstructor();
+        const allCatName = await categoryModel.getAllCatName();
+
+        if (req.query.instructor) {
+            console.log("req query ", req.query);
+            let instructor = req.query.instructor || "";
+            thirdRows = thirdRows.filter((item) => {
+                console.log(item.instructorName);
+                console.log(instructor);
+                return item.instructorName === instructor;
+            });
+        }
+
+        //console.log(thirdRows);
 
         //console.log(secondRows);
 
@@ -69,8 +84,8 @@ const courseController = {
             allCourse: thirdRows,
             empty: rows.length === 0,
             // sort
-            listCat: [1, 2, 3],
-            listIns: [4, 5, 6],
+            listCat: allCatName,
+            listIns: allInstructor,
 
             // pagi
             showPagi: true,

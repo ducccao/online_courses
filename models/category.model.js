@@ -1,7 +1,6 @@
 const db = require("../utils/db");
-
+const config = require("./../config/default.json");
 const TBL_CATEGORIES = "category";
-
 
 module.exports = {
     all() {
@@ -41,6 +40,10 @@ module.exports = {
                             on c.catID = p.catID
     group by c.catID, c.catName
   `;
+        return db.load(sql);
+    },
+    getAllCatName() {
+        const sql = `select catName from ${config.DATABASE.TABLE.CATEGORY}`;
         return db.load(sql);
     },
 };

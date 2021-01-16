@@ -45,7 +45,7 @@
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {{#each listCat }}
                 <a class="dropdown-item" href="#">
-                    {{this}}
+                    {{this.catName}}
                 </a>
                 {{/each}}
 
@@ -58,9 +58,9 @@
                 Instructor
             </div>
             <div class="dropdown-menu text-primary" aria-labelledby="dropdownMenuButton">
-                {{#each listCat }}
-                <a class="dropdown-item" href="#">
-                    {{this}}
+                {{#each listIns }}
+                <a class="dropdown-item" href="/admin/courses?page=1&instructor={{this.userName}}">
+                    {{this.userName}}
                 </a>
                 {{/each}}
 
@@ -119,9 +119,7 @@
                     </tr>
                     {{/each}}
 
-                <tfoot>
 
-                </tfoot>
                 </tbody>
             </table>
         </div>
