@@ -24,7 +24,7 @@ const courseController = {
             page = 1;
         }
 
-        const limit = config.pagination.limit;
+        const limit = config.admin.course.pagination.limit;
         const offset = (page - 1) * limit;
         const rows = await courseModel.pagiCourse(offset);
         const total = allCourse.length;
@@ -38,12 +38,39 @@ const courseController = {
             };
             pagiItem.push(item);
         }
+        const secondRows = [];
+        for (let i = 0; i < rows.length; ++i) {
+            const catOfCourse = await courseModel.getCatName(rows[i].courseID);
+            //   console.log("cat of course", catOfCourse);
+            secondRows.push({
+                ...rows[i],
+                catName: catOfCourse[0].catName,
+            });
+        }
+        const thirdRows = [];
+        for (let nh = 0; nh < secondRows.length; ++nh) {
+            const insOfCourse = await courseModel.getInstructorOfCourse(
+                secondRows[nh].courseID
+            );
+            thirdRows.push({
+                ...secondRows[nh],
+                instructorName: insOfCourse[0].userName,
+            });
+            console.log(insOfCourse);
+        }
+
+        //console.log(secondRows);
+
+        //   console.log(rows);
 
         res.render("vwAdminCourse/AllCourses", {
             layout: "admin",
             headerTitle: "All Courses",
-            allCourse: rows,
+            allCourse: thirdRows,
             empty: rows.length === 0,
+            // sort
+            listCat: [1, 2, 3],
+            listIns: [4, 5, 6],
 
             // pagi
             showPagi: true,
@@ -190,7 +217,6 @@ const courseController = {
             layout: "admin",
         });
     },
-
 
     /* #endregion */
 };
