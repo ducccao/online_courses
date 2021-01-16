@@ -44,7 +44,7 @@
             </div>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {{#each listCat }}
-                <a class="dropdown-item" href="#">
+                <a class="dropdown-item" href="/admin/courses?page=1&catName={{this.catName}}">
                     {{this.catName}}
                 </a>
                 {{/each}}

@@ -66,12 +66,19 @@ const courseController = {
             console.log("req query ", req.query);
             let instructor = req.query.instructor || "";
             thirdRows = thirdRows.filter((item) => {
-                console.log(item.instructorName);
-                console.log(instructor);
+                //console.log(item.instructorName);
+                //   console.log(instructor);
                 return item.instructorName === instructor;
             });
         }
+        //console.log(thirdRows);
 
+        if (req.query.catName) {
+            let catName = req.query.catName;
+            thirdRows = thirdRows.filter((item) => {
+                return item.catName === catName;
+            });
+        }
         //console.log(thirdRows);
 
         //console.log(secondRows);
