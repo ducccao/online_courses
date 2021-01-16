@@ -53,6 +53,17 @@ router.get(
     adminController.getAllInstructorRecordPage
 );
 
+router.get(
+    "/instructors/lock",
+    authAdmin,
+    adminController.getLockAccountInstructorPage
+);
+router.put(
+    "/instructors/lock",
+    authAdmin,
+    adminController.putLockAccountInstructor
+);
+
 /* #endregion */
 
 //   throw new Error("access denied");

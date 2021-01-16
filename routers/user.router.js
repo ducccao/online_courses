@@ -30,22 +30,46 @@ router.get("/verify/:id", userController.getVerify);
 router.get("/prevent-access", userController.preventUserAccess);
 
 // forgot password
-router.get("/forgot-password", userController.getForgotPassword);
+router.get("/forgot-password", auth, authOTP, userController.getForgotPassword);
 
 // get profile
 router.get("/profile", auth, authOTP, userController.getProfile);
 
 // get upload course
-router.get("/upload-course", auth, authNav, userController.getUploadCoursePage);
+router.get(
+    "/upload-course",
+    auth,
+    authNav,
+    authOTP,
+    userController.getUploadCoursePage
+);
 // post upload course
-router.post("/upload-course", authOTP, userController.postUploadCourse);
+router.post("/upload-course", auth, userController.postUploadCourse);
 
-router.get("/upload-chapter", auth, authNav, userController.getUploadChapterPage);
+router.get(
+    "/upload-chapter",
+    auth,
+    authNav,
+    authOTP,
+    userController.getUploadChapterPage
+);
 
 router.post("/upload-chapter", authOTP, userController.postUploadChapterPage);
 
-router.get("/upload-unit", auth, authNav, userController.getUploadUnitPage);
+router.get(
+    "/upload-unit",
+    auth,
+    authNav,
+    authOTP,
+    userController.getUploadUnitPage
+);
 
-router.post("/upload-unit", authOTP, userController.postUploadUnit);
+router.post("/upload-unit", auth, userController.postUploadUnit);
+
+router.get(
+    "/locked",
+
+    userController.getLockAccountPage
+);
 
 module.exports = router;

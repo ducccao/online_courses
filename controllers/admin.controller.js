@@ -316,6 +316,23 @@ const adminController = {
             showPagi: true,
         });
     },
+
+    getLockAccountInstructorPage: (req, res) => {
+        res.render("vwAdmin/vwInstructor/LockAccount", {
+            layout: "admin",
+        });
+    },
+    putLockAccountInstructor: async(req, res) => {
+        console.log(req.body);
+        const userID = req.body.userID;
+
+        const ret1 = await adminModel.lockAccountInstructor(userID);
+        console.log(ret1);
+        if (+ret1.affectedRows === 0) {
+            return res.status(500).json({ sqlMessage: "Cannot Find Instructor!" });
+        }
+        return res.status(200).json({ sqlMessage: "Locked Find Instructor!" });
+    },
 };
 
 module.exports = adminController;

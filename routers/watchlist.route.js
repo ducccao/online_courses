@@ -10,12 +10,18 @@ const express = require("express");
 const router = express.Router();
 const watchlistController = require("../controllers/watchlist.controller");
 
-router.get("/", auth, authNav, watchlistController.getListCourses);
+router.get("/", auth, authNav, authOTP, watchlistController.getListCourses);
 
-router.get("/byCat/:id", auth, authNav, watchlistController.getCourseListByCat);
+router.get(
+    "/byCat/:id",
+    auth,
+    authNav,
+    authOTP,
+    watchlistController.getCourseListByCat
+);
 
 router.post("/search", auth, watchlistController.searchCourse);
-router.get("/search", auth, authNav, watchlistController.searchCourse);
+router.get("/search", auth, authNav, authOTP, watchlistController.searchCourse);
 
 router.post("/method", auth, watchlistController.editWatchlist);
 

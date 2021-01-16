@@ -1,0 +1,101 @@
+{{#section 'css'}}
+{{/section}}
+
+
+
+<div>
+
+
+    <div class="card">
+        <div class="card-header bg-gradient-danger text-white font-weight-bold ">Lock Account Instructor</div>
+        <div class="card-body">
+            <form id="fmLockAccountInstructor">
+
+                <div class="form-group">
+                    <label for="txtInstructorID">Instructor ID</label>
+                    <input type="text" name="txtInstructorID" id="txtInstructorID" class="form-control" placeholder=""
+                        aria-describedby="helpId">
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+
+
+
+                <button type="submit" class="btn btn-danger">Submit</button>
+
+            </form>
+        </div>
+        <div class="card-footer bg-gradient-danger"></div>
+    </div>
+
+
+</div>
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+
+
+    function lockAccountInstructor() {
+
+        const fmLockAccountInstructor = $("#fmLockAccountInstructor");
+        const txtInstructorID = $("#txtInstructorID");
+        const url = `/admin/instructors/lock`;
+        fmLockAccountInstructor.on("submit", e => {
+            e.preventDefault();
+
+            const data = {
+                userID: txtInstructorID.val(),
+            }
+
+            if (data.userID === "") {
+                const message = {
+                    title: "ID Is Empty!",
+                    icon: "error",
+                    timer: 2000
+                }
+                openAlert(message);
+            }
+
+
+            $.ajax({
+                type: "put",
+                url: url,
+                data: data,
+                headers: {},
+                xhrFields: {
+                    withCredentials: false
+                },
+                success: data => {
+                    console.log(data);
+                    const message = {
+                        title: "Locked Account Instructor!",
+                        icon: "success",
+                        timer: 2000
+                    }
+                    openAlert(message);
+                },
+                error: er => {
+                    console.log(er);
+
+                    const message = {
+                        title: "Cannot Find Instructor!",
+                        icon: "error",
+                        timer: 2000
+                    }
+                    openAlert(message);
+                }
+            })
+        })
+
+
+
+    }
+
+    lockAccountInstructor();
+
+</script>
+
+{{/section}}
