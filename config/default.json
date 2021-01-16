@@ -20,7 +20,7 @@
         }
     },
     "devURL": "http://localhost:3000",
-    "productionURL": "",
+    "productionURL": "http://localhost:3000",
     "DATABASE": {
         "NAME": "onlinecourses",
         "TABLE": {
