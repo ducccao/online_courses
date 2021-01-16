@@ -270,6 +270,52 @@ const adminController = {
         });
     },
     /* #endregion */
+
+    getAllStudentPage: async(req, res) => {
+        console.log("Admin Student All Page");
+        const ret1 = await adminModel.getRecordStudent();
+        console.log(ret1);
+
+        if (!ret1) {
+            return res.status(500).json({ message: "Cannot get records student!" });
+        }
+
+        res.render("vwAdmin/vwStudent/All", {
+            layout: "admin",
+            records: ret1,
+            showPagi: true,
+        });
+    },
+
+    getAddStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/Add", {
+            layout: "admin",
+        });
+    },
+
+    postStudent: (req, res) => {},
+    getPutStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/Put", {
+            layout: "admin",
+        });
+    },
+    PutStudent: (req, res) => {},
+    getDeleteStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/Delete", {
+            layout: "admin",
+        });
+    },
+
+    deleteStudent: (req, res) => {},
+
+    getAllInstructorRecordPage: async(req, res) => {
+        const ret1 = await adminModel.getRecordInstructor();
+        res.render("vwAdmin/vwInstructor/All", {
+            layout: "admin",
+            records: ret1,
+            showPagi: true,
+        });
+    },
 };
 
 module.exports = adminController;

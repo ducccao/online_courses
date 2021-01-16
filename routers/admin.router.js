@@ -35,6 +35,24 @@ router.get(
     authAdmin,
     adminController.getDetailCat
 );
+
+router.get("/students/all", authAdmin, adminController.getAllStudentPage);
+
+router.get("/students/add", authAdmin, adminController.getAddStudentPage);
+router.post("/students/add", authAdmin, adminController.postStudent);
+
+router.get("/students/put", authAdmin, adminController.getPutStudentPage);
+router.put("/students", authAdmin, adminController.PutStudent);
+
+router.get("/students/delete", authAdmin, adminController.getDeleteStudentPage);
+router.delete("/students", authAdmin, adminController.deleteStudent);
+
+router.get(
+    "/instructors/all",
+    authAdmin,
+    adminController.getAllInstructorRecordPage
+);
+
 /* #endregion */
 
 //   throw new Error("access denied");

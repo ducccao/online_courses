@@ -1,0 +1,107 @@
+{{#section "css"}}
+<style>
+    th {
+        color: black;
+        font-weight: bold;
+    }
+
+    .br {
+        word-break: break-all;
+    }
+</style>
+{{/section}}
+
+{{#section "js"}}
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js";
+    function getRecordStudent() {
+        const url = `/admin/students/all`;
+
+    }
+    getRecordStudent();
+</script>
+{{/section}}
+
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">
+
+            Student Records
+        </h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Student Name</th>
+                        <th>Email</th>
+                        <th>Password</th>
+                        <th>Birth Day</th>
+                        <th>Is Verify?</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each records }}
+                    <tr>
+                        <td>{{userID}} </td>
+                        <td>{{this.userName}} </td>
+                        <td>{{this.email}} </td>
+                        <td class="br">{{this.password}} </td>
+                        <td>
+
+
+
+                            {{formatDateTime this.DOB "short" }} </td>
+                        <td>
+                            {{#if_equal this.verify '1'}}
+                            true
+                            {{else}}
+                            false
+                            {{/if_equal}}
+
+                        </td>
+
+                    </tr>
+                    {{/each}}
+
+                <tfoot>
+
+                </tfoot>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-footer">
+        {{#if showPagi}}
+        <div class="row">
+
+            <div class="col-sm-12 col-lg-12 ">
+                <div aria-label="Page navigation example  ">
+                    <ul class="pagination justify-content-end">
+
+                        <li class="page-item  {{#unless can_go_prev}} disabled {{/unless}} "><a class="page-link"
+                                href="?page={{go_previous_page}}">Previous</a></li>
+                        {{#each pagiItem }}
+                        <li class="page-item {{#if isActive}} active{{/if}}"><a class="page-link"
+                                href="?page={{this.value}}">
+                                {{this.value}}
+                            </a></li>
+
+                        {{/each}}
+
+
+
+
+                        <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a class="page-link"
+                                href="?page={{go_next_page}}">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
