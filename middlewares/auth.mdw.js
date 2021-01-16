@@ -58,6 +58,12 @@ function authAdmin(req, res, next) {
 
 async function authOTP(req, res, next) {
     const userSession = req.session.authUser;
+    console.log(req.session.authUser);
+
+    if (req.session.authUser === null) {
+        const url = req.headers.referer;
+        return next();
+    }
 
     const user = await userModel.getUserByID(userSession.userID);
     // console.log(user);
