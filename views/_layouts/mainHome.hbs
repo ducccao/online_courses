@@ -17,12 +17,20 @@
         }
 
         img {
-            max-width: 100%;
+            width: fit-content;
             max-height: 100%;
         }
 
+        .card-title {
+            transition: 0.53s;
+        }
+
+        .course-item:hover .card-title {
+            color: lightseagreen !important;
+        }
+
         .course-item {
-            transition: 0.13s;
+            transition: 0.33s;
         }
 
         .course-item:hover {
@@ -174,12 +182,12 @@
             padding: 10px 50px;
 
             position: absolute;
-            top: 50%;
+            top: 55%;
             left: 0;
         }
 
         .slides {
-            height: 500px;
+            height: 450px;
             width: 100%;
             background-color: powderblue;
         }
@@ -329,8 +337,12 @@
             else {
                 slideIndex++;
             }
+            showFirstSlide();
         }
-        setInterval(triggerToShowSlide, 5000)
+
+        setInterval(triggerToShowSlide, 3500)
+
+
     </script>
 
     {{{_sections.js}}}
