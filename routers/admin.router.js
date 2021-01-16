@@ -64,6 +64,13 @@ router.put(
     adminController.putLockAccountInstructor
 );
 
+router.get(
+    "/students/lock",
+    authAdmin,
+    adminController.getLockAccountStudentPage
+);
+router.put("/students/lock", authAdmin, adminController.putLockAccountStudent);
+
 /* #endregion */
 
 //   throw new Error("access denied");

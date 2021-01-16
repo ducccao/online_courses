@@ -323,13 +323,29 @@ const adminController = {
         });
     },
     putLockAccountInstructor: async(req, res) => {
-        console.log(req.body);
-        const userID = req.body.userID;
+        //  console.log(req.body);
+        const userID = +req.body.userID;
 
         const ret1 = await adminModel.lockAccountInstructor(userID);
         console.log(ret1);
         if (+ret1.affectedRows === 0) {
             return res.status(500).json({ sqlMessage: "Cannot Find Instructor!" });
+        }
+        return res.status(200).json({ sqlMessage: "Locked Find Instructor!" });
+    },
+
+    getLockAccountStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/LockAccount", {
+            layout: "admin",
+        });
+    },
+    putLockAccountStudent: async(req, res) => {
+        const userID = +req.body.userID;
+        const ret1 = await adminModel.lockAccountStudent(userID);
+        console.log(ret1);
+
+        if (+ret1.affectedRows === 0) {
+            return res.status(500).json({ sqlMessage: "Cannot Find Student!" });
         }
         return res.status(200).json({ sqlMessage: "Locked Find Instructor!" });
     },
