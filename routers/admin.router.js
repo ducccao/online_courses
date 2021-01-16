@@ -48,6 +48,13 @@ router.get("/students/delete", authAdmin, adminController.getDeleteStudentPage);
 router.delete("/students", authAdmin, adminController.deleteStudent);
 
 router.get(
+    "/students/lock",
+    authAdmin,
+    adminController.getLockAccountStudentPage
+);
+router.put("/students/lock", authAdmin, adminController.putLockAccountStudent);
+
+router.get(
     "/instructors/all",
     authAdmin,
     adminController.getAllInstructorRecordPage
@@ -65,11 +72,15 @@ router.put(
 );
 
 router.get(
-    "/students/lock",
+    "/instructors/add",
     authAdmin,
-    adminController.getLockAccountStudentPage
+    adminController.getCreateAccountForInstructorPage
 );
-router.put("/students/lock", authAdmin, adminController.putLockAccountStudent);
+router.post(
+    "/instructors/add",
+    authAdmin,
+    adminController.postCreateAccountForInstructorPage
+);
 
 /* #endregion */
 

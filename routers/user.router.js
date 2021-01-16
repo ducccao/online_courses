@@ -30,10 +30,16 @@ router.get("/verify/:id", userController.getVerify);
 router.get("/prevent-access", userController.preventUserAccess);
 
 // forgot password
-router.get("/forgot-password", auth, authOTP, userController.getForgotPassword);
+router.get(
+    "/forgot-password",
+    auth,
+    authOTP,
+    authNav,
+    userController.getForgotPassword
+);
 
 // get profile
-router.get("/profile", auth, authOTP, userController.getProfile);
+router.get("/profile", auth, authOTP, authNav, userController.getProfile);
 
 // get upload course
 router.get(

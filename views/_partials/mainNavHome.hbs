@@ -156,9 +156,16 @@
                             </a>
 
 
+                            {{#if isInstructor}}
+                            <a class="dropdown-item" href="/account/my-courses">
+                                <i class="fa fa-store-alt mr-2"></i>My Courses
+                            </a>
+
+                            {{else}}
                             <a class="dropdown-item" href="/account/purchased-course">
                                 <i class="fa fa-store-alt mr-2"></i>Purchased Courses
                             </a>
+                            {{/if}}
 
                             <a class="dropdown-item" href="javascript: $('#fmLogout').submit();">
                                 <i class="fa fa-sign-out-alt mr-2"></i>Log out
