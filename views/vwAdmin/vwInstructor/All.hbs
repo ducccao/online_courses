@@ -38,7 +38,7 @@
                         <th>Instructor ID</th>
                         <th>Instructor Name</th>
                         <th>Email</th>
-                        <th>Password</th>
+
                         <th>Birth Day</th>
                         <th>Is Verify?</th>
                     </tr>
@@ -50,8 +50,8 @@
                         <td>{{userID}} </td>
                         <td>{{this.userName}} </td>
                         <td>{{this.email}} </td>
-                        <td class="br">{{this.password}} </td>
-                        <td>{{this.DOB}} </td>
+
+                        <td>{{formatDateTime this.DOB "long"}} </td>
                         <td>
                             {{#if_equal this.verify '1'}}
                             true
