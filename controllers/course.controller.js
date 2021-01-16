@@ -79,17 +79,29 @@ const courseController = {
                 return item.catName === catName;
             });
         }
+
+        // check is Disable Course ?
+        const fourRows = [];
+        for (let crush = 0; crush < thirdRows.length; ++crush) {
+            if (thirdRows[crush].isDisabled !== 1) {
+                fourRows.push({
+                    ...thirdRows[crush],
+                });
+            }
+        }
+
         //console.log(thirdRows);
 
         //console.log(secondRows);
 
         //   console.log(rows);
+        //console.log(thirdRows);
 
         res.render("vwAdminCourse/AllCourses", {
             layout: "admin",
             headerTitle: "All Courses",
-            allCourse: thirdRows,
-            empty: rows.length === 0,
+            allCourse: fourRows,
+            empty: fourRows.length === 0,
             // sort
             listCat: allCatName,
             listIns: allInstructor,
@@ -241,6 +253,49 @@ const courseController = {
     },
 
     /* #endregion */
+    getDisableCoursePage: (req, res) => {
+        res.render("vwAdminCourse/Disable", {
+            layout: "admin",
+        });
+    },
+    DisableCourse: async(req, res) => {
+        try {
+            const courseID = req.body.courseID;
+            //console.log(courseID);
+
+            const ret1 = await courseModel.disableCourse(courseID);
+            //console.log(ret1);
+
+            if (+ret1.affectedRows === 0) {
+                return res.status(500).json({ message: "Course Not Found!" });
+            }
+            return res.status(200).json({ message: "Disabled Course!" });
+        } catch (er) {
+            console.log(er);
+
+            return res.status(500).json({ message: er.sqlMessage });
+        }
+    },
+
+    getEnableCourse: (req, res) => {
+        res.render("vwAdminCourse/Enable", {
+            layout: "admin",
+        });
+    },
+    EnableCourse: async(req, res) => {
+        try {
+            const courseID = req.body.courseID;
+            const ret1 = await courseModel.enableCourse(courseID);
+            console.log(ret1);
+            if (+ret1.affectedRows === 0) {
+                return res.status(500).json({ message: "Course Not Found!" });
+            }
+            return res.status(200).json({ message: "Enabled Course!" });
+        } catch (er) {
+            console.log(er);
+            return res.status(500).json({ message: er.sqlMessage });
+        }
+    },
 };
 
 module.exports = courseController;

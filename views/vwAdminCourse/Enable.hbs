@@ -1,0 +1,91 @@
+<div class="card">
+    <div class="card-header  bg-gradient-dark">
+        <h6 class="text-white font-weight-bold">Enable Course</h6>
+    </div>
+    <div class="card-body">
+        <form action="" id="fmEnableCourse">
+            <div class="form-group">
+                <label for="txtID">Course ID</label>
+                <input type="text" name="txtID" id="txtID" class="form-control" placeholder=""
+                    aria-describedby="helpId">
+                <small id="helpId" class="text-muted"></small>
+            </div>
+
+            <button type="submit" class="btn btn-dark text-white">
+                Enable
+            </button>
+        </form>
+    </div>
+    <div class="card-footer bg-gradient-dark "></div>
+</div>
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js";
+    function disableCourse() {
+        const fmEnableCourse = $("#fmEnableCourse");
+        const txtID = $("#txtID");
+        const url = `/admin/courses/enable`;
+
+        fmEnableCourse.on("submit", event => {
+            event.preventDefault();
+
+            const data = {
+                courseID: txtID.val()
+            }
+
+            if (txtID.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    icon: 'error',
+                    title: "ID Is Empty!"
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+            $.ajax({
+                type: 'put',
+                url: url,
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+
+                },
+                success: data => {
+                    // console.log(data);
+                    const messageTrigger = {
+                        timer: 1500,
+                        html: '',
+                        icon: 'success',
+                        title: "Enabled Course!"
+                    }
+                    openAlert(messageTrigger)
+                },
+                error: er => {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            })
+
+
+        })
+
+    }
+    disableCourse();
+</script>
+{{/section}}
