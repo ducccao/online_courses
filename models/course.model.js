@@ -7,31 +7,33 @@ const TBL_USER = "users";
 
 module.exports = {
     all() {
-        const sql = `select * from  ${TBL_COURSE}`;
+        const sql = `select * from  ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0`;
         return db.load(sql);
     },
     pagiCourse(offset) {
-        const sql = `select * from ${TBL_COURSE} limit ${config.admin.course.pagination.limit} offset ${offset}`;
+        const sql = `select * from ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0
+         limit ${config.admin.course.pagination.limit} offset ${offset}`;
         return db.load(sql);
     },
 
     pagiListCourse(offset, limit) {
-        const sql = `select * from ${TBL_COURSE} limit ${limit} offset ${offset}`;
+        const sql = `select * from ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0
+         limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
     addCourse(entity) {
         return db.add(entity, TBL_COURSE);
     },
     getCourseByName(courseName) {
-        const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"`;
+        const sql = `select * from ${TBL_COURSE} where courseName = "${courseName}"  and  ${TBL_COURSE}.isDisabled = 0`;
         return db.load(sql);
     },
     getCourseByID(courseID) {
-        const sql = `select * from ${TBL_COURSE} where courseID = ${courseID}`;
+        const sql = `select * from ${TBL_COURSE} where courseID = ${courseID} and  ${TBL_COURSE}.isDisabled = 0`;
         return db.load(sql);
     },
     getCourseByCourseName(courseName) {
-        const sql = `select * from ${TBL_COURSE} where courseName= "${courseName}"`;
+        const sql = `select * from ${TBL_COURSE} where courseName= "${courseName}" and  ${TBL_COURSE}.isDisabled = 0`;
         return db.load(sql);
     },
 
@@ -56,11 +58,13 @@ module.exports = {
     },
 
     pagiListCoursePrice(offset, limit) {
-        const sql = `select * from ${TBL_COURSE} order by fee limit ${limit} offset ${offset}`;
+        const sql = `select * from ${TBL_COURSE} where  ${TBL_COURSE}.isDisabled = 0
+         order by fee limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
     pagiListCourseStart(offset, limit) {
         const sql = `select cs.* from ${TBL_COURSE} cs left join review r on cs.courseID = r.courseID
+        where cs.isDisabled = 0
         group by cs.courseID
         order by avg(r.rating) desc
         limit ${limit} offset ${offset}`;
@@ -68,17 +72,18 @@ module.exports = {
     },
 
     pagiListCourseByCat(catID, offset, limit) {
-        const sql = `select * from ${TBL_COURSE} where catID="${catID}"  limit ${limit}  offset ${offset}`;
+        const sql = `select * from ${TBL_COURSE} where catID="${catID}"  and  ${TBL_COURSE}.isDisabled = 0 limit ${limit}  offset ${offset}`;
         return db.load(sql);
     },
     pagiListCourseByCatPrice(catID, offset, limit) {
-        const sql = `select * from ${TBL_COURSE} where catID ="${catID}" order by fee limit ${limit} offset ${offset}`;
+        const sql = `select * from ${TBL_COURSE} where catID ="${catID}" and  ${TBL_COURSE}.isDisabled = 0
+         order by fee limit ${limit} offset ${offset}`;
 
         return db.load(sql);
     },
     pagiListCourseByCatStar(catID, offset, limit) {
         const sql = `select cs.* from ${TBL_COURSE} cs left join review r on cs.courseID = r.courseID
-        where cs.catID ="${catID}"
+        where cs.catID ="${catID}" and  cs.isDisabled = 0
         group by cs.courseID
         order by avg(r.rating) desc
         limit ${limit} offset ${offset}`;
@@ -122,26 +127,30 @@ module.exports = {
     },
 
     getAllSearchCoure(content) {
-        const sql = `select c.* from course c join category cat on cat.catID = c.catID where (match (c.courseName) against ('${content}') or match (cat.catName) against ('${content}'))`;
+        const sql = `select c.* from course c join category cat on cat.catID = c.catID 
+        where ((match (c.courseName) against ('${content}') or match (cat.catName) against ('${content}'))) and  c.isDisabled = 0`;
         return db.load(sql);
     },
     pagiSearchCourse(content, offset) {
-        const sql = `select c.* from course c join category cat on cat.catID = c.catID where match (c.courseName) against ('${content}') or match (cat.catName) against (${content}) limit ${config.pagination.limit} offset ${offset}`;
+        const sql = `select c.* from course c join category cat on cat.catID = c.catID and  c.isDisabled = 0
+         where (match (c.courseName) against ('${content}') or match (cat.catName) against (${content}))  and c.isDisabled = 0
+         limit ${config.pagination.limit} offset ${offset}`;
         return db.load(sql);
     },
 
     pagiListSearchCourse(content, offset, limit) {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID
-    where match (c.courseName) against ('${content}')
-    or match (cat.catName) against ('${content}') limit ${limit} offset ${offset}`;
+    where (match (c.courseName) against ('${content}')
+    or match (cat.catName) against ('${content}')) and  c.isDisabled = 0
+    limit ${limit} offset ${offset}`;
         return db.load(sql);
     },
     pagiListSearchCoursePrice(content, offset, limit) {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID
-    where match (c.courseName) against ('${content}')
-    or match (cat.catName) against ('${content}')
+    where (match (c.courseName) against ('${content}')
+    or match (cat.catName) against ('${content}')) and c.isDisabled = 0
     order by c.fee
     limit ${limit} offset ${offset}`;
         return db.load(sql);
@@ -150,8 +159,8 @@ module.exports = {
         const sql = `  select cs.* from review r right join 
         (select c.* from course c join category cat 
             on cat.catID = c.catID
-        where match (c.courseName) against ('${content}')
-        or match (cat.catName) against ('${content}')) as cs
+        where (match (c.courseName) against ('${content}')
+        or match (cat.catName) against ('${content}')) and  c.isDisabled = 0) as cs
         on cs.courseID = r.courseID
     group by cs.courseID
     order by avg(r.rating) desc
@@ -162,16 +171,17 @@ module.exports = {
     pagiListSearchCourseByCat(content, catID, offset, limit) {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID and c.catID = ${catID}
-    where match (c.courseName) against ('${content}')
-    or match (cat.catName) against ('${content}')  limit ${limit}  offset ${offset}`;
+    where (match (c.courseName) against ('${content}')
+    or match (cat.catName) and  c.isDisabled = 0)
+     against ('${content}')  limit ${limit}  offset ${offset}`;
         return db.load(sql);
     },
 
     pagiListSearchCourseByCatPrice(content, catID, offset, limit) {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID and c.catID = ${catID}
-    where match (c.courseName) against ('${content}')
-    or match (cat.catName) against ('${content}')
+    where (match (c.courseName) against ('${content}')
+    or match (cat.catName) against ('${content}')  and  c.isDisabled = 0)
     order by c.fee
     limit ${limit} offset ${offset}`;
         return db.load(sql);
@@ -180,8 +190,8 @@ module.exports = {
         const sql = `  select cs.* from review r right join 
         (select c.* from course c join category cat 
             on cat.catID = c.catID and c.catID = ${catID}
-        where match (c.courseName) against ('${content}')
-        or match (cat.catName) against ('${content}')) as cs
+        where (match (c.courseName) against ('${content}')
+        or match (cat.catName) against ('${content}')  and  c.isDisabled = 0)) as cs
         on cs.courseID = r.courseID
     group by cs.courseID
     order by avg(r.rating) desc
@@ -199,7 +209,7 @@ module.exports = {
     getMostBuyWeek() {
         const sql = `SELECT count(cb.courseID), c.*
     FROM ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.COURSE_BOUGHT} cb
-    where c.courseID = cb.courseID and DATEDIFF(CURDATE(),cb.dayBought) < 7
+    where c.courseID = cb.courseID and DATEDIFF(CURDATE(),cb.dayBought) < 7  and  c.isDisabled = 0
     group by cb.courseID
     order by count(cb.courseID) desc
     limit 4;`;
@@ -209,7 +219,7 @@ module.exports = {
     getTopFiveRelated(subjectID) {
         const sql = `select o.courseID
         from ${config.DATABASE.TABLE.ORDERDETAILS} o, ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.CATEGORY} cat
-        where o.courseID = c.courseID and c.catID = cat.catId and cat.subjId = ${subjectID}
+        where o.courseID = c.courseID and c.catID = cat.catId and cat.subjId = ${subjectID}  and  c.isDisabled = 0
         group by o.courseID
         limit 5`;
         return db.load(sql);
@@ -253,36 +263,38 @@ module.exports = {
 
     getAllDiscountCourse() {
         const sql = `select * from ${config.DATABASE.TABLE.SALE} as s, 
-    ${config.DATABASE.TABLE.COURSE} as c, ${config.DATABASE.TABLE.USER} as u where c.courseID = s.courseID and u.userID = c.userID`;
+    ${config.DATABASE.TABLE.COURSE} as c, ${config.DATABASE.TABLE.USER} as u 
+    where c.courseID = s.courseID and u.userID = c.userID  and  c.isDisabled = 0`;
         return db.load(sql);
     },
     getOrderCourseByUserIDAndCourseID(courseID, userID) {
         const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${
-      config.DATABASE.TABLE.ORDERDETAILS
-    } od  
-                    on o.orderID = od.orderID 
+      config.DATABASE.TABLE.ORDERDETAILS} od 
+                    on o.orderID = od.orderID join  ${TBL_COURSE} c on c.courseID = ${courseID}
                     where  o.userID = ${[
                       userID,
-                    ]} and od.courseID = ${courseID}`;
+                    ]} and od.courseID = ${courseID} and c.isDisabled = 0`;
         return db.load(sql);
     },
 
     getAllCouseByInstructorId(instructorID) {
-        const sql = `select courseName, courseID from ${TBL_COURSE} where userID = ${instructorID}`;
+        const sql = `select courseName, courseID from ${TBL_COURSE} where userID = ${instructorID}  and  sDisabled = 0`;
         return db.load(sql);
     },
 
     getCourseBestSeller() {
         const sql = `select od.courseID as courseID, count(*) as amount  from orders o join orderdetails od on o.orderID = od.orderID
+        join ${TBL_COURSE} c on c.courseID = od.courseID
+        where c.isDisabled = 0
         group by od.courseID
         order by count(*) desc
-        limit 2`;
+        limit 4`;
         return db.load(sql);
     },
     getCourseNew() {
         const sql = `select *
         from course c 
-        where datediff( curdate(),c.dayPost) < 7`;
+        where datediff( curdate(),c.dayPost) < 7 and c.isDisabled = 0`;
         return db.load(sql);
     },
 
