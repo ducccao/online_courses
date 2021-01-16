@@ -24,7 +24,7 @@ const courseController = {
             page = 1;
         }
 
-        const limit = config.pagination.limit;
+        const limit = config.admin.course.pagination.limit;
         const offset = (page - 1) * limit;
         const rows = await courseModel.pagiCourse(offset);
         const total = allCourse.length;
@@ -38,12 +38,61 @@ const courseController = {
             };
             pagiItem.push(item);
         }
+        const secondRows = [];
+        for (let i = 0; i < rows.length; ++i) {
+            const catOfCourse = await courseModel.getCatName(rows[i].courseID);
+            //   console.log("cat of course", catOfCourse);
+            secondRows.push({
+                ...rows[i],
+                catName: catOfCourse[0].catName,
+            });
+        }
+        let thirdRows = [];
+        for (let nh = 0; nh < secondRows.length; ++nh) {
+            const insOfCourse = await courseModel.getInstructorOfCourse(
+                secondRows[nh].courseID
+            );
+            thirdRows.push({
+                ...secondRows[nh],
+                instructorName: insOfCourse[0].userName,
+            });
+            //  console.log(insOfCourse);
+        }
+
+        const allInstructor = await courseModel.getAllInstructor();
+        const allCatName = await categoryModel.getAllCatName();
+
+        if (req.query.instructor) {
+            console.log("req query ", req.query);
+            let instructor = req.query.instructor || "";
+            thirdRows = thirdRows.filter((item) => {
+                //console.log(item.instructorName);
+                //   console.log(instructor);
+                return item.instructorName === instructor;
+            });
+        }
+        //console.log(thirdRows);
+
+        if (req.query.catName) {
+            let catName = req.query.catName;
+            thirdRows = thirdRows.filter((item) => {
+                return item.catName === catName;
+            });
+        }
+        //console.log(thirdRows);
+
+        //console.log(secondRows);
+
+        //   console.log(rows);
 
         res.render("vwAdminCourse/AllCourses", {
             layout: "admin",
             headerTitle: "All Courses",
-            allCourse: rows,
+            allCourse: thirdRows,
             empty: rows.length === 0,
+            // sort
+            listCat: allCatName,
+            listIns: allInstructor,
 
             // pagi
             showPagi: true,
@@ -190,7 +239,6 @@ const courseController = {
             layout: "admin",
         });
     },
-
 
     /* #endregion */
 };

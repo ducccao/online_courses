@@ -9,7 +9,7 @@ const {
 
 const router = express.Router();
 
-router.get("/", auth, authOTP, cartController.getCartPage);
+router.get("/", auth, authNav, authOTP, cartController.getCartPage);
 router.post("/add", auth, authOTP, cartController.addCourseIntoCart);
 router.post("/remove", auth, authOTP, cartController.removeCourseInCart);
 router.post("/checkout", auth, authOTP, cartController.postCheckout);

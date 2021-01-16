@@ -11,7 +11,7 @@ module.exports = {
         return db.load(sql);
     },
     pagiCourse(offset) {
-        const sql = `select * from ${TBL_COURSE} limit ${config.pagination.limit} offset ${offset}`;
+        const sql = `select * from ${TBL_COURSE} limit ${config.admin.course.pagination.limit} offset ${offset}`;
         return db.load(sql);
     },
 
@@ -257,9 +257,13 @@ module.exports = {
         return db.load(sql);
     },
     getOrderCourseByUserIDAndCourseID(courseID, userID) {
-        const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${config.DATABASE.TABLE.ORDERDETAILS} od  
+        const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${
+      config.DATABASE.TABLE.ORDERDETAILS
+    } od  
                     on o.orderID = od.orderID 
-                    where  o.userID = ${[userID]} and od.courseID = ${courseID}`;
+                    where  o.userID = ${[
+                      userID,
+                    ]} and od.courseID = ${courseID}`;
         return db.load(sql);
     },
 
@@ -272,13 +276,28 @@ module.exports = {
         const sql = `select od.courseID as courseID, count(*) as amount  from orders o join orderdetails od on o.orderID = od.orderID
         group by od.courseID
         order by count(*) desc
-        limit 2`
+        limit 2`;
         return db.load(sql);
     },
     getCourseNew() {
         const sql = `select *
         from course c 
-        where datediff( curdate(),c.dayPost) < 7`
+        where datediff( curdate(),c.dayPost) < 7`;
         return db.load(sql);
-    }
+    },
+
+    getInstructorOfCourse(courseID) {
+        const sql = `select userName from ${config.DATABASE.TABLE.USER} as us,
+        ${config.DATABASE.TABLE.COURSE} as c 
+        where us.userID = c.userID and c.courseID = ${courseID}
+        `;
+        return db.load(sql);
+    },
+
+    getAllInstructor() {
+        const sql = `select userName from ${config.DATABASE.TABLE.USER} 
+        where decentralization = 1
+        `;
+        return db.load(sql);
+    },
 };
