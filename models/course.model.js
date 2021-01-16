@@ -312,4 +312,18 @@ module.exports = {
         `;
         return db.load(sql);
     },
+    disableCourse(courseID) {
+        const sql = `update ${config.DATABASE.TABLE.COURSE}
+        set isDisabled = 1
+        where courseID = ${courseID}
+        `;
+        return db.load(sql);
+    },
+    enableCourse(courseID) {
+        const sql = `update ${config.DATABASE.TABLE.COURSE}
+        set isDisabled = 0
+        where courseID = ${courseID}
+        `;
+        return db.load(sql);
+    },
 };
