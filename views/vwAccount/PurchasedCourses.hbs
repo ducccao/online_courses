@@ -1,5 +1,18 @@
 {{#section 'css'}}
 <style>
+    .card {
+        position: relative;
+    }
+
+    .badge {
+        position: absolute;
+        right: 0;
+        top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     .shadow-lg {
         box-shadow: none !important;
     }
@@ -238,19 +251,7 @@
             <input type="hidden" id="txtQuantity" name="quantity">
         </form>
 
-        <div class="col-sm-12">
-            <form action="/course-list/search" class="formSearchListCourse" id="formSearchListCourse" method="POST">
 
-                <div class="input-group mb-3">
-
-                    <input type="text" class="form-control searchContentListCourse" placeholder="Course"
-                        aria-label="Course" aria-describedby="button-addon2" id="searchContentListCourse"
-                        name="searchContentListCourse">
-                    <button class="btn btn-outline-secondary button-addon2" type="button">Search</button>
-
-                </div>
-            </form>
-        </div>
     </div>
     <div class="row">
 
@@ -272,7 +273,15 @@
                     <div class="row ">
                         {{#each courseCards }}
                         <div class="col-sm-12 col-md-6 col-lg-3 card-items   pb-5">
-                            <div class="card course-item ">
+
+                            <div class="card course-item  ">
+                                {{#if_equal this.isFinished "0"}}
+                                <span class="badge badge-warning "
+                                    style="height: 30px; font-size: 15px; vertical-align: middle">
+                                    Not Completed
+                                </span>
+
+                                {{/if_equal}}
                                 <img class="card-img-top"
                                     src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                                     alt="Card image cap">

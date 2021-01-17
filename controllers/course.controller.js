@@ -14,7 +14,7 @@ const courseController = {
     // get all course page
     getAllCoursePage: async(req, res) => {
         console.log("Get all course page");
-        const allCourse = await courseModel.all();
+        const allCourse = await courseModel.allCourseAdmin();
         //  console.log(allCourse);
 
         // pagi
@@ -28,7 +28,7 @@ const courseController = {
 
         const limit = config.admin.course.pagination.limit;
         const offset = (page - 1) * limit;
-        const rows = await courseModel.pagiCourse(offset);
+        const rows = await courseModel.pagiCourseAdmin(offset);
         const total = allCourse.length;
         const nPage = Math.ceil(total / limit);
         const pagiItem = [];
@@ -83,14 +83,14 @@ const courseController = {
         }
 
         // check is Disable Course ?
-        const fourRows = [];
-        for (let crush = 0; crush < thirdRows.length; ++crush) {
-            if (thirdRows[crush].isDisabled !== 1) {
-                fourRows.push({
-                    ...thirdRows[crush],
-                });
-            }
-        }
+        // const fourRows = [];
+        // for (let crush = 0; crush < thirdRows.length; ++crush) {
+        //     if (thirdRows[crush].isDisabled !== 1) {
+        //         fourRows.push({
+        //             ...thirdRows[crush],
+        //         });
+        //     }
+        // }
 
         //console.log(thirdRows);
 
@@ -102,8 +102,8 @@ const courseController = {
         res.render("vwAdminCourse/AllCourses", {
             layout: "admin",
             headerTitle: "All Courses",
-            allCourse: fourRows,
-            empty: fourRows.length === 0,
+            allCourse: thirdRows,
+            empty: thirdRows.length === 0,
             // sort
             listCat: allCatName,
             listIns: allInstructor,

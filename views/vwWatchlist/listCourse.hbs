@@ -1,5 +1,28 @@
 {{#section 'css'}}
 <style>
+    .deleteWatchlist {
+        right: 10px;
+        top: 10px;
+        position: absolute;
+        outline: none;
+        border: none;
+        background-color: transparent;
+        transition: 0.3s;
+    }
+
+    .deleteWatchlist:hover {
+        transform: scale(1.3);
+    }
+
+    .deleteWatchlist:active {
+        outline: none;
+    }
+
+    .deleteWatchlist:focus {
+        outline: none;
+    }
+
+
     .dropdown-menu {
         transition: 0.13s;
         font-size: 17px;
@@ -113,7 +136,7 @@
 <script type="module">
     import { openAlert } from "/utils/alertModal.js"
     function actionWatchlist() {
-        $("#deleteWatchlist").on('click', function (e) {
+        $(".deleteWatchlist").on('click', function (e) {
             e.preventDefault();
             const courseID = $(this).data('id');
             const id = $("#txtCourseID-watchlist").val(courseID);
@@ -414,7 +437,7 @@
                                         <input type="hidden" id="txtCourseID-watchlist" name="courseID">
                                         <input type="hidden" id="txtMethod-watchlist" name="method">
                                     </form>
-                                    <button id="deleteWatchlist" data-id="{{courseID}}">
+                                    <button class="deleteWatchlist" data-id="{{courseID}}">
                                         <i class="fa fa-heart text-danger"></i>
                                     </button>
                                 </div>

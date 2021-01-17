@@ -1,5 +1,16 @@
 {{#section 'css'}}
 <style>
+    .badge {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .new-course {
+        width: 100px;
+    }
+
     .dropdown-menu {
         transition: 0.13s;
         font-size: 17px;
@@ -411,7 +422,7 @@
                                 <div class="row" style="margin: 5px 0 5px 0; height: 30px">
                                     <div class="col-lg-6">
                                         {{#if this.isBestSeller}}
-                                        <span class="badge badge-warning"
+                                        <span class="badge badge-warning "
                                             style="height: 30px; font-size: 15px; vertical-align: middle">Best
                                             Seller
                                         </span>
@@ -420,7 +431,7 @@
                                     </div>
                                     {{#if this.isNewCourse}}
                                     <div class="col-lg-5 text-right">
-                                        <span class="badge badge-danger align-middle"
+                                        <span class="new-course badge badge-danger align-middle"
                                             style="height: 30px; font-size: 15px;">New Course
                                         </span>
 
@@ -429,8 +440,7 @@
 
 
                                 </div>
-                                <img class="card-img-top" src="../../public/courses/course-32/img/css.jpg"
-                                    alt="Card image cap">
+                                <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
                                 <div class="card-body">
                                     <h4 class="card-title text-dark font-weight-bolder">
                                         {{this.courseName}}
