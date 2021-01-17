@@ -1,6 +1,6 @@
 {{#section 'css'}}
 <style>
-    .badge {
+    .course-badge.badge {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -50,13 +50,13 @@
         position: relative
     }
 
-    .badge-warning {
+    .course-badge.badge-warning {
         position: absolute;
         top: 2px;
         left: 15px;
     }
 
-    .badge-danger {
+    .course-badge.badge-danger {
         position: absolute;
         top: 2px;
         right: -8px;
@@ -166,70 +166,61 @@
     <div class="row">
 
         <div class="col-sm-3">
-            <div class="card mb-3">
+            {{!-- cat --}}
 
+            <div class="card mb-3">
                 <h4 class="card-header">Categories</h4>
                 <div class="list-group list-group-flush  ">
 
-                    {{!-- cat --}}
-
-                    <div class="card mb-3">
-                        <h4 class="card-header">Categories</h4>
-                        <div class="list-group list-group-flush  ">
-
-                            <div class="dropdown">
-                                <div class="w-100 dr  dropdown-toggle" type="button" id="webcat" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    Web Development
-                                </div>
-                                <div class="dropdown-menu w-100" aria-labelledby="webcat">
-                                    {{#each webCat }}
-                                    <a class="dropdown-item  {{#if isActive}}
+                    <div class="dropdown">
+                        <div class="w-100 dr  dropdown-toggle" type="button" id="webcat" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Web Development
+                        </div>
+                        <div class="dropdown-menu w-100" aria-labelledby="webcat">
+                            {{#each webCat }}
+                            <a class="dropdown-item  {{#if isActive}}
                            active
                        {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
-                                        {{this.catName}}
+                                {{this.catName}}
 
-                                        {{#ifCond this.CourseCount '!=' 0}}
-                                        <span class="badge badge-pill badge-danger float-right mt-1">
-                                            {{this.CourseCount}}
-                                        </span>
+                                {{#ifCond this.CourseCount '!=' 0}}
+                                <span class="badge badge-pill badge-danger float-right mt-1 cat-badge">
+                                    {{this.CourseCount}}
+                                </span>
 
-                                        {{/ifCond}}
-
-
-                                    </a>
-                                    {{/each}}
-                                </div>
-                            </div>
+                                {{/ifCond}}
 
 
-                            <div class="dropdown">
-                                <div class=" w-100 dr dropdown-toggle" type="button" id="mobicat" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                    Mobile Development
-                                </div>
-                                <div class="dropdown-menu w-100" aria-labelledby="mobicat">
-                                    {{#each mobiCat }}
-                                    <a class="dropdown-item  {{#if isActive}}
-                           active
-                       {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
-                                        {{this.catName}}
-                                        {{#ifCond this.CourseCount '!=' 0}}
-                                        <span class="badge badge-pill badge-danger float-right mt-1">
-                                            {{this.CourseCount}}
-                                        </span>
-                                        {{/ifCond}}
-                                    </a>
-                                    {{/each}}
-                                </div>
-                            </div>
-
-
-
-
-
+                            </a>
+                            {{/each}}
                         </div>
                     </div>
+
+
+                    <div class="dropdown">
+                        <div class=" w-100 dr dropdown-toggle" type="button" id="mobicat" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Mobile Development
+                        </div>
+                        <div class="dropdown-menu w-100" aria-labelledby="mobicat">
+                            {{#each mobiCat }}
+                            <a class="dropdown-item  {{#if isActive}}
+                           active
+                       {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
+                                {{this.catName}}
+                                {{#ifCond this.CourseCount '!=' 0}}
+                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                    {{this.CourseCount}}
+                                </span>
+                                {{/ifCond}}
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
+
+
+
 
 
                 </div>
@@ -355,7 +346,7 @@
                                 {{this.catName}}
 
                                 {{#ifCond this.CourseCount '!=' 0}}
-                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                <span class="badge badge-pill badge-danger float-right mt-1 cat-badge">
                                     {{this.CourseCount}}
                                 </span>
                                 {{/ifCond}}
@@ -377,7 +368,7 @@
                        {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
                                 {{this.catName}}
                                 {{#ifCond this.CourseCount '!=' 0}}
-                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                <span class="badge badge-pill badge-danger float-right mt-1 cat-badge">
                                     {{this.CourseCount}}
                                 </span>
                                 {{/ifCond}}
@@ -438,7 +429,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         {{#if this.isBestSeller}}
-                                        <span class="badge badge-warning"
+                                        <span class="badge badge-warning course-badge"
                                             style="height: 30px; font-size: 15px; vertical-align: middle">Best
                                             Seller
                                         </span>
@@ -447,13 +438,13 @@
                                     </div>
                                     {{#if this.isNewCourse}}
                                     <div class="col-lg-5">
-                                        <span class="new-course badge badge-danger align-middle"
+                                        <span class="new-course badge badge-danger align-middle course-badge"
                                             style="height: 30px; font-size: 15px;">New Course
                                         </span>
                                     </div>
                                     {{/if}}
                                 </div>
-                                <img class="card-img-top" src="{{this.thumbnail}}" style="height: 140px;"
+                                <img class="card-img-top" src="../.{{this.avatar}}" style="height: 140px;"
                                     alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title text-dark font-weight-bolder">

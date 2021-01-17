@@ -4,7 +4,7 @@
         position: relative;
     }
 
-    .badge {
+    .course-item.badge {
         position: absolute;
         right: 0;
         top: 0;
@@ -276,7 +276,7 @@
 
                             <div class="card course-item  ">
                                 {{#if_equal this.isFinished "0"}}
-                                <span class="badge badge-warning "
+                                <span class="badge badge-warning course-item "
                                     style="height: 30px; font-size: 15px; vertical-align: middle">
                                     Not Completed
                                 </span>
@@ -306,8 +306,22 @@
                                     <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info  w-25">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </a>
-                                    <a style="margin: 0 auto;" href="#" class="card-link btn btn-warning w-25 ">
+                                    {{!-- <a style="margin: 0 auto;" href="#" class="card-link btn btn-warning w-25 ">
                                         <i class="fa fa-pen mr-1"></i>Modify
+                                    </a> --}}
+
+                                    <a class="dropdown show ">
+                                        <a class="btn btn-warning  dropdown-toggle" href="#" role="button"
+                                            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Modify
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <a class="dropdown-item" href="/user/upload-chapter">Upload Chapter</a>
+                                            <a class="dropdown-item" href="/user/upload-unit">Upload Unit </a>
+
+                                        </div>
                                     </a>
                                     {{else}}
                                     {{#if ../isAuth}}
