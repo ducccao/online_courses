@@ -1,11 +1,33 @@
 {{#section 'css'}}
 <style>
+    .shadow-lg {
+        box-shadow: none !important;
+    }
+
+    .card-title {
+        transition: 0.53s;
+    }
+
+    .course-item:hover .card-title {
+        color: lightseagreen !important;
+    }
+
+    .course-item {
+        transition: 0.33s;
+    }
+
+    .course-item:hover {
+        box-shadow: 0px -1px 20px 7px dodgerblue !important;
+
+
+    }
+
     .btn {
         width: 48% !important;
     }
 
     .list-course {
-        max-width: 1140px;
+        max-width: 1240px;
     }
 
     .sort-md {
@@ -247,10 +269,10 @@
 
                 </div>
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row ">
                         {{#each courseCards }}
-                        <div class="col-lg-3 card-items">
-                            <div class="card mb-5">
+                        <div class="col-sm-12 col-md-6 col-lg-3 card-items   pb-5">
+                            <div class="card course-item ">
                                 <img class="card-img-top"
                                     src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                                     alt="Card image cap">
@@ -271,12 +293,14 @@
                                     {{/if_equal}}
 
                                     {{#if_equal ../_isInstructor 1}}
-                                    <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info w-100">
+
+                                    <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info  w-25">
                                         <i class="fa fa-info mr-2 "></i>Detail
                                     </a>
-                                    <a style="margin: 0 auto;" href="#" class="card-link btn btn-warning w-100 mt-1">
-                                        <i class="fa fa-pen mr-2"></i>Modify
+                                    <a style="margin: 0 auto;" href="#" class="card-link btn btn-warning w-25 ">
+                                        <i class="fa fa-pen mr-1"></i>Modify
                                     </a>
+
                                     {{else}}
                                     {{#if ../isAuth}}
                                     <div class="card-footer">
