@@ -970,19 +970,11 @@ const mainController = {
                 // console.log(totalChapter);
                 // console.log(totalUnit);
                 // console.log(duration);
-                const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(
-                    courseID
-                );
-
-                const firstPreviewVideoLink =
-                    _firstPreviewVideoLink.length != 0 ?
-                    _firstPreviewVideoLink[0].linkVideo :
-                    "0";
 
                 //  console.log(chaptersOfCourse);
-                //   console.log(unitsOfCourse);
-                const _firstVideoLink = await unitModel.getFirstVideoOfCourse(courseID);
-                console.log("alo alo " + _firstVideoLink);
+                const _firstVideoLink = await unitModel.getFirstPreviewVideoOfCourse(courseID);
+                const firstVideoLink = _firstVideoLink[0];
+                // console.log(firstVideoLink.linkVideo);
                 // const addView = await courseModel.increaseView(course[0]);
                 // if (addView.affectedRows === 1) {
                 res.render("vwLearn/learn", {
@@ -990,7 +982,7 @@ const mainController = {
                     courseDetail,
                     chaptersOfCourse,
                     unitsOfCourse,
-                    _firstVideoLink,
+                    firstVideoLink: firstVideoLink.linkVideo,
                     totalChapter
                 });
             } else {
