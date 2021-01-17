@@ -16,17 +16,33 @@ const homeController = {
 
         const _listFourHightllightCoursesOfWeek = await courseModel.getTopFourHightllightCoursesOfWeek();
 
-        const listFourHightllightCoursesOfWeek = await getAllDetail(_listFourHightllightCoursesOfWeek);
+        const listFourHightllightCoursesOfWeek = await getAllDetail(
+            _listFourHightllightCoursesOfWeek
+        );
 
         const _listTopTenNewestOfWeek = await courseModel.getTopTenNewestOfWeek();
 
         const listTopTenNewestOfWeek = await getAllDetail(_listTopTenNewestOfWeek);
 
-        const _listTopTenMostSubcribeOfWeek = await courseModel.getTopTenMostSubcribeOfWeek();
+        const _listTop5MostSubcribeOfWeek = await courseModel.getTopTenMostSubcribeOfWeek();
 
-        const listTopTenMostSubcribeOfWeek = await getAllDetail(_listTopTenMostSubcribeOfWeek);
+        const fiveCatRet1 = [];
 
-        // const mostBuyWeekCourse = await test(mostBuyWeek);getTopTenNewestOfWeek 
+        for (let i = 0; i < _listTop5MostSubcribeOfWeek.length; ++i) {
+            const detailCat = await categoryModel.getCateByID(
+                _listTop5MostSubcribeOfWeek[i].catID
+            );
+            //   console.log("Detail cat ", detailCat);
+            fiveCatRet1.push({
+                ...detailCat[0],
+                numb: _listTop5MostSubcribeOfWeek[i].numb,
+            });
+        }
+
+        console.log(fiveCatRet1);
+        // console.log(_listTopTenMostSubcribeOfWeek);
+
+        // const mostBuyWeekCourse = await test(mostBuyWeek);getTopTenNewestOfWeek
 
         // const rows = await courseModel.all();
 
@@ -38,7 +54,7 @@ const homeController = {
             ListMostViews,
             listFourHightllightCoursesOfWeek,
             listTopTenNewestOfWeek,
-            listTopTenMostSubcribeOfWeek
+            fiveCatRet1,
         });
     },
 };

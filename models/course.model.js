@@ -358,12 +358,14 @@ module.exports = {
     },
 
     getTopTenMostSubcribeOfWeek() {
-        const sql = `SELECT count(od.courseID) students, c.*
-        FROM ${config.DATABASE.TABLE.ORDERDETAILS} od, ${config.DATABASE.TABLE.ORDERS} o, ${config.DATABASE.TABLE.COURSE} c
-        where od.orderID = o.orderID and DATEDIFF(CURDATE(), o.orderDate) < 7 and c.isDisabled = 0 and c.courseID = od.courseID
-        group by od.courseID
-        order by count(od.courseID) desc
-        limit 5`;
+        const sql = `
+        select count(*) numb, catID
+from orders o, orderdetails od, course c
+where od.orderID = o.orderID and c.courseID = od.courseID 
+and DATEDIFF(CURDATE(), o.orderDate) < 7 and c.isDisabled = 0
+group by catID
+order by count(*) desc limit  5
+        `;
         return db.load(sql);
     },
     delChapAnddelUnitByCourseID(courseID) {
