@@ -50,7 +50,7 @@ router.get(
     userController.getUploadCoursePage
 );
 // post upload course
-router.post("/upload-course", auth, userController.postUploadCourse);
+router.post("/upload-course", auth, authNav, userController.postUploadCourse);
 
 router.get(
     "/upload-chapter",

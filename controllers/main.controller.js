@@ -972,9 +972,12 @@ const mainController = {
                 // console.log(duration);
 
                 //  console.log(chaptersOfCourse);
-                const _firstVideoLink = await unitModel.getFirstPreviewVideoOfCourse(courseID);
+                const _firstVideoLink = await unitModel.getFirstPreviewVideoOfCourse(
+                    courseID
+                );
                 const firstVideoLink = _firstVideoLink[0];
-                // console.log(firstVideoLink.linkVideo);
+                console.log(_firstVideoLink);
+                console.log("course id", courseID);
                 // const addView = await courseModel.increaseView(course[0]);
                 // if (addView.affectedRows === 1) {
                 res.render("vwLearn/learn", {
@@ -982,8 +985,8 @@ const mainController = {
                     courseDetail,
                     chaptersOfCourse,
                     unitsOfCourse,
-                    firstVideoLink: firstVideoLink.linkVideo,
-                    totalChapter
+                    firstVideoLink: firstVideoLink.linkVideo || "",
+                    totalChapter,
                 });
             } else {
                 res.redirect("/account/purchased-course");
