@@ -260,7 +260,7 @@ const userController = {
                 if (er) {
                     console.log(er);
                 } else {
-                    const allCourse = await courseModel.all();
+                    const allCourse = await courseModel.allCourseAdmin();
                     const isCatExists = await adminModel.getCatByCatName(
                         req.body.catName
                     );
@@ -270,11 +270,13 @@ const userController = {
                     );
 
                     // console.log("Is cousrse exists", isCourseNameExists);
-                    console.log(avaName + " and " + thumbnailName);
-                    const avataURL = "../." + savePath + "/" + avaName;
-                    const thumbnailURL = "../." + savePath + "/" + thumbnailName;
-                    //console.log(avataURL);
-                    console.log(isCatExists);
+                    //console.log(avaName + " and " + thumbnailName);
+                    const avataURL = savePath + "/" + avaName;
+                    const thumbnailURL = savePath + "/" + thumbnailName;
+                    console.log(avataURL);
+                    console.log(thumbnailURL);
+
+                    //console.log(isCatExists);
                     if (isCatExists.length === 0) {
                         console.log(
                             "I dont understand why are you always jump into here !"
@@ -308,6 +310,7 @@ const userController = {
                         views: 0,
                         dayPost: moment().format("YYYY-MM-DD"),
                         lastUpdate: moment().format("YYYY-MM-DD"),
+                        isDisabled: 0,
                     };
 
                     if (typeof entity.catID === "undefined") {

@@ -10,8 +10,19 @@ module.exports = {
         const sql = `select * from  ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0`;
         return db.load(sql);
     },
+    allCourseAdmin() {
+        const sql = `select * from  ${TBL_COURSE} `;
+        return db.load(sql);
+    },
+
     pagiCourse(offset) {
         const sql = `select * from ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0
+         limit ${config.admin.course.pagination.limit} offset ${offset}`;
+        return db.load(sql);
+    },
+
+    pagiCourseAdmin(offset) {
+        const sql = `select * from ${TBL_COURSE}
          limit ${config.admin.course.pagination.limit} offset ${offset}`;
         return db.load(sql);
     },
@@ -172,8 +183,8 @@ module.exports = {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID and c.catID = ${catID}
     where (match (c.courseName) against ('${content}')
-    or match (cat.catName) and  c.isDisabled = 0)
-     against ('${content}')  limit ${limit}  offset ${offset}`;
+    or match (cat.catName) 
+     against ('${content}') ) and  c.isDisabled = 0 limit ${limit}  offset ${offset}`;
         return db.load(sql);
     },
 
