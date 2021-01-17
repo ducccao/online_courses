@@ -40,10 +40,11 @@
     }
 
     .card-title {
-        max-width: fit-content;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 </style>
 {{/section}}
@@ -419,7 +420,7 @@
                         {{#each allCourse }}
                         <div class="col-lg-4">
                             <div class="card mb-5">
-                                <div class="row" style="margin: 5px 0 5px 0; height: 30px">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         {{#if this.isBestSeller}}
                                         <span class="badge badge-warning "
@@ -430,21 +431,20 @@
                                         {{/if}}
                                     </div>
                                     {{#if this.isNewCourse}}
-                                    <div class="col-lg-5 text-right">
+                                    <div class="col-lg-5">
                                         <span class="new-course badge badge-danger align-middle"
                                             style="height: 30px; font-size: 15px;">New Course
                                         </span>
-
                                     </div>
                                     {{/if}}
-
-
                                 </div>
-                                <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
+                                <img class="card-img-top"
+                                    src="https://afamilycdn.com/150157425591193600/2020/7/7/shiba-cheems-meme-dog-balltze-4-1-1594089369474789804369.jpg"
+                                    style="height: 140px;" alt="Card image cap">
                                 <div class="card-body">
-                                    <h4 class="card-title text-dark font-weight-bolder">
+                                    <h5 class="card-title text-dark font-weight-bolder">
                                         {{this.courseName}}
-                                    </h4>
+                                    </h5>
 
 
                                     {{#if_equal this.subjID 2 }}
@@ -466,31 +466,30 @@
                                         {{else}}
                                         {{this.rating}}
                                         {{/if_equal}}
-                                        <span class="badge badge-success text-md">
-                                            Total Student Rating: {{this.countPeopleRating}}
-                                        </span>
+                                        ({{this.countPeopleRating}})
                                     </p>
 
 
 
                                     {{#ifCond this.discount '!=' 0}}
-                                    <p class="card-text text-warning">
-                                        <span class="font-weight-bolder"> Discount:</span> {{this.discount}}%
+                                    <p class="card-text text-secondary">
+                                        <del>{{format this.fee}} VNĐ</del>
                                     </p>
-
-                                    {{else}}
-
-                                    {{/ifCond}}
-                                    </p>
-
-
-
                                     <p class="card-text text-danger">
-                                        <span class="font-weight-bold"> Fee:</span> {{format this.fee}} VNĐ
+                                        {{discountedFee}} VNĐ <span class="font-weight-bolder text-success ml-3">
+                                            {{this.discount}}% OFF</span>
+                                    </p>
+                                    {{else}}
+                                    <p class="card-text text-danger"></p>
+                                    <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+                                    </p>
+                                    <p class="card-text text-danger" style="opacity: 0">
+                                        alo
+                                    </p>
+                                    {{/ifCond}}
                                     </p>
                                 </div>
                                 <div class="card-footer">
-
                                     {{#if ../isAuth}}
                                     <a href="/course-list/{{this.courseID}}" id="btnDetail"
                                         class="card-link btn btn-info">

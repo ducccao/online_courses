@@ -10,13 +10,21 @@ const {
 const homeController = {
     getListCourses: async(req, res) => {
         console.log("List Course Paginating 1234!!");
-        const listMostViews = await courseModel.getMostViews();
+        const _ListMostViews = await courseModel.getMostViews();
 
-        const listFourHightllightCoursesOfWeek = await courseModel.getTopFourHightllightCoursesOfWeek();
+        const ListMostViews = await getAllDetail(_ListMostViews);
 
-        const listTopTenNewestOfWeek = await courseModel.getTopTenNewestOfWeek();
+        const _listFourHightllightCoursesOfWeek = await courseModel.getTopFourHightllightCoursesOfWeek();
 
-        const listTopTenMostSubcribeOfWeek = await courseModel.getTopTenMostSubcribeOfWeek();
+        const listFourHightllightCoursesOfWeek = await getAllDetail(_listFourHightllightCoursesOfWeek);
+
+        const _listTopTenNewestOfWeek = await courseModel.getTopTenNewestOfWeek();
+
+        const listTopTenNewestOfWeek = await getAllDetail(_listTopTenNewestOfWeek);
+
+        const _listTopTenMostSubcribeOfWeek = await courseModel.getTopTenMostSubcribeOfWeek();
+
+        const listTopTenMostSubcribeOfWeek = await getAllDetail(_listTopTenMostSubcribeOfWeek);
 
         // const mostBuyWeekCourse = await test(mostBuyWeek);getTopTenNewestOfWeek 
 
@@ -27,7 +35,7 @@ const homeController = {
         res.render("vwMain/Home", {
             layout: "mainHome",
             // allCourse,
-            listMostViews,
+            ListMostViews,
             listFourHightllightCoursesOfWeek,
             listTopTenNewestOfWeek,
             listTopTenMostSubcribeOfWeek
@@ -35,7 +43,7 @@ const homeController = {
     },
 };
 
-async function test(rows) {
+async function getAllDetail(rows) {
     //get cateType, add all in prev and cateType to nextRows array
     const nextRows = [];
 
@@ -78,7 +86,7 @@ async function test(rows) {
     //get average rating, discount of course, add all in prev, rating and discount to fourthRows array
     const fourthRows = [];
     for (let i = 0; i < thirdRows.length; i++) {
-        console.log("this is: " + thirdRows[i].courseID);
+        // console.log("this is: " + thirdRows[i].courseID);
         //get all rating
         const ratingArray = await courseModel.getRatingCourse(
             thirdRows[i].courseID
@@ -102,7 +110,7 @@ async function test(rows) {
         };
         fourthRows.push(item);
     }
-    console.log(fourthRows);
+    // console.log(fourthRows);
     return fourthRows;
 }
 
