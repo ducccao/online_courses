@@ -4,7 +4,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-
     }
 
     .new-course {
@@ -45,6 +44,22 @@
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+    }
+
+    .card {
+        position: relative
+    }
+
+    .badge-warning {
+        position: absolute;
+        top: 2px;
+        left: 15px;
+    }
+
+    .badge-danger {
+        position: absolute;
+        top: 2px;
+        right: -8px;
     }
 </style>
 {{/section}}
@@ -423,7 +438,7 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         {{#if this.isBestSeller}}
-                                        <span class="badge badge-warning "
+                                        <span class="badge badge-warning"
                                             style="height: 30px; font-size: 15px; vertical-align: middle">Best
                                             Seller
                                         </span>
@@ -438,9 +453,8 @@
                                     </div>
                                     {{/if}}
                                 </div>
-                                <img class="card-img-top"
-                                    src="https://afamilycdn.com/150157425591193600/2020/7/7/shiba-cheems-meme-dog-balltze-4-1-1594089369474789804369.jpg"
-                                    style="height: 140px;" alt="Card image cap">
+                                <img class="card-img-top" src="{{this.thumbnail}}" style="height: 140px;"
+                                    alt="Card image cap">
                                 <div class="card-body">
                                     <h5 class="card-title text-dark font-weight-bolder">
                                         {{this.courseName}}
