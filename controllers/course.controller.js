@@ -3,6 +3,8 @@ const usersDatabase = require("./../utils/usersDatabase");
 const categoryModel = require("./../models/category.model");
 const fakeCateDB = require("./../utils/categoryDatabase");
 const courseModel = require("./../models/course.model");
+const unitModel = require("./../models/unit.model");
+const chapterModel = require("./../models/chapter.model");
 const config = require("./../config/default.json");
 const { reset } = require("numeral");
 const moment = require("moment");
@@ -233,7 +235,12 @@ const courseController = {
             courseID: courseID,
         };
 
+        // del course
         const delCourse = await courseModel.delCourse(entity);
+        // del chap and unit
+        const delChapUnit = await courseModel.delChapAnddelUnitByCourseID(
+            entity.courseID
+        );
 
         if (delCourse.affectedRows === 1) {
             res.status(200);

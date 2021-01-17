@@ -327,4 +327,15 @@ module.exports = {
         `;
         return db.load(sql);
     },
+
+    delChapAnddelUnitByCourseID(courseID) {
+        const sql = `
+        delete chap,un
+        from ${config.DATABASE.TABLE.CHAPTER} as chap
+        join ${config.DATABASE.TABLE.UNIT} as un
+        on chap.chapterID = un.chapterID
+        where chap.courseID = ${courseID}
+    `;
+        return db.load(sql);
+    },
 };
