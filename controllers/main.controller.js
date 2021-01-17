@@ -889,9 +889,6 @@ const mainController = {
                     hasReviewed,
                 };
                 console.log(courseDetail);
-                // console.log(course);
-
-                // console.log(units);
 
                 const chaptersOfCourse = [];
                 for (let i = 0; i < chapters.length; i++) {
@@ -911,7 +908,9 @@ const mainController = {
 
                 //  console.log(chaptersOfCourse);
                 //   console.log(unitsOfCourse);
-
+                const _firstVideoLink = await unitModel.getFirstVideoOfCourse(
+                    courseID
+                );
                 console.log(courseDetail);
                 // const addView = await courseModel.increaseView(course[0]);
                 // if (addView.affectedRows === 1) {
@@ -920,6 +919,7 @@ const mainController = {
                     courseDetail,
                     chaptersOfCourse,
                     unitsOfCourse,
+                    _firstVideoLink
                 });
             } else {
                 res.redirect("/account/purchased-course");
