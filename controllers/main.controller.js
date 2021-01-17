@@ -374,7 +374,7 @@ const mainController = {
         // console.log(fourthRows);
 
         const webCat = await cateModel.getWebCatWithCountCourse();
-        const mobiCat = await cateModel.getWebCatWithCountCourse();
+        const mobiCat = await cateModel.getMobiCatWithCountCourse();
         // active cate
         for (let c of webCat) {
             if (c.catID === +req.params.id) {
@@ -386,6 +386,8 @@ const mainController = {
                 c.isActive = true;
             }
         }
+
+        console.log(mobiCat);
 
         //    console.log(courseInCat);
         res.render("vwMain/ListCourses", {

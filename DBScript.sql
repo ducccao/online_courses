@@ -43,6 +43,7 @@ courseID int primary key,
   views float,
   dayPost date,
   lastUpdate date,
+  isDisabled int,
   fulltext fulltextCourseName(courseName)
 )ENGINE=InnoDB;
 
@@ -152,7 +153,7 @@ insert into category (category.catID, category.catName, category.subjID) values 
 insert into category (category.catID, category.catName, category.subjID) values (6, "React", 1);
 insert into category (category.catID, category.catName, category.subjID) values (7, "Node.Js", 1);
 
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (1, "Beginner Full Stack Web Development: HTML, CSS, React & Node", "Learn web development with HTML, CSS, Bootstrap 4, ES6 React and Node
 ", 1, 4, "thumbnail", "avata",450000, "Build websites with HTML & CSS
 Build backend servers & APIs with Node and Express
@@ -183,8 +184,8 @@ MongoDB
 REST
 Express
 ES6
-React", 0, 0, '2020-12-09', '2021-01-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+React", 0, 0, '2020-12-09', '2021-01-09',0);
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate,isDisabled)
 values (2, "Web Design for Beginners: Real World Coding in HTML & CSS", "Launch a career as a web designer by learning HTML5, CSS3, responsive design, Sass and more!", 1, 5, "thumbnail", "avata",300000, "Create any website layout you can imagine
 Support any device size with Responsive (mobile-friendly) Design
 Add tasteful animations and effects with CSS3
@@ -192,8 +193,8 @@ Use common vocabulary from the design industry", "You can launch a new career in
 
 Don't limit yourself by creating websites with some cheesy site-builder tool. This course teaches you how to take 100% control over your webpages by using the same concepts that every professional website is created with.
 
-This course does not assume any prior experience. We start at square one and learn together bit by bit. By the end of the course you will have created (by hand) a website that looks great on phones, tablets, laptops, and desktops alike.", 0, 0, '2020-12-09', '2020-12-30');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+This course does not assume any prior experience. We start at square one and learn together bit by bit. By the end of the course you will have created (by hand) a website that looks great on phones, tablets, laptops, and desktops alike.", 0, 0, '2020-12-09', '2020-12-30',0);
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (3, "iOS & Swift - The Complete iOS App Development Bootcamp", "From Beginner to iOS App Developer with Just One Course! Fully Updated with a Comprehensive Module Dedicated to SwiftUI!", 4, 4, "thumbnail", "avata",750000, "Be able to build any app you want
 Start your own app based business
 Create a portfolio of apps to apply for junior developer jobs at a technology company
@@ -204,8 +205,8 @@ Create apps that use Machine Learning using Apple’s new CoreML", "Welcome to t
 
 At 55+ hours, this iOS 13 course is the most comprehensive iOS development course online!
 
-This Swift 5.1 course is based on our in-person app development bootcamp in London, where we've perfected the curriculum over 4 years of in-person teaching.", 0, 0, '2021-01-13', '2021-01-13');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+This Swift 5.1 course is based on our in-person app development bootcamp in London, where we've perfected the curriculum over 4 years of in-person teaching.", 0, 0, '2021-01-13', '2021-01-13',0);
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (4, "The Complete iOS 10 & Swift 3 Developer Course", "Learn iOS App Development by building 21 iOS apps using Swift 3 & Xcode 8. Includes free web hosting, assets & ebook.", 4, 4, "thumbnail", "avata",600000, "Develop any iOS app you want
 Build apps for your business or organisation
 Get app development jobs on freelancer sites", "You’re here because you want to build your own apps, right?
@@ -214,8 +215,8 @@ Smart move, my friend.
 
 Or maybe you already do… but you want to be bigger, bolder, BETTER.
 
-Well, thanks to the incredible new ios 10, now you can—and if you start today, you canbeat the pack and start building your very own white-hot apps in just six weeks.", 0, 0, '2020-09-09', '2020-09-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+Well, thanks to the incredible new ios 10, now you can—and if you start today, you canbeat the pack and start building your very own white-hot apps in just six weeks.", 0, 0, '2020-09-09', '2020-09-09',0);
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (5, "PHP for Beginners - Become a PHP Master - CMS Project", "PHP for Beginners: learn everything you need to become a professional PHP developer with practical exercises & projects.", 3,5, "thumbnail", "avata",500000, "You will learn to create a (CMS) Content Management System like WordPress, Drupal or Joomla
 You will learn how to use Databases
 You will learn MySQL
@@ -227,8 +228,8 @@ Best Rated PHP course on UDEMY......
 
 Over 90,000 Students taking this course already.........
 
-BEST Reviewed PHP beginners course for a reason.....", 0, 0, '2021-01-05', '2021-01-09');
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+BEST Reviewed PHP beginners course for a reason.....", 0, 0, '2021-01-05', '2021-01-09',0);
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (6, "NodeJS - The Complete Guide (MVC, REST APIs, GraphQL, Deno)", "Master Node JS & Deno.js, build REST APIs with Node.js, GraphQL APIs, add Authentication, use MongoDB, SQL & much more!", 7, 5, "thumbnail", "avata",550000, "Work with one of the most in-demand web development programming languages
 Learn the basics as well as advanced concepts of NodeJS in great detail
 Build modern, fast and scalable server-side web applications with NodeJS, databases like SQL or MongoDB and more
@@ -239,9 +240,9 @@ Get a thorough introduction to DenoJS", "Join the most comprehensive Node.js cou
 
 This course was updated to also include sections on Deno.js - in addition to more than 30 hours of content on Node.js!
 
----", 0, 0, '2021-01-01', '2021-01-09');
+---", 0, 0, '2021-01-01', '2021-01-09',0);
 
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (7, "Learn and Understand NodeJS", "Dive deep under the hood of NodeJS. Learn V8, Express, the MEAN stack, core Javascript concepts, and more.", 7, 5, "thumbnail", "avata",200000, 
 "Grasp how NodeJS works under the hood
 Understand the Javascript and technical concepts behind NodeJS
@@ -252,9 +253,9 @@ Build a Web Server in Node and understand how it really works
 Use npm and manage node packages
 Build a web application and API more easily using Express", "NodeJS is a rapidy growing web server technology, and Node developers are among the highest paid in the industry. Knowing NodeJS well will get you a job or improve your current one by enabling you to build high quality, robust web applications.
 
-In this course you will gain a deep understanding of Node, learn how NodeJS works under the hood, and how that knowledge helps you avoid common pitfalls and drastically improve your ability to debug problems.", 0, 0, '2021-01-01', '2021-01-09');
+In this course you will gain a deep understanding of Node, learn how NodeJS works under the hood, and how that knowledge helps you avoid common pitfalls and drastically improve your ability to debug problems.", 0, 0, '2021-01-01', '2021-01-09',0);
 
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (8, "Web Scraping in Nodejs & JavaScript", "Learn web scraping in Nodejs & JavaScript by example projects with real websites! Craiglist, iMDB, AirBnB and more!", 7, 5, "thumbnail", "avata",600000, 
 "Be able to scrape jobs from a page on Craigslist
 Learn how to use Request
@@ -262,10 +263,10 @@ Learn how to use NightmareJS
 Learn how to use Puppeteer
 Learn how to scrape elements without any identifiable classes or id's
 Learn how to save scraping data to CSV
-Learn how to save scraping data to MongoDb", "In this course you will learn how to scrape a websites, with practical examples on real websites using JavaScript Nodejs Request, Cheerio, NightmareJs and Puppeteer. You will be using the newest JavaScript ES7 syntax with async/await.", 0, 0, '2021-01-01', '2021-01-09');
+Learn how to save scraping data to MongoDb", "In this course you will learn how to scrape a websites, with practical examples on real websites using JavaScript Nodejs Request, Cheerio, NightmareJs and Puppeteer. You will be using the newest JavaScript ES7 syntax with async/await.", 0, 0, '2021-01-01', '2021-01-09',0);
 
 
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (9, "React - The Complete Guide (incl Hooks, React Router, Redux)", "Dive in and learn React.js from scratch! Learn Reactjs, Hooks, Redux, React Routing, Animations, Next.js and way more!", 6, 5, "thumbnail", "avata",240000, 
 "Build powerful, fast, user-friendly and reactive web apps
 Provide amazing user experiences by leveraging the power of JavaScript with ease
@@ -277,11 +278,11 @@ Learn React Hooks & Class-based Components
 
 What's this course about?
 
-Learn React or dive deeper into it. Learn the theory, solve assignments, practice in demo projects and build one big application which is improved throughout the course: The Burger Builder!", 0, 0, '2021-01-01', '2021-01-09');
+Learn React or dive deeper into it. Learn the theory, solve assignments, practice in demo projects and build one big application which is improved throughout the course: The Burger Builder!", 0, 0, '2021-01-01', '2021-01-09',0);
 
 
 
-insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate)
+insert into course (courseID , courseName, title , catID, userID , thumbnail , avatar , fee, subDescription, fullDescription, isFinished , views, dayPost , lastUpdate, isDisabled)
 values (10, "Node with React: Fullstack Web Development", "Build and deploy fullstack web apps with NodeJS, React, Redux, Express, and MongoDB.", 6, 5, "thumbnail", "avata",300000, 
 "Create boilerplate starter projects with React, Redux, Express, and Mongo
 Understand common web technologies and design patterns to connect them together
@@ -292,7 +293,7 @@ Make an app with Google OAuth authentication
 Go beyond the basics of React and Redux!  This course will teach you to combine the ultra-popular React, Redux, Express, and MongoDB technologies to build a fullstack web application.
 
 
-Advanced Deployment? You will learn it.  Billing/Payments? Included.  Handling Email? Of course!", 0, 0, '2021-01-11', '2021-01-09');
+Advanced Deployment? You will learn it.  Billing/Payments? Included.  Handling Email? Of course!", 0, 0, '2021-01-11', '2021-01-09',0);
 
 insert into orders(orderID, orderDate, userID, total) values(1,'2020-09-09',1, 450000);
 insert into orders(orderID, orderDate, userID, total) values(2,'2020-09-09',1, 0);

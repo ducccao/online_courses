@@ -51,9 +51,9 @@ module.exports = {
     },
     getWebCatWithCountCourse() {
         const sql = `select *, count(p.courseID) as CourseCount from 
-        ${config.DATABASE.TABLE.CATEGORY} as c left join
-        (select * from  ${config.DATABASE.TABLE.COURSE} p where p.isDisabled = 0) as p
-        on c.catID = p.catID 
+        ${config.DATABASE.TABLE.CATEGORY} as c ,
+       ${config.DATABASE.TABLE.COURSE}  as p
+        where c.catID = p.catID 
         and c.subjID = 1
         group by c.catID, c.catName `;
         return db.load(sql);
@@ -61,9 +61,9 @@ module.exports = {
 
     getMobiCatWithCountCourse() {
         const sql = `select *, count(p.courseID) as CourseCount  from
-         ${config.DATABASE.TABLE.CATEGORY} as c left join 
-         (select * from  ${config.DATABASE.TABLE.COURSE} p where p.isDisabled = 0 ) as p
-         on c.catID = p.catID and c.subjID = 2 
+         ${config.DATABASE.TABLE.CATEGORY} as c ,
+       ${config.DATABASE.TABLE.COURSE}  as p
+         where c.catID = p.catID and c.subjID = 2 
          group by c.catID, c.catName
         `;
         return db.load(sql);
