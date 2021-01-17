@@ -217,13 +217,12 @@ module.exports = {
         return db.load(sql);
     },
 
-    getMostBuyWeek() {
-        const sql = `SELECT count(cb.courseID), c.*
-    FROM ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.COURSE_BOUGHT} cb
-    where c.courseID = cb.courseID and DATEDIFF(CURDATE(),cb.dayBought) < 7  and  c.isDisabled = 0
-    group by cb.courseID
-    order by count(cb.courseID) desc
-    limit 4;`;
+    getMostViews() {
+        const sql = `select *
+        from ${config.DATABASE.TABLE.COURSE}
+        where isDisabled = 0
+        order by views desc
+        limit 10;`;
         return db.load(sql);
     },
 
@@ -339,6 +338,34 @@ module.exports = {
         return db.load(sql);
     },
 
+    getTopFourHightllightCoursesOfWeek() {
+        const sql = `select count(od.courseID) + c.views as highlight, o.orderDate, c.*
+        from ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.ORDERDETAILS} od, ${config.DATABASE.TABLE.ORDERS} o
+        where od.courseID = c.courseID and o.orderID = od.orderID and o.orderId = od.orderID-- and DATEDIFF(CURDATE(),o.orderDate) < 7
+        group by c.courseID
+        order by count(od.courseID) + c.views desc
+        limit 4;`;
+        return db.load(sql);
+    },
+
+    getTopTenNewestOfWeek() {
+        const sql = `select *
+        from ${config.DATABASE.TABLE.COURSE}
+        where isDisabled = 0 and DATEDIFF(CURDATE(), dayPost) < 7
+        order by views desc
+        limit 10`;
+        return db.load(sql);
+    },
+
+    getTopTenMostSubcribeOfWeek() {
+        const sql = `SELECT count(od.courseID) students, c.*
+        FROM ${config.DATABASE.TABLE.ORDERDETAILS} od, ${config.DATABASE.TABLE.ORDERS} o, ${config.DATABASE.TABLE.COURSE} c
+        where od.orderID = o.orderID and DATEDIFF(CURDATE(), o.orderDate) < 7 and c.isDisabled = 0 and c.courseID = od.courseID
+        group by od.courseID
+        order by count(od.courseID) desc
+        limit 5`;
+        return db.load(sql);
+    },
     delChapAnddelUnitByCourseID(courseID) {
         const sql = `
         delete chap,un

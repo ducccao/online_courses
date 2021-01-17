@@ -101,18 +101,23 @@ const mainController = {
             const ratingArray = await courseModel.getRatingCourse(
                 thirdRows[i].courseID
             );
+
             const averageRating = averageArrayRating(ratingArray);
             //   console.log(averageRating);
             // discount
             const discount = await courseModel.getDiscountCourse(
                 thirdRows[i].courseID
             );
+
+            const _discount = discount.length !== 0 ? discount[0].percent : 0;
+            const discountedFee = thirdRows[i].fee * (1 - _discount / 100);
             //  console.log(discount);
             const item = {
                 ...thirdRows[i],
                 rating: typeof + averageRating === "number" ? averageRating : 0,
                 countPeopleRating: ratingArray.length,
-                discount: discount.length !== 0 ? discount[0].percent : 0,
+                discount: _discount,
+                discountedFee,
             };
             fourthRows.push(item);
         }
@@ -412,7 +417,9 @@ const mainController = {
     getCourseDetail: async(req, res) => {
         const courseID = +req.params.id;
         const course = await courseModel.getCourseByID(courseID);
+        console.log("here" + course[0].views);
         course[0].views += 1;
+        console.log("here after" + course[0].views);
         const type = await courseModel.getTypeOfCourse(courseID, course[0].catID);
         const instructor = await courseModel.getInstructor(
             courseID,
@@ -599,7 +606,7 @@ const mainController = {
             _firstPreviewVideoLink[0].linkVideo :
             "0";
 
-        // console.log(firstPreviewVideoLink);
+        // console.log("alo alo " + firstPreviewVideoLink);
 
         const addView = await courseModel.increaseView(course[0]);
         if (addView.affectedRows === 1) {

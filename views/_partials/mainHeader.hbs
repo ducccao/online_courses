@@ -26,16 +26,16 @@
                 Hotest This Week
             </h4>
         </div>
-        <div class="d-flex justify-content-between">
-            {{#each mostBuyWeekCourse }}
+        <div class="slick-show custom-carousel">
+            {{#each listFourHightllightCoursesOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
-                    <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
+                    <img class="card-img-top" src="../.{{this.thumbnail}}" alt="Card image cap">
 
                     <div class="card-body">
-                        <h4 class="card-title text-dark font-weight-bolder">
+                        <h5 class="card-title text-dark font-weight-bolder">
                             {{this.courseName}}
-                        </h4>
+                        </h5>
 
 
                         {{#if_equal this.subjID 1 }}
@@ -47,8 +47,14 @@
                             Development</p>
                         {{/if_equal}}
 
+                        <a class="card-text link-cat" href="/course-list/byCat/{{this.catID}}?page=1"
+                            title="see all courses in {{this.catName}} category"><span
+                                class="font-weight-bolder"></span>
+                            {{this.catName}}
+                        </a>
+
                         <p class="card-text text-secondary">
-                            <span class="font-weight-bolder"></span> {{this.catName}}
+                            <span class="font-weight-bolder"> Views:</span> {{this.views}} <i class="fas fa-eye"></i>
                         </p>
 
                         <p class="card-text text-secondary">
@@ -115,15 +121,15 @@
             </h4>
         </div>
         <div class="slick-show custom-carousel">
-            {{#each allCourse }}
+            {{#each listTopTenNewestOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
 
                     <div class="card-body">
-                        <h4 class="card-title text-dark font-weight-bolder">
+                        <h5 class="card-title text-dark font-weight-bolder">
                             {{this.courseName}}
-                        </h4>
+                        </h5>
 
 
                         {{#if_equal this.subjID 1 }}
@@ -135,8 +141,14 @@
                             Development</p>
                         {{/if_equal}}
 
+                        <a class="card-text link-cat" href="/course-list/byCat/{{this.catID}}?page=1"
+                            title="see all courses in {{this.catName}} category"><span
+                                class="font-weight-bolder"></span>
+                            {{this.catName}}
+                        </a>
+
                         <p class="card-text text-secondary">
-                            <span class="font-weight-bolder"></span> {{this.catName}}
+                            <span class="font-weight-bolder"> Views:</span> {{this.views}} <i class="fas fa-eye"></i>
                         </p>
 
                         <p class="card-text text-secondary">
@@ -205,19 +217,18 @@
             <input type="hidden" id="txtMethod-watchlist" name="method">
         </form>
         <div class="slick-show custom-carousel">
-            {{#each allCourse }}
+            {{#each ListMostViews }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
 
                     <div class="card-body">
-                        <h4 class="card-title text-dark font-weight-bolder">
+                        <h5 class="card-title text-dark font-weight-bolder">
                             {{this.courseName}}
-                        </h4>
+                        </h5>
 
 
                         {{#if_equal this.subjID 1 }}
-
                         <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
                         </p>
                         {{else}}
@@ -225,8 +236,14 @@
                             Development</p>
                         {{/if_equal}}
 
+                        <a class="card-text link-cat" href="/course-list/byCat/{{this.catID}}?page=1"
+                            title="see all courses in {{this.catName}} category"><span
+                                class="font-weight-bolder"></span>
+                            {{this.catName}}
+                        </a>
+
                         <p class="card-text text-secondary">
-                            <span class="font-weight-bolder"></span> {{this.catName}}
+                            <span class="font-weight-bolder"> Views:</span> {{this.views}} <i class="fas fa-eye"></i>
                         </p>
 
                         <p class="card-text text-secondary">
@@ -284,19 +301,19 @@
     <div class="card">
         <div class="card-header">
             <h4>
-                Top 10 Most Subcribes This Week
+                Top 5 Most Subcribes This Week
             </h4>
         </div>
         <div class="slick-show custom-carousel">
-            {{#each allCourse }}
+            {{#each listTopTenMostSubcribeOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
 
                     <div class="card-body">
-                        <h4 class="card-title text-dark font-weight-bolder">
+                        <h5 class="card-title text-dark font-weight-bolder">
                             {{this.courseName}}
-                        </h4>
+                        </h5>
 
 
                         {{#if_equal this.subjID 1 }}
@@ -308,8 +325,14 @@
                             Development</p>
                         {{/if_equal}}
 
+                        <a class="card-text link-cat" href="/course-list/byCat/{{this.catID}}?page=1"
+                            title="see all courses in {{this.catName}} category"><span
+                                class="font-weight-bolder"></span>
+                            {{this.catName}}
+                        </a>
+
                         <p class="card-text text-secondary">
-                            <span class="font-weight-bolder"></span> {{this.catName}}
+                            <span class="font-weight-bolder"> Views:</span> {{this.views}} <i class="fas fa-eye"></i>
                         </p>
 
                         <p class="card-text text-secondary">
@@ -355,9 +378,6 @@
                         <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info" style="width: 100%;">
                             <i class="fa fa-info"></i> Detail
                         </a>
-
-
-
                         {{/if}}
                     </div>
                 </div>
@@ -366,5 +386,4 @@
             {{/each}}
         </div>
     </div>
-
 </header>

@@ -36,7 +36,8 @@
             "USER": "USERS",
             "WATCH_LIST": "WATCHLIST",
             "ORDERS": "ORDERS",
-            "ORDERDETAILS": "ORDERDETAILS"
+            "ORDERDETAILS": "ORDERDETAILS",
+            "SUBJECTS": "SUBJECTS"
         },
         "USERS": {
             "COMMON": {

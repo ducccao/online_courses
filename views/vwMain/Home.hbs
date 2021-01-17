@@ -105,13 +105,6 @@
         background-color: rgb(202, 214, 255);
     }
 
-    .card-title {
-        max-width: fit-content;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
     .card-footer span {
         margin-left: 32px !important;
     }
@@ -147,6 +140,19 @@
     .card-footer a,
     .card-footer button {
         width: 100px !important;
+    }
+
+    .link-cat:hover {
+        color: green;
+        font-weight: 750;
+    }
+
+    .card-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 </style>
 {{/section}}

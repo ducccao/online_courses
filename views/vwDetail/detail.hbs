@@ -174,13 +174,6 @@
     background-color: rgb(202, 214, 255);
   }
 
-  .card-title {
-    max-width: fit-content;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
   .card-footer span {
     margin-left: 32px !important;
   }
@@ -217,6 +210,24 @@
   .card-footer button {
     width: 100px !important;
   }
+
+  .card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .cat-link {
+    text-decoration: none;
+  }
+
+  .cat-link:hover {
+    color: green;
+    font-weight: 750;
+    text-decoration: none;
+  }
 </style>
 <link rel="stylesheet" href="https://cdn.plyr.io/3.6.3/plyr.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
@@ -242,7 +253,8 @@
   <!-- Portfolio Item Row -->
   <div class="row">
     <div class="col-md-6">
-      <img class="img-fluid" src="../.{{courseDetail.avatar}}" alt="" style="width: 520px; height: 330px">
+      <img class="img-fluid" src="../.{{courseDetail.avatar}}" alt=""
+        style="width: 520px; height: 330px; margin-top: 20px">
     </div>
 
     <div class="col-md-6">
@@ -251,17 +263,20 @@
       <h5><strong>{{courseDetail.subDescription}}</strong></h5>
       </p>
 
-      {{!-- <p class="card-text text-primary"> <span class="font-weight-bolder"></span>Mobile Development
+      <p class="card-text text-primary">
+        Category:
+        <a class="cat-link" href="/course-list/byCat/{{courseDetail.catID}}?page=1"
+          title="see all courses in {{courseDetail.catName}} category">{{courseDetail.catName}}
+        </a>
       </p>
-      <p class="card-text text-primary"><span class="font-weight-bolder"></span> Web
-        Development</p> --}}
 
-      {{!-- <p class="card-text text-primary">
-        <span class="font-weight-bolder"> Category:</span>courseDetail.catName
-      </p> --}}
 
       <p class="card-text text-secondary">
         <span class="font-weight-bolder"> Instructor:</span> {{courseDetail.userName}}
+      </p>
+
+      <p class="card-text text-secondary">
+        <span class="font-weight-bolder"> Total views:</span> {{courseDetail.views}} <i class="fas fa-eye"></i>
       </p>
 
       {{#ifCond courseDetail.isFinished '!=' 0}}
@@ -306,7 +321,7 @@
         <span class="font-weight-bold">{{format
           courseDetail.discountedPrice}} VNĐ</span>
         <span class="font-weight-bold deleted"><del>{{format courseDetail.fee}} VNĐ</del></span>
-        <span class="font-weight-bold discounted">{{courseDetail.percent}}% OFF</span>
+        <span class="font-weight-bold discounted">{{courseDetail._discountP}}% OFF</span>
       </p>
       {{else}}
       <p class="card-text text-danger">
@@ -360,7 +375,7 @@
     <h5 class="text-center text-success">You can watch the preview videos here</h5>
     <video controls crossorigin playsinline data-poster="../../public/courses/course-32/img/css.jpg" id="player">
       <!-- Video files -->
-      <source id="video-source" src="//vjs.zencdn.net/v/oceans.mp4" type="video/mp4" size="720">
+      <source id="video-source" src="{{firstPreviewVideoLink}}" type="video/mp4" size="720">
     </video>
     {{/if_equal}}
     <hr class="hr-section">
@@ -391,7 +406,7 @@
             {{else}}
             <a href="#"><i class="fa fa-play mr-2"></i>{{this.unitContent}}</a>
             <div class="float-right">
-              <a style="cursor: pointer;" class="player-src" data-type="mp4" data-src="../../vendor/videos/HTML.mp4"><i
+              <a style="cursor: pointer;" class="player-src" data-type="mp4" data-src="{{this.linkVideo}}"><i
                   class="fa fa-eye mr-2"></i>preview</a>
               <span class="ml-4">{{this.duration}}</span>
             </div>
@@ -462,9 +477,9 @@
       <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
       {{/if}}
       <div class="card-body">
-        <h4 class="card-title text-dark font-weight-bolder">
+        <h5 class="card-title text-dark font-weight-bolder">
           {{this.courseName}}
-        </h4>
+        </h5>
 
 
         {{#if_equal this.subjID 1 }}
