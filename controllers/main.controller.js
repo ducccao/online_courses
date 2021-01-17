@@ -911,7 +911,7 @@ const mainController = {
                 const _firstVideoLink = await unitModel.getFirstVideoOfCourse(
                     courseID
                 );
-                console.log(courseDetail);
+                console.log("alo alo " + _firstVideoLink);
                 // const addView = await courseModel.increaseView(course[0]);
                 // if (addView.affectedRows === 1) {
                 res.render("vwLearn/learn", {
