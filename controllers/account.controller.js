@@ -10,7 +10,7 @@ module.exports = {
     getProfile: (req, res) => {
         console.log("get Profile");
         if (req.session.isAuth === true) {
-            res.locals.authUser.DOB = moment().format("MM/DD/YYYY");
+            res.locals.authUser.DOB = moment().format("DD/MM/YYYY");
             res.render("vwAccount/profile", {
                 layout: "account",
             });

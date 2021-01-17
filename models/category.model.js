@@ -1,7 +1,6 @@
 const db = require("../utils/db");
-
+const config = require("./../config/default.json");
 const TBL_CATEGORIES = "category";
-
 
 module.exports = {
     all() {
@@ -26,7 +25,10 @@ module.exports = {
     allWithDetails() {
         const sql = `
     select c.*, count(p.courseID) as CourseCount
-    from ${TBL_CATEGORIES} c left join course p on c.catID = p.catID	
+    from ${TBL_CATEGORIES} c left join 
+    (select p.* from course p 	
+    where p.isDisabled = 0) as p
+    on c.catID = p.catID
     group by c.catID, c.catName
   `;
         return db.load(sql);
@@ -37,10 +39,14 @@ module.exports = {
     from ${TBL_CATEGORIES} c left join (select c.catID as catID, c.courseID as courseID
                                       from course c join category cat on cat.catID = c.catID
                                        where (match (c.courseName) 
-                                            against ('${content}') or match (cat.catName) against ('${content}'))) as p
+                                            against ('${content}') or match (cat.catName) against ('${content}')) and c.isDisabled =0) as p
                             on c.catID = p.catID
     group by c.catID, c.catName
   `;
+        return db.load(sql);
+    },
+    getAllCatName() {
+        const sql = `select catName from ${config.DATABASE.TABLE.CATEGORY}`;
         return db.load(sql);
     },
 };

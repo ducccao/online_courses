@@ -76,9 +76,22 @@
                         <i class="fa fa-upload mr-2"></i>Upload Course
                     </a>
                 </li>
+
+                <li class="nav-item text-lg mr-3 hide-small">
+
+                    <a class="nav-link" href="/watchlist"><i class="fa fa-heart text-danger"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item mr-3 hide-small">
+                    <a class="nav-link" href="/cart"><i class="fa fa-shopping-cart father-badge" title="My cart"> <span
+                                class="badge badge-danger custom-badge">
+                                {{lcCartQuantity}}
+                            </span></i>
+                    </a>
+                </li>
                 {{else}}
 
-                {{/if}}
 
                 {{#if isInstructor}}
                 <li class="nav-item dropdown mr-3">
@@ -101,33 +114,10 @@
                     </div>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-user">
-                            Welcome! {{authUser.userName}}
-                        </i>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
 
-                        <a class="dropdown-item" href="/user/profile">
-                            <i class="fa fa-user mr-2"></i>Profile
-                        </a>
-
-
-
-                        <a class="dropdown-item" href="/account/my-courses">
-                            <i class="fa fa-store-alt mr-2"></i>My Courses
-                        </a>
-
-                        <a class="dropdown-item" href="javascript: $('#fmLogout').submit();">
-                            <i class="fa fa-sign-out-alt mr-2"></i>Log out
-                        </a>
-
-                    </div>
-                </li>
                 {{else}}
-                {{!-- ----------------------------------------------------d --}}
+
+
                 <li class="nav-item mr-3" style="width: 50vh;">
                     <form class="text-center nav-link formSearchListCourse" id="formSearch-large"
                         action="/course-list/search" method="POST">
@@ -138,11 +128,10 @@
                             type="button"><i class="fa fa-search  button-addon2"></i></button>
                     </form>
                 </li>
-                {{/if}}
-                {{#if isAuth}}
-                {{#if isInstructor}}
-                {{else}}
+
+
                 <li class="nav-item text-lg mr-3 hide-small">
+
                     <a class="nav-link" href="/watchlist"><i class="fa fa-heart text-danger"></i>
                     </a>
                 </li>
@@ -155,13 +144,16 @@
                     </a>
                 </li>
 
-                <li class="nav-item mr-3 hide-large">
-                    <a class="nav-link" href="/watchlist">Wishlist</a>
-                </li>
 
-                <li class="nav-item mr-3 hide-large">
-                    <a class="nav-link" href="/user/cart">My Cart</a>
-                </li>
+                {{/if}}
+
+
+                {{/if}}
+
+
+
+                {{#if isAuth}}
+
 
                 <form action="/user/logout" method="POST" id="fmLogout">
                     <li class="nav-item dropdown">
@@ -178,9 +170,28 @@
                             </a>
 
 
+                            {{#if isAdmin}}
+                            <a class="dropdown-item" href="/account/my-courses">
+                                <i class="fa fa-store-alt mr-2"></i>My Courses
+                            </a>
                             <a class="dropdown-item" href="/account/purchased-course">
                                 <i class="fa fa-store-alt mr-2"></i>Purchased Courses
                             </a>
+                            {{else}}
+
+                            {{#if isInstructor}}
+                            <a class="dropdown-item" href="/account/my-courses">
+                                <i class="fa fa-store-alt mr-2"></i>My Courses
+                            </a>
+
+                            {{else}}
+                            <a class="dropdown-item" href="/account/purchased-course">
+                                <i class="fa fa-store-alt mr-2"></i>Purchased Courses
+                            </a>
+                            {{/if}}
+                            {{/if}}
+
+
 
                             <a class="dropdown-item" href="javascript: $('#fmLogout').submit();">
                                 <i class="fa fa-sign-out-alt mr-2"></i>Log out
@@ -189,8 +200,10 @@
                         </div>
                     </li>
                 </form>
-                {{/if}}
+
+
                 {{else}}
+
                 <li class="nav-item mr-2">
                     <a class="nav-link" href="/user/login">
                         <i class="fa fa-sign-in-alt"><span style="margin: 0 10px">Login</span></i>
@@ -202,7 +215,25 @@
                         <i class="fa fa-registered"><span style="margin: 0 10px">Register</span></i>
                     </a>
                 </li>
+
                 {{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             </ul>

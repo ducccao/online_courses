@@ -1,5 +1,6 @@
 const handlebars = require("handlebars");
 const config = require("./../config/default.json");
+const moment = require("moment");
 
 module.exports = function(app) {
     // handlebars helper
@@ -77,5 +78,18 @@ module.exports = function(app) {
     handlebars.registerHelper("PRODUCTION_URL", function() {
         const PRODUCTION_URL = config.devURL;
         return PRODUCTION_URL;
+    });
+
+    const DateFormats = {
+        short: "DD MMMM - YYYY",
+        long: "dddd DD.MM.YYYY HH:mm",
+    };
+    handlebars.registerHelper("formatDateTime", function(datetime, format) {
+        if (moment) {
+            format = DateFormats[format] || format;
+            return moment(datetime).format(format);
+        } else {
+            return datetime;
+        }
     });
 };

@@ -3,112 +3,198 @@
     .cate {
         cursor: pointer;
     }
+
+    th {
+        color: black;
+        word-break: keep-all;
+    }
+
+    td {
+        color: black;
+    }
+
+    ul {
+        text-decoration: none;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+    }
 </style>
 {{/section}}
 
 
-<div class="row">
-
-
-    {{#if empty}}
-    <h3>Course Is Empty</h3>
-    {{else}}
 
 
 
-    {{#each allCourse }}
-    <div onclick="cateClick({{this.catID}});" class="col-xl-3 col-md-6 mb-4 cate ">
-        <div class="card {{#if_equal this.subjID " 0"}} border-left-info {{else}} border-left-success {{/if_equal}}
-            shadow h-100 py-2">
+{{#if empty}}
+<h3>Course Is Empty</h3>
+{{else}}
 
-            <div class="card-body">
-                <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                        <div class="text-md font-weight-bold {{#if_equal this.subjID " 0"}} text-success {{else}}
-                            text-success {{/if_equal}} text-uppercase mb-1">
-                            {{this.courseName}}
-                        </div>
-                        <div class="row no-gutters align-items-center">
-                            <div class="col-auto">
-                                <div class="text-sm h6 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{this.title}}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary align-self-center">
+            Course Records
+        </h6>
+        <div class="dropdown float-right text-primary"> <i class="fa fa-filter"></i> Filter by</div>
+        <div class="dropdown float-right mr-5 text-primary">
+            <div class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Category
+            </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {{#each listCat }}
+                <a class="dropdown-item" href="/admin/courses?page=1&catName={{this.catName}}">
+                    {{this.catName}}
+                </a>
+                {{/each}}
 
-                                </div>
-                            </div>
-                            {{!-- <div class="col">
-                                <div class="progress progress-sm mr-2">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
-                                        aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div> --}}
-                        </div>
 
-                    </div>
-                    <div class="col-auto">
-                        <div class="row">
-                            <div class="col">
-                                <h6 class="font-weight-bold {{#if_equal this.subjID " 0"}} text-success {{else}}
-                                    text-success {{/if_equal}} ">ID</h6>
-                            </div>
-                        </div>
-                        <div class=" row">
-                                    <div class="col">
-                                        {{this.courseID}}
-                                    </div>
-                            </div>
-
-                            {{!-- <i class="fas fa-clipboard-list fa-2x text-gray-300"></i> --}}
-                        </div>
-
-                    </div>
-                </div>
             </div>
         </div>
-        {{/each}}
+        <div class="dropdown float-right mr-5">
+            <div class="dropdown-toggle text-primary" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                Instructor
+            </div>
+            <div class="dropdown-menu text-primary" aria-labelledby="dropdownMenuButton">
+                {{#each listIns }}
+                <a class="dropdown-item" href="/admin/courses?page=1&instructor={{this.userName}}">
+                    {{this.userName}}
+                </a>
+                {{/each}}
+
+
+            </div>
+        </div>
+
+
+
 
 
 
 
     </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Course ID</th>
+                        <th>Category</th>
+                        <th> Name</th>
+                        <th>Instructor</th>
+                        <th>Price</th>
+                        <th>Is Finished</th>
+                        <th>Is Disabled</th>
+                        <th>View</th>
+                        <th>Day Post</th>
+                        <th>Last Update</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {{#each allCourse }}
+                    <tr>
+                        <td>{{courseID}} </td>
+                        <td>{{catName}} </td>
+
+                        <td>{{courseName}} </td>
+                        <td>{{instructorName}} </td>
+                        <td>{{fee}} </td>
+                        <td>
+                            {{#if_equal isFinished "0"}}
+                            False
+                            {{else}}
+                            True
+                            {{/if_equal}}
+                        </td>
+                        <td>
+                            {{#if_equal isDisabled "0"}}
+                            False
+                            {{else}}
+                            True
+                            {{/if_equal}}
+                        </td>
+                        <td>
+                            {{views}}
+                        </td>
+                        <td> {{formatDateTime dayPost 'short' }} </td>
+                        <td> {{formatDateTime lastUpdate 'short'}} </td>
 
 
 
-
-    {{#if showPagi}}
-    <div class="row">
-
-        <div class="col-sm-12 col-lg-12 ">
-            <div aria-label="Page navigation example  ">
-                <ul class="pagination justify-content-end">
-
-                    <li class="page-item  {{#unless can_go_prev}} disabled {{/unless}} "><a class="page-link"
-                            href="?page={{go_previous_page}}">Previous</a></li>
-                    {{#each pagiItem }}
-                    <li class="page-item {{#if isActive}} active{{/if}}"><a class="page-link"
-                            href="?page={{this.value}}">
-                            {{this.value}}
-                        </a></li>
-
+                    </tr>
                     {{/each}}
 
 
-
-
-                    <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a class="page-link"
-                            href="?page={{go_next_page}}">Next</a></li>
-                </ul>
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
-    {{/if}}
+    <div class="card-footer">
+        {{#if showPagi}}
+        <div class="row">
+
+            <div class="col-sm-12 col-lg-12 ">
+                <div aria-label="Page navigation example  ">
+                    <ul class="pagination justify-content-end">
+
+                        <li class="page-item  {{#unless can_go_prev}} disabled {{/unless}} "><a class="page-link"
+                                href="?page={{go_previous_page}}">Previous</a></li>
+                        {{#each pagiItem }}
+                        <li class="page-item {{#if isActive}} active{{/if}}"><a class="page-link"
+                                href="?page={{this.value}}">
+                                {{this.value}}
+                            </a></li>
+
+                        {{/each}}
 
 
-    {{#section 'js'}}
-    <script>
-        function cateClick(catID) {
-            window.location.href = `/admin/categories/detailCat/${catID}`
-        }
-    </script>
-    {{/section}}
 
-    {{/if}}
+
+                        <li class="page-item {{#unless can_go_next}} disabled {{/unless}}"><a class="page-link"
+                                href="?page={{go_next_page}}">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+
+
+
+
+
+
+{{#section 'js'}}
+
+
+
+
+<script type="module">
+
+    function sortBy() {
+        const fmSort = $("#fmSort");
+        const cat = $("#cat");
+        const in=$("#in");
+
+        cat.on("click", e => {
+            e.preventDefault();
+            const url = `/admin/courses/byCat`;
+
+        })
+
+        fmSort.on("submit", e => {
+            e.preventDefault();
+
+        })
+    }
+    sortBy();
+</script>
+
+{{/section}}
+
+{{/if}}

@@ -5,11 +5,20 @@
         <input type="hidden" id="txtQuantity" name="quantity">
     </form>
 
-    <div id="banner"></div>
-    <div id="banner-content">
+    {{!-- <div id="banner"></div> --}}
+
+    <section id="slides-show">
+        <div class="slides fade-custom"><img src="/public/img/banner1.jpg" alt="Love Javascript A Lot"></div>
+        <div class="slides fade-custom"><img src="/public/img/banner2.jpg" alt="Love Javascript A Lot"></div>
+        <div class="slides fade-custom"><img src="/public/img/banner3.jpg" alt="Love Javascript A Lot"></div>
+        <div id="next-btn" class="slides-btn">&#10095;</div>
+        <div id="prev-btn" class="slides-btn">&#10094;</div>
+    </section>
+
+    {{!-- <div id="banner-content">
         <h1>Get early access, now</h1>
         <p>Be first for our <strong>free learning course</strong>, and get courses from $9.99.</p>
-    </div>
+    </div> --}}
 
     <div class="card">
         <div class="card-header">
@@ -20,12 +29,13 @@
         <div class="d-flex justify-content-between">
             {{#each mostBuyWeekCourse }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
-                <div class="card mb-3 carousel-items">
+                <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">
                     {{#if ../isAuth}}
-                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"
+                            onclick="editWatchlist()" data-id="{{this.courseID}}"></i></span>
                     {{/if}}
                     <div class="card-body">
                         <h4 class="card-title text-dark font-weight-bolder">
@@ -106,12 +116,13 @@
         <div class="slick-show custom-carousel">
             {{#each allCourse }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
-                <div class="card mb-3 carousel-items">
+                <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">
                     {{#if ../isAuth}}
-                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"
+                            onclick="editWatchlist()" data-id="{{this.courseID}}"></i></span>
                     {{/if}}
                     <div class="card-body">
                         <h4 class="card-title text-dark font-weight-bolder">
@@ -189,15 +200,21 @@
                 Top 10 Most Views
             </h4>
         </div>
+        <form action="/watchlist/method" method="POST" id="fmWatchlist">
+            <input type="hidden" id="txtCourseID-watchlist" name="courseID">
+            <input type="hidden" id="txtMethod-watchlist" name="method">
+        </form>
         <div class="slick-show custom-carousel">
             {{#each allCourse }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
-                <div class="card mb-3 carousel-items">
+                <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">
                     {{#if ../isAuth}}
-                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"></i></span>
+                    <span class="heart-watchlist" title="Add to Watchlist"><i class="fas fa-heart"
+                            data-id="{{this.courseName}}" id="fa-heart{{this.courseID}}"
+                            onclick="editWatchlist()"></i></span>
                     {{/if}}
                     <div class="card-body">
                         <h4 class="card-title text-dark font-weight-bolder">
@@ -277,7 +294,7 @@
         <div class="slick-show custom-carousel">
             {{#each allCourse }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
-                <div class="card mb-3 carousel-items">
+                <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
                         src="https://repository-images.githubusercontent.com/134285701/635de980-586d-11ea-9220-1a3211239c30"
                         alt="Card image cap">

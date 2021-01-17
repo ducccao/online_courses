@@ -69,4 +69,30 @@ module.exports = {
         const sql = `select*from course where catID = ${catID}`;
         return db.load(sql);
     },
+
+    getRecordStudent() {
+        const sql = `select * from ${config.DATABASE.TABLE.USER} where decentralization = 0`;
+        return db.load(sql);
+    },
+    getRecordInstructor() {
+        const sql = `select * from ${config.DATABASE.TABLE.USER} where decentralization = 1`;
+        return db.load(sql);
+    },
+
+    lockAccountInstructor(userID) {
+        const sql = `update ${config.DATABASE.TABLE.USER}
+        set verify = 2
+        where userID  = ${userID} 
+        and decentralization = 1
+        `;
+        return db.load(sql);
+    },
+    lockAccountStudent(userID) {
+        const sql = `update ${config.DATABASE.TABLE.USER}
+        set verify = 2 
+        where userID =  ${userID} 
+        and decentralization = 0
+        `;
+        return db.load(sql);
+    },
 };

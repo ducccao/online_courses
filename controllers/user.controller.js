@@ -92,6 +92,7 @@ const userController = {
 
         req.session.isAuth = true;
         req.session.authUser = isUserExists[0];
+
         req.session.cart = [];
 
         let url = req.session.retUrl || "/";
@@ -239,12 +240,11 @@ const userController = {
             const savePath = `./public/courses/course-${allCourse.length + 1}`;
             const storage = multer.diskStorage({
                 destination: function(req, file, cb) {
-                    fs.mkdirSync(savePath, { recursive: true })
+                    fs.mkdirSync(savePath, { recursive: true });
                     cb(null, savePath);
                 },
                 filename: function(req, file, cb) {
-                    if (file.originalname.includes("thumbnail"))
-                    {
+                    if (file.originalname.includes("thumbnail")) {
                         thumbnailName = file.originalname;
                     } else {
                         avaName = file.originalname;
@@ -286,7 +286,9 @@ const userController = {
 
                     if (isCourseNameExists.length !== 0) {
                         console.log("Course is exists erorr!");
-                        return res.status(400).json({ message: "CourseName Is Already Existed!" });
+                        return res
+                            .status(400)
+                            .json({ message: "CourseName Is Already Existed!" });
                     }
                     //  console.log("Cat ID: ", isCatExists[0].catID);
                     const courseIdToAddChapter = allCourse.length + 1;
@@ -320,7 +322,7 @@ const userController = {
                     const firstRet = await courseModel.addCourse(entity);
 
                     const str = req.body.txtSyllabus;
-                    const str2 = str.slice(10,str.length - 12);
+                    const str2 = str.slice(10, str.length - 12);
                     const arr = str2.split("</li>\r\n<li>");
                     // console.log(arr);
                     const _chapterMaxId = await chapterModel.getChapterMaxId();
@@ -333,9 +335,9 @@ const userController = {
                             courseID: courseIdToAddChapter,
                             chapterID: chapterMaxId,
                             chapterName: chapter,
-                        }
+                        };
                         const firstRet = await chapterModel.addChapter(entityChapter);
-                    })
+                    });
                     res.render("vwUser/UploadCourse", {
                         layout: "main",
                     });
@@ -373,7 +375,7 @@ const userController = {
         // console.log(allCourse);
         res.render("vwUser/UploadChapter", {
             layout: "main",
-            allCourse
+            allCourse,
         });
     },
     // post upload course
@@ -387,12 +389,17 @@ const userController = {
 
         const courseID = courseName.split(" -- ")[0].slice(10);
 
-        const check = await chapterModel.getChapterOfCourseByChapterName(courseID, chapterName)
+        const check = await chapterModel.getChapterOfCourseByChapterName(
+            courseID,
+            chapterName
+        );
 
         const checkChapterNameExisted = check.length == 0 ? 0 : 1;
 
         if (checkChapterNameExisted) {
-            return res.status(500).json({ message: "The chapter name you have submitted already existed in this course!" });
+            return res.status(500).json({
+                message: "The chapter name you have submitted already existed in this course!",
+            });
         } else {
             const _chapterMaxId = await chapterModel.getChapterMaxId();
             let chapterMaxId = _chapterMaxId[0].chapterMaxID;
@@ -400,7 +407,7 @@ const userController = {
                 courseID,
                 chapterID: chapterMaxId + 1,
                 chapterName,
-            }
+            };
             const firstRet = await chapterModel.addChapter(entity);
 
             const course = await courseModel.getCourseByID(courseID);
@@ -414,7 +421,7 @@ const userController = {
 
             res.render("vwUser/UploadChapter", {
                 layout: "main",
-                allCourse
+                allCourse,
             });
         }
     },
@@ -428,17 +435,21 @@ const userController = {
 
     getUploadUnitPage: async(req, res) => {
         console.log("Get into upload Unit !!");
-            // console.log("alo alo " + req.body);
+        // console.log("alo alo " + req.body);
 
         const userID = req.session.authUser.userID;
-        const allInstructorCourse = await courseModel.getAllCouseByInstructorId(userID);
+        const allInstructorCourse = await courseModel.getAllCouseByInstructorId(
+            userID
+        );
 
         const allInstructorChapter = [];
         for (let i = 0; i < allInstructorCourse.length; i++) {
-            const chapterSubArr = await chapterModel.getAllChapterByCourseID(allInstructorCourse[i].courseID);
-            chapterSubArr.map(chapter => {
+            const chapterSubArr = await chapterModel.getAllChapterByCourseID(
+                allInstructorCourse[i].courseID
+            );
+            chapterSubArr.map((chapter) => {
                 allInstructorChapter.push(chapter);
-            })
+            });
         }
         res.render("vwUser/UploadUnit", {
             layout: "main",
@@ -454,10 +465,12 @@ const userController = {
             console.log("Uploading Course !!");
             // console.log("alo alo " + req.body);
             let vidName = "";
-            const savePath = `./public/courses/coursevideos-${moment().format("DD-MM-YYYY").slice(0,2)}`;
+            const savePath = `./public/courses/coursevideos-${moment()
+        .format("DD-MM-YYYY")
+        .slice(0, 2)}`;
             const storage = multer.diskStorage({
                 destination: function(req, file, cb) {
-                    fs.mkdirSync(savePath, { recursive: true })
+                    fs.mkdirSync(savePath, { recursive: true });
                     cb(null, savePath);
                 },
                 filename: function(req, file, cb) {
@@ -475,19 +488,23 @@ const userController = {
                 } else {
                     console.log(savePath);
                     // console.log(req.body.videoLength);
-                    const check = await unitModel.getUnitOfchapterByUnitName(req.body.chapterID, req.body.unitName);
+                    const check = await unitModel.getUnitOfchapterByUnitName(
+                        req.body.chapterID,
+                        req.body.unitName
+                    );
 
                     if (check.length > 0) {
-                        return res.status(400).json({ message: "This unit name already exists in the chapter of course u chose!"});
-                    }
-                    else {
+                        return res.status(400).json({
+                            message: "This unit name already exists in the chapter of course u chose!",
+                        });
+                    } else {
                         const time = req.body.videoLength;
 
-                        const hour = time.slice(0,2);
+                        const hour = time.slice(0, 2);
 
-                        const min = time.slice(4,6);
+                        const min = time.slice(4, 6);
 
-                        const sec = time.slice(8,10);
+                        const sec = time.slice(8, 10);
 
                         const _unitMaxId = await unitModel.getUnitMaxId();
                         let unitMaxId = _unitMaxId[0].unitMaxID;
@@ -500,19 +517,19 @@ const userController = {
                             flagReviewable: req.body.txtIsReviewable == "on" ? 1 : 0,
                             duration_hour: hour,
                             duration_min: min,
-                            duration_sec: sec
+                            duration_sec: sec,
                         };
 
                         // console.log(entity);
                         const firstRet = await unitModel.addUnit(entity);
-                        
+
                         // console.log(entity);
                         const course = await courseModel.getCourseByID(req.body.courseID);
-                        
+
                         course[0].lastUpdate = moment().format("YYYY-MM-DD");
-                        
+
                         const flagComplete = req.body.txtIsDone == "on" ? 1 : 0;
-                        
+
                         if (flagComplete) {
                             course[0].isFinished = 1;
                         }
@@ -521,14 +538,18 @@ const userController = {
                         const secondRet = await courseModel.editCourse(course[0]);
 
                         const userID = req.session.authUser.userID;
-                        const allInstructorCourse = await courseModel.getAllCouseByInstructorId(userID);
+                        const allInstructorCourse = await courseModel.getAllCouseByInstructorId(
+                            userID
+                        );
 
                         const allInstructorChapter = [];
                         for (let i = 0; i < allInstructorCourse.length; i++) {
-                            const chapterSubArr = await chapterModel.getAllChapterByCourseID(allInstructorCourse[i].courseID);
-                            chapterSubArr.map(chapter => {
+                            const chapterSubArr = await chapterModel.getAllChapterByCourseID(
+                                allInstructorCourse[i].courseID
+                            );
+                            chapterSubArr.map((chapter) => {
                                 allInstructorChapter.push(chapter);
-                            })
+                            });
                         }
                         res.render("vwUser/UploadUnit", {
                             layout: "main",
@@ -564,6 +585,14 @@ const userController = {
     },
 
     postCart: async(req, res) => {},
+
+    getLockAccountPage: (req, res) => {
+        res.render("vwUser/LockAccount", {
+            layout: false,
+            message: "Your Account Has Been Locked",
+            reason: "",
+        });
+    },
 };
 
 module.exports = userController;

@@ -1,0 +1,240 @@
+{{#section 'css'}}
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+    integrity="sha512-f0tzWhCwVFS3WeYaofoLWkTP62ObhewQ1EZn65oSYDZUg1+CyywGKkWzm8BxaJj5HGKI72PnMH9jYyIFz+GH7g=="
+    crossorigin="anonymous" />
+{{/section}}
+
+{{#section 'js'}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+    integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+    crossorigin="anonymous"></script>
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js";
+    function createAccountForInstructor() {
+        jQuery('#DOB').datetimepicker({
+            format: 'd/m/Y',
+            timepicker: false,
+            mask: true
+        });
+
+
+
+        const fmAddInstructor = $("#fmAddInstructor");
+        const txtName = $("#txtName");
+        const email = $("#email");
+        const pw = $("#pw");
+        const DOB = $("#DOB");
+
+
+
+
+        fmAddInstructor.on("submit", e => {
+            e.preventDefault();
+
+
+
+
+            if (email.val() === "" || txtName.val() === "" || pw.val() === "") {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Invalid value!",
+                    icon: "warning"
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+
+            if (pw.val().length < 6) {
+                const messageTrigger = {
+                    timer: 1500,
+                    html: '',
+                    title: "Password at least 6 characters!",
+                    icon: "warning",
+                }
+                openAlert(messageTrigger)
+                return;
+            }
+
+
+
+
+            const data = {
+                userName: txtName.val(),
+                email: email.val(),
+                password: pw.val(),
+                DOB: DOB.val(),
+                decentralization: 1,
+                verify: 1
+            }
+
+            console.log(data)
+
+            $.ajax({
+                type: 'post',
+                url: '/admin/instructors/add',
+                data: data,
+                xhrFields: {
+                    withCredentials: false
+                },
+                headers: {
+                },
+                success: function (data) {
+                    //  console.log('Success');
+                    console.log(data)
+                    const messageTrigger = {
+                        timer: 2000,
+                        html: '',
+                        icon: 'success',
+                        title: "Create Account Success!"
+                    }
+
+
+                    openAlert(messageTrigger)
+
+
+
+                },
+                error: function (er) {
+                    console.log(er)
+                    const messageTrigger = {
+                        timer: 2500,
+                        html: '',
+                        icon: 'error',
+                        title: er.responseJSON.message,
+                    }
+                    openAlert(messageTrigger)
+                }
+            });
+
+        })
+    }
+    createAccountForInstructor();
+</script>
+{{/section}}
+
+
+
+<div>
+
+
+    <div class="card">
+        <div class="card-header bg-gradient-info text-white font-weight-bold ">Create An Account For Instructor</div>
+        <div class="card-body">
+            <form id="fmAddInstructor">
+
+                <div class="form-group">
+                    <label for="txtName">Instructor Name</label>
+                    <input type="text" name="txtName" id="txtName" class="form-control" placeholder=""
+                        aria-describedby="helpId">
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="txtName"> Email</label>
+                    <input type="email" name="email" id="email" class="form-control" placeholder=""
+                        aria-describedby="helpId">
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+
+                <div class="form-group">
+                    <label for="txtName"> Password</label>
+                    <input type="password" name="pw" id="pw" class="form-control" placeholder=""
+                        aria-describedby="helpId">
+                    <small id="helpId" class="text-muted"></small>
+                </div>
+
+                <div class="form-group">
+                    <label>Date Of Birth</label>
+                    <input type="text" name="dates" class="form-control form-control-user" id="DOB"
+                        placeholder="Date Of Birth">
+
+                </div>
+
+
+
+
+                <button type="submit" class="btn btn-info">Create</button>
+
+            </form>
+        </div>
+        <div class="card-footer bg-gradient-info"></div>
+    </div>
+
+
+</div>
+
+{{#section 'js'}}
+<!-- Optional: include a polyfill for ES6 Promises for IE11 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+
+
+    function lockAccountInstructor() {
+
+        const fmLockAccountInstructor = $("#fmLockAccountInstructor");
+        const txtInstructorID = $("#txtInstructorID");
+        const url = `/admin/instructors/lock`;
+        fmLockAccountInstructor.on("submit", e => {
+            e.preventDefault();
+
+            const data = {
+                userID: txtInstructorID.val(),
+            }
+
+            if (data.userID === "") {
+                const message = {
+                    title: "ID Is Empty!",
+                    icon: "error",
+                    timer: 2000
+                }
+                openAlert(message);
+            }
+
+
+            $.ajax({
+                type: "put",
+                url: url,
+                data: data,
+                headers: {},
+                xhrFields: {
+                    withCredentials: false
+                },
+                success: data => {
+                    console.log(data);
+                    const message = {
+                        title: "Locked Account Instructor!",
+                        icon: "success",
+                        timer: 2000
+                    }
+                    openAlert(message);
+                },
+                error: er => {
+                    console.log(er);
+
+                    const message = {
+                        title: "Cannot Find Instructor!",
+                        icon: "error",
+                        timer: 2000
+                    }
+                    openAlert(message);
+                }
+            })
+        })
+
+
+
+    }
+
+    lockAccountInstructor();
+
+</script>
+
+{{/section}}

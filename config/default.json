@@ -2,6 +2,13 @@
     "pagination": {
         "limit": 12
     },
+    "admin": {
+        "course": {
+            "pagination": {
+                "limit": 10
+            }
+        }
+    },
     "listCourses": {
         "pagination": {
             "limit": 9
@@ -13,7 +20,7 @@
         }
     },
     "devURL": "http://localhost:3000",
-    "productionURL": "",
+    "productionURL": "http://localhost:3000",
     "DATABASE": {
         "NAME": "onlinecourses",
         "TABLE": {

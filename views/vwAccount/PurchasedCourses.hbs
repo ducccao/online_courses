@@ -1,5 +1,9 @@
 {{#section 'css'}}
 <style>
+    .btn {
+        width: 48% !important;
+    }
+
     .list-course {
         max-width: 1140px;
     }
@@ -275,9 +279,14 @@
                                     </a>
                                     {{else}}
                                     {{#if ../isAuth}}
-                                    <a href="/course/learn/{{this.courseID}}" class="btn btn-success w-100">
-                                        Learn
-                                    </a>
+                                    <div class="card-footer">
+                                        <a href="/course/learn/{{this.courseID}}" class="btn btn-success w-25 ">
+                                            Learn
+                                        </a>
+                                        <a href="/course-list/{{this.courseID}}" class="btn btn-info w-25">
+                                            Detail
+                                        </a>
+                                    </div>
                                     {{else}}
                                     <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info w-100">
                                         Detail

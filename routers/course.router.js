@@ -38,6 +38,16 @@ router.get(
     courseController.getDetailCourse
 );
 
+router.get(
+    "/courses/disable",
+    authAdmin,
+    courseController.getDisableCoursePage
+);
+router.put("/courses/disable", authAdmin, courseController.DisableCourse);
+
+router.get("/courses/enable", authAdmin, courseController.getEnableCourse);
+router.put("/courses/enable", authAdmin, courseController.EnableCourse);
+
 /* #endregion */
 
 // 404 not found

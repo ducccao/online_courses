@@ -36,6 +36,8 @@ module.exports = function(app) {
     app.use(async function(req, res, next) {
         const rows = await subjectsModel.all();
         res.locals.lcSubjects = rows;
+        //  console.log(req.headers.referer);
+        //  console.log("subject", res.locals.lcSubjects);
         //  console.log(rows);
         next();
     });
@@ -43,6 +45,7 @@ module.exports = function(app) {
     app.use(async function(req, res, next) {
         const rows = await categoryModel.all();
         res.locals.lcAllCategories = rows;
+        //   console.log("cat:", rows);
         // console.log(rows);
         next();
     });

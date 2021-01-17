@@ -381,7 +381,6 @@ const mainController = {
         const discountedPrice = course[0].fee * (1 - _discountP / 100);
         const review = await reviewModel.getReview(courseID);
 
-
         //get 5 related courses
         const firstRow = await courseModel.getTopFiveRelated(type[0].subjID);
 
@@ -405,6 +404,8 @@ const mainController = {
             };
             thirdRows.push(item);
         }
+
+
         // console.log(thirdRows);
         // rating course
         const fourthRows = [];
@@ -434,11 +435,15 @@ const mainController = {
             };
             fourthRows.push(item);
         }
+
         let isExistedWatchlist = true;
-        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+        if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
+            console.log("hllo");
             const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
             isExistedWatchlist = course.length === 1;
         }
+
+        console.log(isExistedWatchlist);
 
         // console.log(fourthRows);
 
@@ -455,6 +460,7 @@ const mainController = {
             student: studentNumb[0]["count(*)"],
             review: review,
             reviewEmpty: review.length === 0,
+            isExistedWatchlist,
         };
 
         console.log(courseDetail);
@@ -525,9 +531,9 @@ const mainController = {
         const formatedMin = totalMin > 9 ? totalMin : `0${totalMin}`;
         const formatedSec = totalSec > 9 ? totalSec : `0${totalSec}`;
         const duration = `${totalHour}h:${formatedMin}m:${formatedSec}s`
-        // console.log(totalChapter);
-        // console.log(totalUnit);
-        // console.log(duration);
+            // console.log(totalChapter);
+            // console.log(totalUnit);
+            // console.log(duration);
         const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(courseID);
 
         const firstPreviewVideoLink = _firstPreviewVideoLink.length != 0 ? _firstPreviewVideoLink[0].linkVideo : '0';
@@ -725,7 +731,7 @@ const mainController = {
 
     getLearnCoure: async(req, res) => {
         const courseID = +req.params.id;
-        if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
+        if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
             const isOrdered = ((await courseModel.getOrderCourseByUserIDAndCourseID(courseID, res.locals.authUser.userID)).length === 1);
             if (isOrdered === true) {
                 const course = await courseModel.getCourseByID(courseID);

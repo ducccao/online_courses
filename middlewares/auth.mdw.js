@@ -58,9 +58,20 @@ function authAdmin(req, res, next) {
 
 async function authOTP(req, res, next) {
     const userSession = req.session.authUser;
+    console.log(req.session.authUser);
+
+    if (req.session.authUser === null) {
+        const url = req.headers.referer;
+        return next();
+    }
 
     const user = await userModel.getUserByID(userSession.userID);
     // console.log(user);
+
+    // lock account
+    if (user[0].verify === 2) {
+        return res.redirect("/user/locked");
+    }
 
     if (user[0].verify !== 1) {
         return res.redirect("/user/prevent-access");

@@ -1,10 +1,11 @@
 const adminModel = require("./../models/admin.model");
 const usersDatabase = require("./../utils/usersDatabase");
-
+const userModel = require("./../models/user.model");
 const fakeCateDB = require("./../utils/categoryDatabase");
 const courseModel = require("./../models/course.model");
 const config = require("./../config/default.json");
-
+const bcrypt = require("bcryptjs");
+const moment = require("moment");
 const user = usersDatabase[0];
 
 const adminController = {
@@ -270,6 +271,123 @@ const adminController = {
         });
     },
     /* #endregion */
+
+    getAllStudentPage: async(req, res) => {
+        console.log("Admin Student All Page");
+        const ret1 = await adminModel.getRecordStudent();
+        console.log(ret1);
+
+        if (!ret1) {
+            return res.status(500).json({ message: "Cannot get records student!" });
+        }
+
+        res.render("vwAdmin/vwStudent/All", {
+            layout: "admin",
+            records: ret1,
+            showPagi: true,
+        });
+    },
+
+    getAddStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/Add", {
+            layout: "admin",
+        });
+    },
+
+    postStudent: (req, res) => {},
+    getPutStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/Put", {
+            layout: "admin",
+        });
+    },
+    PutStudent: (req, res) => {},
+    getDeleteStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/Delete", {
+            layout: "admin",
+        });
+    },
+
+    deleteStudent: (req, res) => {},
+
+    getAllInstructorRecordPage: async(req, res) => {
+        const ret1 = await adminModel.getRecordInstructor();
+        res.render("vwAdmin/vwInstructor/All", {
+            layout: "admin",
+            records: ret1,
+            showPagi: true,
+        });
+    },
+
+    getLockAccountInstructorPage: (req, res) => {
+        res.render("vwAdmin/vwInstructor/LockAccount", {
+            layout: "admin",
+        });
+    },
+    putLockAccountInstructor: async(req, res) => {
+        //  console.log(req.body);
+        const userID = +req.body.userID;
+
+        const ret1 = await adminModel.lockAccountInstructor(userID);
+        console.log(ret1);
+        if (+ret1.affectedRows === 0) {
+            return res.status(500).json({ sqlMessage: "Cannot Find Instructor!" });
+        }
+        return res.status(200).json({ sqlMessage: "Locked Find Instructor!" });
+    },
+
+    getLockAccountStudentPage: (req, res) => {
+        res.render("vwAdmin/vwStudent/LockAccount", {
+            layout: "admin",
+        });
+    },
+    putLockAccountStudent: async(req, res) => {
+        const userID = +req.body.userID;
+        const ret1 = await adminModel.lockAccountStudent(userID);
+        console.log(ret1);
+
+        if (+ret1.affectedRows === 0) {
+            return res.status(500).json({ sqlMessage: "Cannot Find Student!" });
+        }
+        return res.status(200).json({ sqlMessage: "Locked Find Instructor!" });
+    },
+
+    getCreateAccountForInstructorPage: (req, res) => {
+        res.render("vwAdmin/vwInstructor/add", {
+            layout: "admin",
+        });
+    },
+
+    postCreateAccountForInstructorPage: async(req, res) => {
+        try {
+            const data = req.body;
+
+            console.log(data);
+            const { userName, email, password, DOB, decentralization, verify } = data;
+
+            const checkEmail = await userModel.isAvailable(data.email);
+            if (checkEmail.length !== 0) {
+                return res.status(404).json({ message: "Email have been used!" });
+            }
+            const hash = bcrypt.hashSync(password);
+            const dobFormated = moment(DOB, "DD/MM/YYYY").format("YYYY-MM-DD");
+            console.log(dobFormated);
+            const user = {
+                userName,
+                email,
+                password: hash,
+                DOB: dobFormated,
+                verify,
+                decentralization,
+                OTP_URL: "",
+            };
+            const ret1 = await userModel.addUser(user);
+            console.log(ret1);
+            return res.status(200).json({ message: "Create Account Success!" });
+        } catch (er) {
+            console.log(er);
+            return res.status(500).json({ message: er.sqlMessage });
+        }
+    },
 };
 
 module.exports = adminController;
