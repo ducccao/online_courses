@@ -250,7 +250,7 @@
         <h5 class="text-center text-success">You can watch the preview videos here</h5>
         <video controls crossorigin playsinline data-poster="../../public/courses/course-32/img/css.jpg" id="player">
             <!-- Video files -->
-            <source id="video-source" src="../.{{firstVideoLink}}" type="video/mp4" size="720">
+            <source id="video-source" src="{{firstVideoLink}}" type="video/mp4" size="720">
         </video>
         {{/if_equal}}
         <hr class="hr-section">
@@ -435,7 +435,7 @@
 
         $('.player-src').on('click', function () {
 
-            src = "../." + $(this).data("src");
+            src =  $(this).data("src");
             type = 'video/' + $(this).data("type");
             poster = $(this).data("poster") || "";
 
