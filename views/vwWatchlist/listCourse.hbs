@@ -427,6 +427,8 @@
                     </h4>
 
                 </div>
+
+                {{!-- watch list --}}
                 <div class="card-body">
                     <div class="row">
                         {{#each allCourse }}
@@ -475,20 +477,26 @@
 
 
                                     {{#ifCond this.discount '!=' 0}}
-                                    <p class="card-text text-warning">
-                                        <span class="font-weight-bolder"> Discount:</span> {{this.discount}}%
+                                    <p class="card-text text-secondary">
+                                        <del>{{format this.fee}} VNĐ</del>
                                     </p>
-
+                                    <p class="card-text text-danger">
+                                        {{discountedFee}} VNĐ <span class="font-weight-bolder text-success ml-3">
+                                            {{this.discount}}% OFF</span>
+                                    </p>
                                     {{else}}
-
+                                    <p class="card-text text-danger"></p>
+                                    <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
+                                    </p>
+                                    <p class="card-text text-danger" style="opacity: 0">
+                                        alo
+                                    </p>
                                     {{/ifCond}}
                                     </p>
 
 
 
-                                    <p class="card-text text-danger">
-                                        <span class="font-weight-bold"> Fee:</span> {{format this.fee}} VNĐ
-                                    </p>
+
                                 </div>
                                 <div class="card-footer">
 
@@ -516,6 +524,11 @@
                         {{/each}}
                     </div>
                 </div>
+
+                {{!-- common card --}}
+
+                {{!-- common cartd --}}
+
                 <div class="card-footer text-muted">
                     {{#if showPagi}}
                     <div class="row">

@@ -7,13 +7,38 @@
 
     {{!-- <div id="banner"></div> --}}
 
-    <section id="slides-show">
-        <div class="slides fade-custom"><img src="/public/img/banner1.jpg" alt="Love Javascript A Lot"></div>
-        <div class="slides fade-custom"><img src="/public/img/banner2.jpg" alt="Love Javascript A Lot"></div>
-        <div class="slides fade-custom"><img src="/public/img/banner3.jpg" alt="Love Javascript A Lot"></div>
-        <div id="next-btn" class="slides-btn">&#10095;</div>
-        <div id="prev-btn" class="slides-btn">&#10094;</div>
-    </section>
+    {{!-- slide show --}}
+
+
+
+    <div class="slideshow-container ">
+
+        <div class="mySlides fade">
+            <div class="numbertext">1 / 3</div>
+            <img src="/public/img/banner1.jpg" style="width:100%">
+            <div class="text">Caption Text</div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">2 / 3</div>
+            <img src="/public/img/banner2.jpg" style="width:100%">
+            <div class="text">Caption Two</div>
+        </div>
+
+        <div class="mySlides fade">
+            <div class="numbertext">3 / 3</div>
+            <img src="/public/img/banner3.jpg" style="width:100%">
+            <div class="text">Caption Three</div>
+        </div>
+
+    </div>
+    <br>
+
+    <div style="text-align:center">
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
 
     {{!-- <div id="banner-content">
         <h1>Get early access, now</h1>
@@ -124,7 +149,7 @@
             {{#each listTopTenNewestOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
-                    <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
+                    <img class="card-img-top" src="../.{{this.thumbnail}}" alt="Card image cap">
 
                     <div class="card-body">
                         <h5 class="card-title text-dark font-weight-bolder">
@@ -220,7 +245,7 @@
             {{#each ListMostViews }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
-                    <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
+                    <img class="card-img-top" src="../.{{this.thumbnail}}" alt="Card image cap">
 
                     <div class="card-body">
                         <h5 class="card-title text-dark font-weight-bolder">
@@ -305,14 +330,14 @@
             </h4>
         </div>
         <div class="slick-show custom-carousel">
-            {{#each listTopTenMostSubcribeOfWeek }}
+            {{#each fiveCatRet1 }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
-                    <img class="card-img-top" src="../.{{this.avatar}}" alt="Card image cap">
+
 
                     <div class="card-body">
                         <h5 class="card-title text-dark font-weight-bolder">
-                            {{this.courseName}}
+                            {{this.catName}}
                         </h5>
 
 
@@ -325,65 +350,33 @@
                             Development</p>
                         {{/if_equal}}
 
-                        <a class="card-text link-cat" href="/course-list/byCat/{{this.catID}}?page=1"
-                            title="see all courses in {{this.catName}} category"><span
-                                class="font-weight-bolder"></span>
-                            {{this.catName}}
-                        </a>
 
-                        <p class="card-text text-secondary">
-                            <span class="font-weight-bolder"> Views:</span> {{this.views}} <i class="fas fa-eye"></i>
-                        </p>
 
-                        <p class="card-text text-secondary">
-                            <span class="font-weight-bolder"> Instructor:</span> {{this.userName}}
-                        </p>
-                        <p class="card-text text-success">
-                            <span class="font-weight-bold"> Rating:</span>
-                            {{#if_equal this.rating 'NaN'}}
-                            No Rating
-                            {{else}}
-                            {{this.rating}} ({{this.countPeopleRating}})
-                            {{/if_equal}}
+                        <p class="card-text py-3 font-weight-bold">
+                            Số lượng khóa học đã bán trong tuần của category:
+
+                            <span class="text-danger"> {{this.numb}}</span>
+
                         </p>
 
-                        {{#ifCond this.discount '!=' 0}}
-                        <p class="card-text text-danger">
-                            <span class="font-weight-bold"></span> {{format this.discountedPrice}} VNĐ
-                            <span class="font-weight-bold deleted"><del>{{format this.fee}} VNĐ</del></span>
-                        </p>
-                        {{else}}
-                        <p class="card-text text-danger">
-                            <span class="font-weight-bold"></span> {{format this.fee}} VNĐ
-                        </p>
-                        {{/ifCond}}
+
                     </div>
                     <div class="card-footer">
 
-                        {{#if ../isAuth}}
-                        <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info">
+
+                        <a style="width:100%!important" href="/course-list/byCat/{{this.catID}}?page=1"
+                            class="card-link btn btn-info">
                             <i class="fa fa-info"></i> Detail
                         </a>
 
 
-                        <input type="text" id="txtCourseName" name="txtCourseName">
-
-                        <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
-                            class="card-link btn btn-success add-item ">
-                            <i class="fa fa-cart-plus mr-2 "></i>Buy
-                        </a>
-
-                        {{else}}
-
-                        <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info" style="width: 100%;">
-                            <i class="fa fa-info"></i> Detail
-                        </a>
-                        {{/if}}
                     </div>
                 </div>
                 {{!--
             </a> --}}
             {{/each}}
+
+
         </div>
     </div>
 </header>

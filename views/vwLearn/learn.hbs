@@ -1,5 +1,15 @@
 {{#section 'css'}}
 <style>
+    .cat-link {
+        text-decoration: none;
+    }
+
+    .cat-link:hover {
+        color: green;
+        font-weight: 750;
+        text-decoration: none;
+    }
+
     .deleted {
         color: black !important;
         margin-left: 15px;
@@ -128,7 +138,8 @@
     <div class="row">
 
         <div class="col-md-6">
-            <img class="img-fluid" src="http://placehold.it/750x500" alt="">
+            <img style="width: 520px; height: 330px; margin-top: 20px" class="img-fluid"
+                src="../.{{courseDetail.avatar}}" alt="">
         </div>
 
         <div class="col-md-6">
@@ -141,6 +152,16 @@
                     pariatur.
                     Nobis.</strong></h5>
             </p>
+
+
+            <p class="card-text text-primary">
+                Category:
+                <a class="cat-link" href="/course-list/byCat/{{courseDetail.catID}}?page=1"
+                    title="see all courses in {{courseDetail.catName}} category">{{courseDetail.catName}}
+                </a>
+            </p>
+
+
             <p class="card-text text-secondary">
                 <span class="font-weight-bolder"> Instructor:</span> {{courseDetail.userName}}
             </p>
