@@ -10,21 +10,27 @@ const {
 const homeController = {
     getListCourses: async(req, res) => {
         console.log("List Course Paginating 1234!!");
-        const mostBuyWeek = await courseModel.getMostBuyWeek();
-        //get all cate and course in cate count
-        // const courseInCat = await categoryModel.allWithDetails();
+        const listMostViews = await courseModel.getMostViews();
 
-        const mostBuyWeekCourse = await test(mostBuyWeek);
+        const listFourHightllightCoursesOfWeek = await courseModel.getTopFourHightllightCoursesOfWeek();
 
-        const rows = await courseModel.all();
+        const listTopTenNewestOfWeek = await courseModel.getTopTenNewestOfWeek();
 
-        const allCourse = await test(rows);
+        const listTopTenMostSubcribeOfWeek = await courseModel.getTopTenMostSubcribeOfWeek();
+
+        // const mostBuyWeekCourse = await test(mostBuyWeek);getTopTenNewestOfWeek 
+
+        // const rows = await courseModel.all();
+
+        // const allCourse = await test(rows);
 
         res.render("vwMain/Home", {
             layout: "mainHome",
-            // courseInCat: courseInCat,
-            allCourse,
-            mostBuyWeekCourse,
+            // allCourse,
+            listMostViews,
+            listFourHightllightCoursesOfWeek,
+            listTopTenNewestOfWeek,
+            listTopTenMostSubcribeOfWeek
         });
     },
 };

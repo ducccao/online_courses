@@ -26,8 +26,8 @@
                 Hotest This Week
             </h4>
         </div>
-        <div class="d-flex justify-content-between">
-            {{#each mostBuyWeekCourse }}
+        <div class="slick-show custom-carousel">
+            {{#each listFourHightllightCoursesOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
@@ -114,7 +114,7 @@
             </h4>
         </div>
         <div class="slick-show custom-carousel">
-            {{#each allCourse }}
+            {{#each listTopTenNewestOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
@@ -205,7 +205,7 @@
             <input type="hidden" id="txtMethod-watchlist" name="method">
         </form>
         <div class="slick-show custom-carousel">
-            {{#each allCourse }}
+            {{#each listMostViews }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
@@ -288,11 +288,11 @@
     <div class="card">
         <div class="card-header">
             <h4>
-                Top 10 Most Subcribes This Week
+                Top 5 Most Subcribes This Week
             </h4>
         </div>
         <div class="slick-show custom-carousel">
-            {{#each allCourse }}
+            {{#each listTopTenMostSubcribeOfWeek }}
             {{!-- <a href="http://google.com" target="_blank" rel="noopener noreferrer"> --}}
                 <div class="card course-item mb-3 carousel-items">
                     <img class="card-img-top"
@@ -360,9 +360,6 @@
                             class="card-link btn btn-success add-item ">
                             <i class="fa fa-cart-plus mr-2 "></i>Buy
                         </a>
-
-
-
                         {{/if}}
                     </div>
                 </div>
