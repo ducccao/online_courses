@@ -19,6 +19,15 @@ module.exports = {
     return db.load(sql);
   },
 
+  getFirstVideoOfCourse(courseID) {
+    const sql = `select u.linkVideo
+    from ${TBL_UNIT} u, ${config.DATABASE.TABLE.CHAPTER} c
+    where u.chapterID = c.chapterID and c.courseID = ${courseID}
+    order by u.unitID
+    limit 1`;
+    return db.load(sql);
+  },
+
   getUnitMaxId() {
     const sql = `SELECT count(*) as unitMaxID FROM ${TBL_UNIT}`;
     return db.load(sql);

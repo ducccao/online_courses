@@ -278,9 +278,7 @@ module.exports = {
         return db.load(sql);
     },
     getOrderCourseByUserIDAndCourseID(courseID, userID) {
-        const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${
-      config.DATABASE.TABLE.ORDERDETAILS
-    } od 
+        const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${config.DATABASE.TABLE.ORDERDETAILS} od 
                     on o.orderID = od.orderID join  ${TBL_COURSE} c on c.courseID = ${courseID}
                     where  o.userID = ${[
                       userID,
