@@ -1,5 +1,29 @@
 {{#section 'css'}}
 <style>
+    .dropdown-menu {
+        transition: 0.13s;
+        font-size: 17px;
+    }
+
+    .dr {
+        background-color: transparent !important;
+        outline: none;
+        font-size: 20px;
+
+        color: gray;
+        font-weight: bold;
+        padding: 20px 20px 0;
+
+    }
+
+    .dr.dropdown-toggle::after {
+        display: none;
+    }
+
+    .list-course {
+        max-width: 1140px;
+    }
+
     .list-course {
         max-width: 1140px;
     }
@@ -130,32 +154,64 @@
     <div class="row">
 
         <div class="col-sm-3">
+
+            {{!-- cat --}}
+
             <div class="card mb-3">
                 <h4 class="card-header">Categories</h4>
                 <div class="list-group list-group-flush  ">
 
-                    {{#each courseInCat }}
-
-
-                    <a href="/watchlist/byCat/{{this.catID}}?page=1" class="list-group-item list-group-item-action      {{#if this.isActive}}
+                    <div class="dropdown">
+                        <div class="w-100 dr  dropdown-toggle" type="button" id="webcat" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Web Development
+                        </div>
+                        <div class="dropdown-menu w-100" aria-labelledby="webcat">
+                            {{#each webCat }}
+                            <a class="dropdown-item  {{#if isActive}}
                            active
-                       {{/if}}  ">
-                        {{this.catName}}
+                       {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
+                                {{this.catName}}
+
+                                {{#ifCond this.CourseCount '!=' 0}}
+                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                    {{this.CourseCount}}
+                                </span>
+                                {{/ifCond}}
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
 
 
-                        {{#ifCond this.CourseCount '!=' 0}}
-                        <span class="badge badge-pill badge-danger float-right mt-1">
-                            {{this.CourseCount}}
-                        </span>
-                        {{/ifCond}}
+                    <div class="dropdown">
+                        <div class=" w-100 dr dropdown-toggle" type="button" id="mobicat" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Mobile Development
+                        </div>
+                        <div class="dropdown-menu w-100" aria-labelledby="mobicat">
+                            {{#each mobiCat }}
+                            <a class="dropdown-item  {{#if isActive}}
+                           active
+                       {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
+                                {{this.catName}}
+                                {{#ifCond this.CourseCount '!=' 0}}
+                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                    {{this.CourseCount}}
+                                </span>
+                                {{/ifCond}}
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
 
-                    </a>
 
-                    {{/each}}
+
 
 
                 </div>
             </div>
+
 
         </div>
         <div class="col-sm-9">
@@ -254,32 +310,64 @@
     <div class="row">
 
         <div class="col-sm-3">
+
+            {{!-- cat --}}
+
             <div class="card mb-3">
                 <h4 class="card-header">Categories</h4>
                 <div class="list-group list-group-flush  ">
 
-                    {{#each courseInCat }}
-
-
-                    <a href="/watchlist/byCat/{{this.catID}}?page=1" class="list-group-item list-group-item-action      {{#if isActive}}
+                    <div class="dropdown">
+                        <div class="w-100 dr  dropdown-toggle" type="button" id="webcat" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Web Development
+                        </div>
+                        <div class="dropdown-menu w-100" aria-labelledby="webcat">
+                            {{#each webCat }}
+                            <a class="dropdown-item  {{#if isActive}}
                            active
-                       {{/if}}  ">
-                        {{this.catName}}
+                       {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
+                                {{this.catName}}
+
+                                {{#ifCond this.CourseCount '!=' 0}}
+                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                    {{this.CourseCount}}
+                                </span>
+                                {{/ifCond}}
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
 
 
-                        {{#ifCond this.CourseCount '!=' 0}}
-                        <span class="badge badge-pill badge-danger float-right mt-1">
-                            {{this.CourseCount}}
-                        </span>
-                        {{/ifCond}}
+                    <div class="dropdown">
+                        <div class=" w-100 dr dropdown-toggle" type="button" id="mobicat" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Mobile Development
+                        </div>
+                        <div class="dropdown-menu w-100" aria-labelledby="mobicat">
+                            {{#each mobiCat }}
+                            <a class="dropdown-item  {{#if isActive}}
+                           active
+                       {{/if}}  " href="/course-list/byCat/{{this.catID}}?page=1">
+                                {{this.catName}}
+                                {{#ifCond this.CourseCount '!=' 0}}
+                                <span class="badge badge-pill badge-danger float-right mt-1">
+                                    {{this.CourseCount}}
+                                </span>
+                                {{/ifCond}}
+                            </a>
+                            {{/each}}
+                        </div>
+                    </div>
 
-                    </a>
 
-                    {{/each}}
+
 
 
                 </div>
             </div>
+
 
         </div>
         <div class="col-sm-9">

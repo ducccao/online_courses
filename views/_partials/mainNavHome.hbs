@@ -66,6 +66,17 @@
 
             <ul class="navbar-nav">
                 {{#if isAdmin}}
+                <li class="nav-item mr-3" style="width: 50vh;">
+                    <form class="text-center nav-link formSearchListCourse" id="formSearch-large"
+                        action="/course-list/search" method="POST">
+                        <input type="text" id="searchContentListCourse" name="searchContentListCourse"
+                            class="searchContentListCourse" placeholder="Search for some course...">
+                        <button
+                            style="text-decoration: none; outline: none; border: none; background: none; margin: 0; padding: 0"
+                            type="button"><i class="fa fa-search  button-addon2"></i></button>
+                    </form>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="/admin/dashboard">
                         <i class="fa fa-dumbbell mr-2"></i>Admin
@@ -94,6 +105,17 @@
 
 
                 {{#if isInstructor}}
+                <li class="nav-item mr-3" style="width: 50vh;">
+                    <form class="text-center nav-link formSearchListCourse" id="formSearch-large"
+                        action="/course-list/search" method="POST">
+                        <input type="text" id="searchContentListCourse" name="searchContentListCourse"
+                            class="searchContentListCourse" placeholder="Search for some course...">
+                        <button
+                            style="text-decoration: none; outline: none; border: none; background: none; margin: 0; padding: 0"
+                            type="button"><i class="fa fa-search  button-addon2"></i></button>
+                    </form>
+                </li>
+
                 <li class="nav-item dropdown mr-3">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownUpload" data-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">

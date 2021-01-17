@@ -1,4 +1,3 @@
-const { get } = require("./main.router");
 const {
     auth,
     authNav,

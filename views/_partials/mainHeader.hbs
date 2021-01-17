@@ -80,11 +80,14 @@
                         {{/ifCond}}
                     </div>
                     <div class="card-footer">
+
+
+
+                        {{#if ../isAuth}}
                         <a class="card-link btn btn-info">
                             <i class="fa fa-info"></i> Detail
                         </a>
 
-                        {{#if ../isAuth}}
 
                         <input type="text" id="txtCourseName" name="txtCourseName">
 
@@ -93,6 +96,12 @@
                             <i class="fa fa-cart-plus mr-2 "></i>Buy
                         </a>
 
+
+                        {{else}}
+
+                        <a class="card-link btn btn-info w-100" style="width:100%!important">
+                            <i class="fa fa-info"></i> Detail
+                        </a>
 
                         {{/if}}
                     </div>
@@ -163,17 +172,25 @@
                         {{/ifCond}}
                     </div>
                     <div class="card-footer">
+
+                        {{#if ../isAuth}}
                         <a href="/course-list/{{this.courseID}}" class="card-link btn btn-info">
                             <i class="fa fa-info"></i> Detail
                         </a>
 
-                        {{#if ../isAuth}}
 
                         <input type="text" id="txtCourseName" name="txtCourseName">
                         <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
                             class="card-link btn btn-success add-item ">
                             <i class="fa fa-cart-plus mr-2 "></i>Buy
                         </a>
+
+                        {{else}}
+                        <a href="/course-list/{{this.courseID}}" style="width:100%!important"
+                            class="card-link btn btn-info">
+                            <i class="fa fa-info"></i> Detail
+                        </a>
+
 
                         {{/if}}
 
@@ -251,16 +268,21 @@
                         {{/ifCond}}
                     </div>
                     <div class="card-footer">
+
+                        {{#if ../isAuth}}
                         <a class="card-link btn btn-info">
                             <i class="fa fa-info"></i> Detail
                         </a>
 
-                        {{#if ../isAuth}}
 
                         <input type="text" id="txtCourseName" name="txtCourseName">
                         <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
                             class="card-link btn btn-success add-item ">
                             <i class="fa fa-cart-plus mr-2 "></i>Buy
+                        </a>
+                        {{else}}
+                        <a class="card-link btn btn-info" style="width: 100%!important;">
+                            <i class="fa fa-info"></i> Detail
                         </a>
 
 
@@ -332,17 +354,24 @@
                         {{/ifCond}}
                     </div>
                     <div class="card-footer">
+
+                        {{#if ../isAuth}}
                         <a class="card-link btn btn-info">
                             <i class="fa fa-info"></i> Detail
                         </a>
 
-                        {{#if ../isAuth}}
 
                         <input type="text" id="txtCourseName" name="txtCourseName">
 
                         <a data-id="{{this.courseID}}" href="javascript:;" id="btnBuy"
                             class="card-link btn btn-success add-item ">
                             <i class="fa fa-cart-plus mr-2 "></i>Buy
+                        </a>
+
+                        {{else}}
+
+                        <a class="card-link btn btn-info" style="width: 100%;">
+                            <i class="fa fa-info"></i> Detail
                         </a>
 
 
