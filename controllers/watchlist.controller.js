@@ -44,11 +44,23 @@ const mainController = {
             let rows = [];
 
             if (sort === "price") {
-                rows = await watchlistModel.pagiListCoursePrice(offset, limit, req.session.authUser.userID);
+                rows = await watchlistModel.pagiListCoursePrice(
+                    offset,
+                    limit,
+                    req.session.authUser.userID
+                );
             } else if (sort === "star") {
-                rows = await watchlistModel.pagiListCourseStar(offset, limit, req.session.authUser.userID);
+                rows = await watchlistModel.pagiListCourseStar(
+                    offset,
+                    limit,
+                    req.session.authUser.userID
+                );
             } else {
-                rows = await watchlistModel.pagiListCourse(offset, limit, req.session.authUser.userID);
+                rows = await watchlistModel.pagiListCourse(
+                    offset,
+                    limit,
+                    req.session.authUser.userID
+                );
             }
             const total = allCourse.length;
             const nPage = Math.ceil(total / limit);
@@ -125,13 +137,21 @@ const mainController = {
                 let isBestSeller = false;
                 let isNewCourse = false;
 
-                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await bestSeller()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isBestSeller = true;
-                };
+                }
 
-                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await newCourse()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isNewCourse = true;
-                };
+                }
                 const item = {
                     ...fourthRows[i],
                     isBestSeller,
@@ -140,12 +160,29 @@ const mainController = {
                 fifthRows.push(item);
             }
 
-
             // console.log(fourthRows);
+            const webCat = await cateModel.getWebCatWithCountCourse();
+            const mobiCat = await cateModel.getMobiCatWithCountCourse();
+
+            for (let e of webCat) {
+                if (e.catID === +req.params.id) {
+                    e.isActive = true;
+                }
+            }
+
+            for (let m of mobiCat) {
+                if (m.catID === +req.params.id) {
+                    m.isActive = true;
+                }
+            }
 
             res.render("vwWatchlist/listCourse", {
                 layout: "main",
+                // cat
                 courseInCat: courseInCat,
+                mobiCat,
+                webCat,
+
                 allCourse: fifthRows,
                 //   isAdmin: isAdmin,
                 //pagi
@@ -159,8 +196,6 @@ const mainController = {
         } else {
             throw Error("access denied");
         }
-
-
     },
     // get course list by cat
     getCourseListByCat: async(req, res) => {
@@ -174,7 +209,10 @@ const mainController = {
             let nPage = [];
 
             //truong hop dang search
-            if (req.session.searchContentListCourse !== undefined && req.session.searchContentListCourse !== "") {
+            if (
+                req.session.searchContentListCourse !== undefined &&
+                req.session.searchContentListCourse !== ""
+            ) {
                 courseInCat = await watchlistModel.allCatWithDetails(
                     req.session.authUser.userID
                 );
@@ -201,11 +239,29 @@ const mainController = {
                 const limit = config.listCourses.pagination.limit;
                 const offset = (page - 1) * limit;
                 if (sort === "price") {
-                    rows = await watchlistModel.pagiListSearchCourseByCatPrice(req.session.searchContentListCourse, catID, offset, limit, req.session.authUser.userID);
+                    rows = await watchlistModel.pagiListSearchCourseByCatPrice(
+                        req.session.searchContentListCourse,
+                        catID,
+                        offset,
+                        limit,
+                        req.session.authUser.userID
+                    );
                 } else if (sort === "star") {
-                    rows = await watchlistModel.pagiListSearchCourseByCatStar(req.session.searchContentListCourse, catID, offset, limit, req.session.authUser.userID);
+                    rows = await watchlistModel.pagiListSearchCourseByCatStar(
+                        req.session.searchContentListCourse,
+                        catID,
+                        offset,
+                        limit,
+                        req.session.authUser.userID
+                    );
                 } else {
-                    rows = await watchlistModel.pagiListSearchCourseByCat(req.session.searchContentListCourse, catID, offset, limit, req.session.authUser.userID);
+                    rows = await watchlistModel.pagiListSearchCourseByCat(
+                        req.session.searchContentListCourse,
+                        catID,
+                        offset,
+                        limit,
+                        req.session.authUser.userID
+                    );
                 }
                 //   console.log("row len: ", rows.length);
                 //  console.log("total ", total);
@@ -217,7 +273,6 @@ const mainController = {
                     };
                     pagiItem.push(item);
                 }
-
             } else {
                 courseInCat = await watchlistModel.allCatWithDetails(
                     req.session.authUser.userID
@@ -246,11 +301,26 @@ const mainController = {
                 const offset = (page - 1) * limit;
 
                 if (sort === "price") {
-                    rows = await watchlistModel.pagiListCourseByCatPrice(catID, offset, limit, req.session.authUser.userID);
+                    rows = await watchlistModel.pagiListCourseByCatPrice(
+                        catID,
+                        offset,
+                        limit,
+                        req.session.authUser.userID
+                    );
                 } else if (sort === "star") {
-                    rows = await watchlistModel.pagiListCourseByCatStar(catID, offset, limit, req.session.authUser.userID);
+                    rows = await watchlistModel.pagiListCourseByCatStar(
+                        catID,
+                        offset,
+                        limit,
+                        req.session.authUser.userID
+                    );
                 } else {
-                    rows = await watchlistModel.pagiListCourseByCat(catID, offset, limit, req.session.authUser.userID);
+                    rows = await watchlistModel.pagiListCourseByCat(
+                        catID,
+                        offset,
+                        limit,
+                        req.session.authUser.userID
+                    );
                 }
                 //   console.log("row len: ", rows.length);
                 //  console.log("total ", total);
@@ -262,7 +332,6 @@ const mainController = {
                     };
                     pagiItem.push(item);
                 }
-
             }
 
             // get cat type
@@ -328,13 +397,21 @@ const mainController = {
                 let isBestSeller = false;
                 let isNewCourse = false;
 
-                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await bestSeller()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isBestSeller = true;
-                };
+                }
 
-                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await newCourse()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isNewCourse = true;
-                };
+                }
                 const item = {
                     ...fourthRows[i],
                     isBestSeller,
@@ -384,13 +461,23 @@ const mainController = {
         let sort = req.query.sort || "";
         //  const allCate = await cateModel.all();
         console.log(req.body.searchContentListCourse);
-        if ((req.body.searchContentListCourse !== undefined || req.session.searchContentListCourse !== undefined) && req.session.isAuth === true) {
+        if (
+            (req.body.searchContentListCourse !== undefined ||
+                req.session.searchContentListCourse !== undefined) &&
+            req.session.isAuth === true
+        ) {
             if (req.body.searchContentListCourse !== undefined) {
                 req.session.searchContentListCourse = req.body.searchContentListCourse;
             }
-            const courseInCat = await watchlistModel.allSearchWithDetails(req.session.searchContentListCourse, req.session.authUser.userID);
+            const courseInCat = await watchlistModel.allSearchWithDetails(
+                req.session.searchContentListCourse,
+                req.session.authUser.userID
+            );
             //console.log(courseInCat);
-            const allCourse = await watchlistModel.getAllSearchCoure(req.session.searchContentListCourse, req.session.authUser.userID);
+            const allCourse = await watchlistModel.getAllSearchCoure(
+                req.session.searchContentListCourse,
+                req.session.authUser.userID
+            );
 
             let page = +req.query.page || 1;
             if (page < 0) {
@@ -403,11 +490,26 @@ const mainController = {
             let rows = [];
             if (sort === "price") {
                 console.log("-------------------------------------");
-                rows = await watchlistModel.pagiListSearchCoursePrice(req.session.searchContentListCourse, offset, limit, req.session.authUser.userID);
+                rows = await watchlistModel.pagiListSearchCoursePrice(
+                    req.session.searchContentListCourse,
+                    offset,
+                    limit,
+                    req.session.authUser.userID
+                );
             } else if (sort === "star") {
-                rows = await watchlistModel.pagiListSearchCourseStar(req.session.searchContentListCourse, offset, limit, req.session.authUser.userID);
+                rows = await watchlistModel.pagiListSearchCourseStar(
+                    req.session.searchContentListCourse,
+                    offset,
+                    limit,
+                    req.session.authUser.userID
+                );
             } else {
-                rows = await watchlistModel.pagiListSearchCourse(req.session.searchContentListCourse, offset, limit, req.session.authUser.userID);
+                rows = await watchlistModel.pagiListSearchCourse(
+                    req.session.searchContentListCourse,
+                    offset,
+                    limit,
+                    req.session.authUser.userID
+                );
             }
 
             // const rows = await courseModel.pagiListCourse(offset, limit);
@@ -487,13 +589,21 @@ const mainController = {
                 let isBestSeller = false;
                 let isNewCourse = false;
 
-                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await bestSeller()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isBestSeller = true;
-                };
+                }
 
-                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await newCourse()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isNewCourse = true;
-                };
+                }
                 const item = {
                     ...fourthRows[i],
                     isBestSeller,
@@ -501,7 +611,6 @@ const mainController = {
                 };
                 fifthRows.push(item);
             }
-
 
             // console.log(fourthRows);
 
@@ -518,11 +627,9 @@ const mainController = {
                 go_next_page: page + 1,
                 go_previous_page: page - 1,
             });
-
         } else {
             throw Error("access denied");
         }
-
     },
 
     editWatchlist: (req, res) => {
@@ -531,19 +638,21 @@ const mainController = {
         const enity = {
             courseID: req.body.courseID,
             userID: res.locals.authUser.userID,
-        }
+        };
         console.log(method);
         if (method === "add") {
             console.log("*********************************************");
             watchlistModel.addWatchlistCourse(enity);
         } else {
-            console.log("*****4444444444444444444444444444444444444444444444*****************");
+            console.log(
+                "*****4444444444444444444444444444444444444444444444*****************"
+            );
 
             watchlistModel.delWatchlistCourse(enity);
         }
         let url = req.headers.referer || "/";
         res.redirect(url);
-    }
+    },
 };
 
 module.exports = mainController;

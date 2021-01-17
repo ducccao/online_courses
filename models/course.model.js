@@ -10,8 +10,19 @@ module.exports = {
         const sql = `select * from  ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0`;
         return db.load(sql);
     },
+    allCourseAdmin() {
+        const sql = `select * from  ${TBL_COURSE} `;
+        return db.load(sql);
+    },
+
     pagiCourse(offset) {
         const sql = `select * from ${TBL_COURSE} where ${TBL_COURSE}.isDisabled = 0
+         limit ${config.admin.course.pagination.limit} offset ${offset}`;
+        return db.load(sql);
+    },
+
+    pagiCourseAdmin(offset) {
+        const sql = `select * from ${TBL_COURSE}
          limit ${config.admin.course.pagination.limit} offset ${offset}`;
         return db.load(sql);
     },
@@ -172,8 +183,8 @@ module.exports = {
         const sql = `select c.* from course c join category cat 
         on cat.catID = c.catID and c.catID = ${catID}
     where (match (c.courseName) against ('${content}')
-    or match (cat.catName) and  c.isDisabled = 0)
-     against ('${content}')  limit ${limit}  offset ${offset}`;
+    or match (cat.catName) 
+     against ('${content}') ) and  c.isDisabled = 0 limit ${limit}  offset ${offset}`;
         return db.load(sql);
     },
 
@@ -268,16 +279,24 @@ module.exports = {
     },
     getOrderCourseByUserIDAndCourseID(courseID, userID) {
         const sql = `select * from ${config.DATABASE.TABLE.ORDERS} o join ${
+<<<<<<< HEAD
     config.DATABASE.TABLE.ORDERDETAILS} od 
                 on o.orderID = od.orderID join  ${TBL_COURSE} c on c.courseID = ${courseID}
                 where  o.userID = ${[
                     userID,
+=======
+      config.DATABASE.TABLE.ORDERDETAILS
+    } od 
+                    on o.orderID = od.orderID join  ${TBL_COURSE} c on c.courseID = ${courseID}
+                    where  o.userID = ${[
+                      userID,
+>>>>>>> phase2/server
                     ]} and od.courseID = ${courseID} and c.isDisabled = 0`;
         return db.load(sql);
     },
 
     getAllCouseByInstructorId(instructorID) {
-        const sql = `select courseName, courseID from ${TBL_COURSE} where userID = ${instructorID}  and  sDisabled = 0`;
+        const sql = `select courseName, courseID from ${TBL_COURSE} where userID = ${instructorID}  and  isDisabled = 0`;
         return db.load(sql);
     },
 
@@ -353,5 +372,15 @@ module.exports = {
         order by count(od.courseID) desc
         limit 5`;
         return db.load(sql);
-    }
+    },
+    delChapAnddelUnitByCourseID(courseID) {
+        const sql = `
+        delete chap,un
+        from ${config.DATABASE.TABLE.CHAPTER} as chap
+        join ${config.DATABASE.TABLE.UNIT} as un
+        on chap.chapterID = un.chapterID
+        where chap.courseID = ${courseID}
+    `;
+        return db.load(sql);
+    },
 };

@@ -58,9 +58,13 @@ function authAdmin(req, res, next) {
 
 async function authOTP(req, res, next) {
     const userSession = req.session.authUser;
-    console.log(req.session.authUser);
+    console.log("auth otp", req.session.authUser);
 
     if (req.session.authUser === null) {
+        return next();
+    }
+
+    if (typeof req.session.authUser === "undefined") {
         const url = req.headers.referer;
         return next();
     }

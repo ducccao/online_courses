@@ -10,7 +10,6 @@ router.get("/course-list", authNav, authOTP, mainController.getListCourses);
 // get course list by cat
 router.get(
     "/course-list/byCat/:id",
-
     authNav,
     mainController.getCourseListByCat
 );
