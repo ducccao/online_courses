@@ -256,6 +256,10 @@
         <span class="font-weight-bolder"> Instructor:</span> {{courseDetail.userName}}
       </p>
 
+      <p class="card-text text-secondary">
+        <span class="font-weight-bolder"> Total views:</span> {{courseDetail.views}} <i class="fas fa-eye"></i>
+      </p>
+
       {{#ifCond courseDetail.isFinished '!=' 0}}
       <p class="card-text text-success">
         <span span class="font-weight-bold mr-4">This course is complete</span>
