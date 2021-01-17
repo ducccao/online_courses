@@ -827,6 +827,7 @@ const mainController = {
 
     getLearnCoure: async(req, res) => {
         const courseID = +req.params.id;
+        console.log("1223 " + courseID);
         if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
             const isOrdered =
                 (
@@ -850,7 +851,7 @@ const mainController = {
                 const avgRating = await courseModel.getAveRatingCourse(courseID);
                 const reviewNumb = await courseModel.getReviewCourseNumb(courseID);
                 const studentNumb = await courseModel.getCourseBoughtNumb(courseID);
-                const chapters = await courseModel.getCourseChapters(courseID);
+                // const chapters = await courseModel.getCourseChapters(courseID);
                 const units = await courseModel.getCourseUnits(courseID);
                 const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
                 const review = await reviewModel.getReview(courseID);
@@ -890,27 +891,97 @@ const mainController = {
                 };
                 console.log(courseDetail);
 
+                console.log(courseDetail);
+
+                const chapters = await chapterModel.getAllChapterWithDurationByCourseID(
+                    courseID
+                );
+
                 const chaptersOfCourse = [];
+                const unitsOfCourse = [];
+                let totalHour = 0;
+                let totalMin = 0;
+                let totalSec = 0;
+                let totalUnit = 0;
                 for (let i = 0; i < chapters.length; i++) {
+                    totalUnit += +chapters[i].unitInChapter;
+
+                    let hour = +chapters[i].chapterTotalHour;
+                    let min = +chapters[i].chapterTotalMin;
+                    let sec = +chapters[i].chapterTotalSec;
+
+                    if (sec >= 60) {
+                        min += ~~(sec / 60);
+                        sec = sec % 60;
+                    }
+
+                    if (min >= 60) {
+                        hour += ~~(min / 60);
+                        min = min % 60;
+                    }
+
+                    totalHour += hour;
+                    totalMin += min;
+                    totalSec += sec;
+
+                    const formatedSec = sec > 9 ? sec : `0${sec}`;
+                    const formatedMin = min > 9 ? min : `0${min}`;
+                    const duration = `${hour}h:${formatedMin}m:${formatedSec}s`;
+
                     const item = {
                         ...chapters[i],
+                        duration,
                     };
+                    const units = await unitModel.getAllUnitByChapterID(item.chapterID);
+                    for (let i = 0; i < units.length; i++) {
+                        const formatedSec =
+                            units[i].duration_sec > 9 ?
+                            units[i].duration_sec :
+                            `0${units[i].duration_sec}`;
+                        const formatedMin =
+                            units[i].duration_min > 9 ?
+                            units[i].duration_min :
+                            `0${units[i].duration_min}`;
+                        const duration = `${units[i].duration_hour}h:${formatedMin}m:${formatedSec}s`;
+                        const unitItem = {
+                            ...units[i],
+                            duration,
+                        };
+                        unitsOfCourse.push(unitItem);
+                    }
                     chaptersOfCourse.push(item);
                 }
 
-                const unitsOfCourse = [];
-                for (let i = 0; i < units.length; i++) {
-                    const item = {
-                        ...units[i],
-                    };
-                    unitsOfCourse.push(item);
+                let totalChapter = chaptersOfCourse.length;
+
+                if (totalSec >= 60) {
+                    totalMin += ~~(totalSec / 60);
+                    totalSec = totalSec % 60;
                 }
+
+                if (totalMin >= 60) {
+                    totalHour += ~~(totalMin / 60);
+                    totalMin = totalMin % 60;
+                }
+
+                const formatedMin = totalMin > 9 ? totalMin : `0${totalMin}`;
+                const formatedSec = totalSec > 9 ? totalSec : `0${totalSec}`;
+                const duration = `${totalHour}h:${formatedMin}m:${formatedSec}s`;
+                // console.log(totalChapter);
+                // console.log(totalUnit);
+                // console.log(duration);
+                const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(
+                    courseID
+                );
+
+                const firstPreviewVideoLink =
+                    _firstPreviewVideoLink.length != 0 ?
+                    _firstPreviewVideoLink[0].linkVideo :
+                    "0";
 
                 //  console.log(chaptersOfCourse);
                 //   console.log(unitsOfCourse);
-                const _firstVideoLink = await unitModel.getFirstVideoOfCourse(
-                    courseID
-                );
+                const _firstVideoLink = await unitModel.getFirstVideoOfCourse(courseID);
                 console.log("alo alo " + _firstVideoLink);
                 // const addView = await courseModel.increaseView(course[0]);
                 // if (addView.affectedRows === 1) {
@@ -919,7 +990,8 @@ const mainController = {
                     courseDetail,
                     chaptersOfCourse,
                     unitsOfCourse,
-                    _firstVideoLink
+                    _firstVideoLink,
+                    totalChapter
                 });
             } else {
                 res.redirect("/account/purchased-course");

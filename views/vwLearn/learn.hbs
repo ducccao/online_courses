@@ -125,7 +125,6 @@
 
 <!-- Page Content -->
 <div class="container">
-
     <form action="/watchlist/method" method="POST" id="fmWatchlist">
         <input type="hidden" id="txtCourseID-watchlist" name="courseID">
         <input type="hidden" id="txtMethod-watchlist" name="method">
@@ -245,32 +244,42 @@
     <h3 class="my-4">Course content</h3>
 
     <div>
-        <h5>You can watch the preview videos here</h5>
-        <video controls crossorigin playsinline
-            data-poster="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-HD.jpg" id="player">
+        {{#if_equal firstPreviewVideoLink '0'}}
+        <h5 class="text-center text-success">Sorry, this course has no preivew video</h5>
+        {{else}}
+        <h5 class="text-center text-success">You can watch the preview videos here</h5>
+        <video controls crossorigin playsinline data-poster="../../public/courses/course-32/img/css.jpg" id="player">
             <!-- Video files -->
-            <source id="video-source" src="{{_firstVideoLink}}" type="video/mp4" size="720">
+            <source id="video-source" src="../../public/courses//coursevideos-14/Kotlin.mp4" type="video/mp4"
+                size="720">
         </video>
-
+        {{/if_equal}}
+        <hr class="hr-section">
     </div>
     <div id="ratingDiv">
         <div class="course-main-content">
+            {{#if_equal totalChapter 0}}
+            <h5 class="text-center text-success">This course doesn't have any chapter yet... :/</h5>
+            {{else}}
+            <h5 class="text-center text-success">{{totalChapter}} chapters &#8226; {{totalUnit}} units &#8226;
+                {{duration}}
+                total length</h5>
             {{#each chaptersOfCourse}}
             <div class="chapter-items">
                 <div class="dropdown">
                     <button class="btn btn-secondary wd dropdown-toggle text-left btn-chapter" type="button">
-                        chaptername
-                        <span class="float-right mr-2"><strong class="mr-4">9 Units</strong>13:03</span>
+                        {{this.chapterName}}
+                        <span class="float-right mr-2"><strong class="mr-4">{{this.unitInChapter}}
+                                Units</strong>{{this.duration}}</span>
                     </button>
-
                     <div class="dropdown-units wd">
                         {{#each ../unitsOfCourse}}
                         {{#if (eq chapterID ../chapterID)}}
                         <div class="unit-items">
-                            <a href="#"><i class="fa fa-play mr-2"></i>unit name</a>
+                            <a href="#"><i class="fa fa-play mr-2"></i>{{this.unitContent}}</a>
                             <div class="float-right">
                                 <a style="cursor: pointer;" class="player-src" data-type="mp4"
-                                    data-src="{{this.videoLink}}"><i class="fa fa-eye mr-2"></i>watch</a>
+                                    data-src="{{this.linkVideo}}"><i class="fa fa-eye mr-2"></i>Watch</a>
                                 <span class="ml-4">{{this.duration}}</span>
                             </div>
                         </div>
@@ -279,235 +288,259 @@
                     </div>
                     <hr class="hr-chapter">
                 </div>
-                {{/each}}
             </div>
+            {{/each}}
+            {{/if_equal}}
         </div>
+    </div>
 
-        <!-- Related Projects Row -->
+    <!-- Related Projects Row -->
 
 
-        <!-- /.row -->
-        <hr class="hr-section">
-        <h3 class="my-4">Reviews</h3>
+    <!-- /.row -->
+    <hr class="hr-section">
+    <h3 class="my-4">Reviews</h3>
 
-        {{#if courseDetail.hasReviewed}}
-        <div>
-            <form id="fmReview" method="POST" action="/review/add">
-                <div class="alert alert-danger" role="alert" id="alertRatingStar" style="display: none">
-                    Please Choose Your Rating Star!
+    {{#if courseDetail.hasReviewed}}
+    <div>
+        <form id="fmReview" method="POST" action="/review/add">
+            <div class="alert alert-danger" role="alert" id="alertRatingStar" style="display: none">
+                Please Choose Your Rating Star!
+            </div>
+            <div>
+                <p>Choose your rating star!</p>
+                <i class="fas fa-star" id="s1"></i>
+                <i class="fas fa-star" id="s2"></i>
+                <i class="fas fa-star" id="s3"></i>
+                <i class="fas fa-star" id="s4"></i>
+                <i class="fas fa-star" id="s5"></i>
+            </div>
+            <input type="hidden" class="form-control" id="txtRatingStar" placeholder="Enter Review" name="rating">
+            <input type="hidden" class="form-control" id="txtCourseID" placeholder="Enter Review" name="courseID"
+                value="{{courseDetail.courseID}}">
+
+
+            <div style="margin: 20px 0px 20px 0px;">
+                <div class="alert alert-danger" role="alert" id="alertContentReview" style="display: none">
+                    Please Type Some Review For This Course!
                 </div>
-                <div>
-                    <p>Choose your rating star!</p>
-                    <i class="fas fa-star" id="s1"></i>
-                    <i class="fas fa-star" id="s2"></i>
-                    <i class="fas fa-star" id="s3"></i>
-                    <i class="fas fa-star" id="s4"></i>
-                    <i class="fas fa-star" id="s5"></i>
-                </div>
-                <input type="hidden" class="form-control" id="txtRatingStar" placeholder="Enter Review" name="rating">
-                <input type="hidden" class="form-control" id="txtCourseID" placeholder="Enter Review" name="courseID"
-                    value="{{courseDetail.courseID}}">
-
-
-                <div style="margin: 20px 0px 20px 0px;">
-                    <div class="alert alert-danger" role="alert" id="alertContentReview" style="display: none">
-                        Please Type Some Review For This Course!
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Write your review!</label>
-                        <input type="text" class="form-control" id="txtContentReview" placeholder="Enter Review"
-                            name="content">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-success" style="margin: 0 0 50px 0;">Send Review</button>
-            </form>
-            <hr>
-
-
-        </div>
-        {{/if}}
-
-        {{#if courseDetail.reviewEmpty}}
-        <div class="card-body">
-            <div class="row">
-                <div class="col-lg-12 ">
-                    <h5 class="text-danger font-weight-bold">Review is empty!!!</h5>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Write your review!</label>
+                    <input type="text" class="form-control" id="txtContentReview" placeholder="Enter Review"
+                        name="content">
                 </div>
             </div>
-        </div>
-        {{else}}
 
-        {{#each courseDetail.review}}
-        <div class="review">
-            <div class="row">
-                <div class="col-1">
-                    <img src="../../vendor/img/review/man.png"
-                        style="width: 100%; border-radius: 50%; background: coral">
-                </div>
-                <div class="col-11">
-                    <div style="color: black;">
-                        <h5><b>{{userName}}</b></h4>
-                    </div>
-                    <div class="">
-                        <div class="stars-outer">
-                            <div class="stars-inner" style="width: {{rating}}%">
-                            </div>
-                        </div>
-                        <span class=" number-rating"></span>
-                    </div>
-                    <div>
-                        {{content}}
-                    </div>
-                </div>
-            </div>
-            <hr>
-        </div>
-        {{/each}}
-
-        {{/if}}
-
-
+            <button type="submit" class="btn btn-success" style="margin: 0 0 50px 0;">Send Review</button>
+        </form>
+        <hr>
 
 
     </div>
+    {{/if}}
 
-    <!-- /.container -->
+    {{#if courseDetail.reviewEmpty}}
+    <div class="card-body">
+        <div class="row">
+            <div class="col-lg-12 ">
+                <h5 class="text-danger font-weight-bold">Review is empty!!!</h5>
+            </div>
+        </div>
+    </div>
+    {{else}}
 
-    {{#section 'js'}}
-    <script>
-        function avgRating() {
-            const rating = $("#star-rating-avg").data('rating') * 20;
-            const ratingRounded = Math.round(rating);
-            const percent = `${ratingRounded}%`
-            document.querySelector("#star-rating-avg").style.width = percent;
-            console.log(percent);
-        }
+    {{#each courseDetail.review}}
+    <div class="review">
+        <div class="row">
+            <div class="col-1">
+                <img src="../../vendor/img/review/man.png" style="width: 100%; border-radius: 50%; background: coral">
+            </div>
+            <div class="col-11">
+                <div style="color: black;">
+                    <h5><b>{{userName}}</b></h4>
+                </div>
+                <div class="">
+                    <div class="stars-outer">
+                        <div class="stars-inner" style="width: {{rating}}%">
+                        </div>
+                    </div>
+                    <span class=" number-rating"></span>
+                </div>
+                <div>
+                    {{content}}
+                </div>
+            </div>
+        </div>
+        <hr>
+    </div>
+    {{/each}}
 
-        $(document).ready(avgRating);
-    </script>
+    {{/if}}
 
-    <script>
-        $(document).ready(function () {
-            $(".dropdown-units").hide();
 
-            $(".btn-chapter").click(function (e) {
-                $(this).next().slideToggle();
-            });
 
-            const player = new Plyr('#player');
-            // Expose
-            window.player = player;
 
-            $('.player-src').on('click', function () {
+</div>
 
-                src = $(this).data("src");
-                type = 'video/' + $(this).data("type");
-                poster = $(this).data("poster") || "";
+<!-- /.container -->
 
-                //update video player
-                player.source = {
-                    type: 'video',
-                    title: 'Example title',
-                    sources: [
-                        {
-                            src: src,
-                            type: type,
-                            size: 720
-                        }
-                    ],
-                    poster: poster
-                };
-                player.play();
-            });
+{{#section 'js'}}
+<script>
+    function avgRating() {
+        const rating = $("#star-rating-avg").data('rating') * 20;
+        const ratingRounded = Math.round(rating);
+        const percent = `${ratingRounded}%`
+        document.querySelector("#star-rating-avg").style.width = percent;
+        console.log(percent);
+    }
+
+    $(document).ready(avgRating);
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('.slick-show').slick({
+            infinite: true,
+            speed: 800,
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            prevArrow: '<button class="slick-btn slide-arrow prev-arrow"></button>',
+            nextArrow: '<button class="slick-btn slide-arrow next-arrow"></button>',
+            responsive: [
+                {
+                    breakpoint: 1125,
+                    settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 2
+                    }
+                },
+                {
+                    breakpoint: 700,
+                    settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                },
+            ]
         });
-    </script>
 
+        $(".dropdown-units").hide();
 
+        $(".btn-chapter").click(function (e) {
+            $(this).next().slideToggle();
+        });
 
+        const player = new Plyr('#player');
+        // Expose
+        window.player = player;
 
-    <script type="module">
-        import { openAlert } from "/utils/alertModal.js"
-        function actionWatchlist() {
-            const btnBuy = $("#add-to-watchlist-button")
-            $("#add-to-watchlist-button").on('click', function (e) {
-                e.preventDefault();
-                const courseID = $(this).data('id');
-                const id = $("#txtCourseID-watchlist").val(courseID);
-                const existed = $(this).data('existed');
-                let method = "add";
-                if (existed === true) {
-                    method = "delete";
-                }
-                $("#txtMethod-watchlist").val(method);
-                console.log(id)
-                console.log(method)
+        $('.player-src').on('click', function () {
 
-                $("#fmWatchlist").submit();
-            })
-        }
-        actionWatchlist();
-    </script>
+            src = "../." + $(this).data("src");
+            type = 'video/' + $(this).data("type");
+            poster = $(this).data("poster") || "";
 
-    <script type="module">
-        import { openAlert } from "/utils/alertModal.js";
-        $("#fmReview").on('submit', function (e) {
+            //update video player
+            player.source = {
+                type: 'video',
+                title: 'Example title',
+                sources: [
+                    {
+                        src: src,
+                        type: type,
+                        size: 720
+                    }
+                ],
+                poster: poster
+            };
+            player.play();
+        });
+    });
+</script>
+
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js"
+    function actionWatchlist() {
+        const btnBuy = $("#add-to-watchlist-button")
+        $("#add-to-watchlist-button").on('click', function (e) {
             e.preventDefault();
-
-            const rating = $("#txtRatingStar").val();
-            const content = $("#txtContentReview").val();
-            const courseID = $("#txtCourseID").val();
-
-            if (rating === "") {
-                $("#alertRatingStar").css("display", "block");
-            } else if (content === "") {
-                $("#alertContentReview").css("display", "block");
+            const courseID = $(this).data('id');
+            const id = $("#txtCourseID-watchlist").val(courseID);
+            const existed = $(this).data('existed');
+            let method = "add";
+            if (existed === true) {
+                method = "delete";
             }
-            else {
-                $("#fmReview").off('submit').submit();
-            }
+            $("#txtMethod-watchlist").val(method);
+            console.log(id)
+            console.log(method)
+
+            $("#fmWatchlist").submit();
         })
-    </script>
+    }
+    actionWatchlist();
+</script>
 
-    <script>
-        $("#txtContentReview").on("keyup", function (e) {
-            if (e.keyCode !== 13) {
-                $("#alertContentReview").css("display", "none");
+<script type="module">
+    import { openAlert } from "/utils/alertModal.js";
+    $("#fmReview").on('submit', function (e) {
+        e.preventDefault();
 
-            }
-        })
-    </script>
+        const rating = $("#txtRatingStar").val();
+        const content = $("#txtContentReview").val();
+        const courseID = $("#txtCourseID").val();
+
+        if (rating === "") {
+            $("#alertRatingStar").css("display", "block");
+        } else if (content === "") {
+            $("#alertContentReview").css("display", "block");
+        }
+        else {
+            $("#fmReview").off('submit').submit();
+        }
+    })
+</script>
+
+<script>
+    $("#txtContentReview").on("keyup", function (e) {
+        if (e.keyCode !== 13) {
+            $("#alertContentReview").css("display", "none");
+
+        }
+    })
+</script>
 
 
-    <script>
-        $("#s1").click(function () {
-            $(".fa-star").css("color", "lightgray");
-            $("#s1").css("color", "#F7DD00");
-            $("#alertRatingStar").css("display", "none");
-            $("#txtRatingStar").val(1);
-        });
-        $("#s2").click(function () {
-            $(".fa-star").css("color", "lightgray");
-            $("#alertRatingStar").css("display", "none");
-            $("#s1,#s2").css("color", "#F7DD00");
-            $("#txtRatingStar").val(2);
-        });
-        $("#s3").click(function () {
-            $(".fa-star").css("color", "lightgray");
-            $("#alertRatingStar").css("display", "none");
-            $("#s1,#s2,#s3").css("color", "#F7DD00");
-            $("#txtRatingStar").val(3);
-        });
-        $("#s4").click(function () {
-            $(".fa-star").css("color", "lightgray");
-            $("#alertRatingStar").css("display", "none");
-            $("#s1,#s2,#s3, #s4").css("color", "#F7DD00");
-            $("#txtRatingStar").val(4);
-        });
-        $("#s5").click(function () {
-            $("#s1,#s2,#s3, #s4, #s5").css("color", "#F7DD00");
-            $("#alertRatingStar").css("display", "none");
-            $("#txtRatingStar").val(5);
-        });
-    </script>
-    {{/section}}
+<script>
+    $("#s1").click(function () {
+        $(".fa-star").css("color", "lightgray");
+        $("#s1").css("color", "#F7DD00");
+        $("#alertRatingStar").css("display", "none");
+        $("#txtRatingStar").val(1);
+    });
+    $("#s2").click(function () {
+        $(".fa-star").css("color", "lightgray");
+        $("#alertRatingStar").css("display", "none");
+        $("#s1,#s2").css("color", "#F7DD00");
+        $("#txtRatingStar").val(2);
+    });
+    $("#s3").click(function () {
+        $(".fa-star").css("color", "lightgray");
+        $("#alertRatingStar").css("display", "none");
+        $("#s1,#s2,#s3").css("color", "#F7DD00");
+        $("#txtRatingStar").val(3);
+    });
+    $("#s4").click(function () {
+        $(".fa-star").css("color", "lightgray");
+        $("#alertRatingStar").css("display", "none");
+        $("#s1,#s2,#s3, #s4").css("color", "#F7DD00");
+        $("#txtRatingStar").val(4);
+    });
+    $("#s5").click(function () {
+        $("#s1,#s2,#s3, #s4, #s5").css("color", "#F7DD00");
+        $("#alertRatingStar").css("display", "none");
+        $("#txtRatingStar").val(5);
+    });
+</script>
+<script src="https://cdn.plyr.io/3.6.3/plyr.polyfilled.js"></script>
+{{/section}}
