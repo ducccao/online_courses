@@ -121,13 +121,21 @@ const mainController = {
             let isBestSeller = false;
             let isNewCourse = false;
 
-            if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+            if (
+                (await bestSeller()).find(
+                    (element) => element.courseID == rows[i].courseID
+                ) !== undefined
+            ) {
                 isBestSeller = true;
-            };
+            }
 
-            if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+            if (
+                (await newCourse()).find(
+                    (element) => element.courseID == rows[i].courseID
+                ) !== undefined
+            ) {
                 isNewCourse = true;
-            };
+            }
             const item = {
                 ...fourthRows[i],
                 isBestSeller,
@@ -136,12 +144,29 @@ const mainController = {
             fifthRows.push(item);
         }
 
-
         // console.log(fourthRows);
+        const webCatWithCourseCount = await cateModel.getWebCatWithCountCourse();
+        const mobiCatWithCourseCount = await cateModel.getMobiCatWithCountCourse();
+
+        // active cat
+        for (let d of webCatWithCourseCount) {
+            if (d.catID === +req.params.id) {
+                c.isActive = true;
+            }
+        }
+        for (let c of mobiCatWithCourseCount) {
+            if (c.catID === +req.params.id) {
+                c.isActive = true;
+            }
+        }
+
+        //   console.log(webCatWithCourseCount);
 
         res.render("vwMain/ListCourses", {
             layout: "main",
             courseInCat: courseInCat,
+            webCat: webCatWithCourseCount,
+            mobiCat: mobiCatWithCourseCount,
             allCourse: fifthRows,
             //   isAdmin: isAdmin,
             //pagi
@@ -324,13 +349,21 @@ const mainController = {
             let isBestSeller = false;
             let isNewCourse = false;
 
-            if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+            if (
+                (await bestSeller()).find(
+                    (element) => element.courseID == rows[i].courseID
+                ) !== undefined
+            ) {
                 isBestSeller = true;
-            };
+            }
 
-            if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+            if (
+                (await newCourse()).find(
+                    (element) => element.courseID == rows[i].courseID
+                ) !== undefined
+            ) {
                 isNewCourse = true;
-            };
+            }
             const item = {
                 ...fourthRows[i],
                 isBestSeller,
@@ -340,18 +373,30 @@ const mainController = {
         }
         // console.log(fourthRows);
 
+        const webCat = await cateModel.getWebCatWithCountCourse();
+        const mobiCat = await cateModel.getWebCatWithCountCourse();
         // active cate
-        for (let c of courseInCat) {
+        for (let c of webCat) {
             if (c.catID === +req.params.id) {
                 c.isActive = true;
             }
         }
+        for (let c of mobiCat) {
+            if (c.catID === +req.params.id) {
+                c.isActive = true;
+            }
+        }
+
         //    console.log(courseInCat);
         res.render("vwMain/ListCourses", {
             layout: "main",
+            // cat
             courseInCat: courseInCat,
+            webCat,
+            mobiCat,
             allCourse: fifthRows,
             empty: rows.length === 0,
+
             //pagi
             showPagi: true,
             pagiItem: pagiItem,
@@ -390,7 +435,6 @@ const mainController = {
             secondRow.push(course);
         }
 
-
         const thirdRows = [];
         for (let i = 0; i < secondRow.length; ++i) {
             const instructor = await courseModel.getInstructor(
@@ -404,7 +448,6 @@ const mainController = {
             };
             thirdRows.push(item);
         }
-
 
         // console.log(thirdRows);
         // rating course
@@ -439,7 +482,10 @@ const mainController = {
         let isExistedWatchlist = true;
         if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
             console.log("hllo");
-            const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
+            const course = await watchlistModel.getCourseByCourseIDAndUserID(
+                courseID,
+                res.locals.authUser.userID
+            );
             isExistedWatchlist = course.length === 1;
         }
 
@@ -465,7 +511,9 @@ const mainController = {
 
         console.log(courseDetail);
 
-        const chapters = await chapterModel.getAllChapterWithDurationByCourseID(courseID);
+        const chapters = await chapterModel.getAllChapterWithDurationByCourseID(
+            courseID
+        );
 
         const chaptersOfCourse = [];
         const unitsOfCourse = [];
@@ -504,9 +552,15 @@ const mainController = {
             };
             const units = await unitModel.getAllUnitByChapterID(item.chapterID);
             for (let i = 0; i < units.length; i++) {
-                const formatedSec = units[i].duration_sec > 9 ? units[i].duration_sec : `0${units[i].duration_sec}`;
-                const formatedMin = units[i].duration_min > 9 ? units[i].duration_min : `0${units[i].duration_min}`;
-                const duration = `${units[i].duration_hour}h:${formatedMin}m:${formatedSec}s`
+                const formatedSec =
+                    units[i].duration_sec > 9 ?
+                    units[i].duration_sec :
+                    `0${units[i].duration_sec}`;
+                const formatedMin =
+                    units[i].duration_min > 9 ?
+                    units[i].duration_min :
+                    `0${units[i].duration_min}`;
+                const duration = `${units[i].duration_hour}h:${formatedMin}m:${formatedSec}s`;
                 const unitItem = {
                     ...units[i],
                     duration,
@@ -530,13 +584,18 @@ const mainController = {
 
         const formatedMin = totalMin > 9 ? totalMin : `0${totalMin}`;
         const formatedSec = totalSec > 9 ? totalSec : `0${totalSec}`;
-        const duration = `${totalHour}h:${formatedMin}m:${formatedSec}s`
-            // console.log(totalChapter);
-            // console.log(totalUnit);
-            // console.log(duration);
-        const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(courseID);
+        const duration = `${totalHour}h:${formatedMin}m:${formatedSec}s`;
+        // console.log(totalChapter);
+        // console.log(totalUnit);
+        // console.log(duration);
+        const _firstPreviewVideoLink = await unitModel.getFirstPreviewVideoOfCourse(
+            courseID
+        );
 
-        const firstPreviewVideoLink = _firstPreviewVideoLink.length != 0 ? _firstPreviewVideoLink[0].linkVideo : '0';
+        const firstPreviewVideoLink =
+            _firstPreviewVideoLink.length != 0 ?
+            _firstPreviewVideoLink[0].linkVideo :
+            "0";
 
         // console.log(firstPreviewVideoLink);
 
@@ -552,11 +611,13 @@ const mainController = {
                 duration,
                 totalChapter,
                 totalUnit,
-                firstPreviewVideoLink
+                firstPreviewVideoLink,
             });
             return;
         }
-        return res.status(404).json({ message: "Something when wrong when increase views of this course!" });
+        return res.status(404).json({
+            message: "Something when wrong when increase views of this course!",
+        });
     },
 
     getAllCourse: async(req, res) => {
@@ -695,13 +756,21 @@ const mainController = {
                 let isBestSeller = false;
                 let isNewCourse = false;
 
-                if ((await bestSeller()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await bestSeller()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isBestSeller = true;
-                };
+                }
 
-                if ((await newCourse()).find(element => element.courseID == rows[i].courseID) !== undefined) {
+                if (
+                    (await newCourse()).find(
+                        (element) => element.courseID == rows[i].courseID
+                    ) !== undefined
+                ) {
                     isNewCourse = true;
-                };
+                }
                 const item = {
                     ...fourthRows[i],
                     isBestSeller,
@@ -711,9 +780,27 @@ const mainController = {
             }
             // console.log(fourthRows);
 
+            const webCat = await cateModel.getWebCatWithCountCourse();
+            const mobiCat = await cateModel.getWebCatWithCountCourse();
+
+            // active cat
+            for (let i of webCat) {
+                if (i.catID === +req.params.id) {
+                    i.isActive = true;
+                }
+            }
+
+            for (let e of mobiCat) {
+                if (e.catID === +req.params.id) {
+                    e.isActive = true;
+                }
+            }
+
             res.render("vwMain/ListCourses", {
                 layout: "main",
                 courseInCat: courseInCat,
+                webCat,
+                mobiCat,
                 allCourse: fifthRows,
                 //   isAdmin: isAdmin,
                 //pagi
@@ -732,11 +819,20 @@ const mainController = {
     getLearnCoure: async(req, res) => {
         const courseID = +req.params.id;
         if (res.locals.authUser !== null && res.locals.authUser !== undefined) {
-            const isOrdered = ((await courseModel.getOrderCourseByUserIDAndCourseID(courseID, res.locals.authUser.userID)).length === 1);
+            const isOrdered =
+                (
+                    await courseModel.getOrderCourseByUserIDAndCourseID(
+                        courseID,
+                        res.locals.authUser.userID
+                    )
+                ).length === 1;
             if (isOrdered === true) {
                 const course = await courseModel.getCourseByID(courseID);
                 course[0].views += 1;
-                const type = await courseModel.getTypeOfCourse(courseID, course[0].catID);
+                const type = await courseModel.getTypeOfCourse(
+                    courseID,
+                    course[0].catID
+                );
                 const instructor = await courseModel.getInstructor(
                     courseID,
                     course[0].userID
@@ -749,14 +845,25 @@ const mainController = {
                 const units = await courseModel.getCourseUnits(courseID);
                 const lastUpdateTime = course[0].lastUpdate.toISOString().slice(0, 10);
                 const review = await reviewModel.getReview(courseID);
-                const hasReviewed = (await reviewModel.getReviewByCourseIDandUserID(courseID, res.locals.authUser.userID)).length !== 1;
+                const hasReviewed =
+                    (
+                        await reviewModel.getReviewByCourseIDandUserID(
+                            courseID,
+                            res.locals.authUser.userID
+                        )
+                    ).length !== 1;
                 let isExistedWatchlist = true;
-                if (res.locals.authUser !== null && res.locals.authUser.userID !== undefined) {
-                    const course = await watchlistModel.getCourseByCourseIDAndUserID(courseID, res.locals.authUser.userID);
+                if (
+                    res.locals.authUser !== null &&
+                    res.locals.authUser.userID !== undefined
+                ) {
+                    const course = await watchlistModel.getCourseByCourseIDAndUserID(
+                        courseID,
+                        res.locals.authUser.userID
+                    );
                     isExistedWatchlist = course.length === 1;
                 }
                 console.log(isExistedWatchlist);
-
 
                 courseDetail = {
                     lastUpdateTime,
@@ -772,8 +879,8 @@ const mainController = {
                     isExistedWatchlist,
                     hasReviewed,
                 };
-                console.log(courseDetail)
-                    // console.log(course);
+                console.log(courseDetail);
+                // console.log(course);
 
                 // console.log(units);
 
@@ -806,7 +913,7 @@ const mainController = {
                     unitsOfCourse,
                 });
             } else {
-                res.redirect("/account/purchased-course")
+                res.redirect("/account/purchased-course");
             }
         } else {
             res.redirect("/");

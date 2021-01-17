@@ -19,3 +19,24 @@
     {{/ifCond}}
 
 </div>
+
+
+
+// save cat
+
+
+{{#each courseInCat }}
+<a href="/course-list/byCat/{{this.catID}}?page=1" class="list-group-item list-group-item-action      {{#if isActive}}
+                           active
+                       {{/if}}  ">
+    {{this.catName}}
+
+
+    {{#ifCond this.CourseCount '!=' 0}}
+    <span class="badge badge-pill badge-danger float-right mt-1">
+        {{this.CourseCount}}
+    </span>
+    {{/ifCond}}
+
+</a>
+{{/each}}
