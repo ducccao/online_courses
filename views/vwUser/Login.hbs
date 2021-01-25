@@ -40,7 +40,7 @@
 
             $.ajax({
                 type: 'post',
-                url: 'http://localhost:3000/user/login',
+                url: 'https://onlineecoursee.herokuapp.com/user/login',
                 data: data,
                 xhrFields: {
                     withCredentials: false
@@ -60,7 +60,7 @@
                     openAlert(messageTrigger)
 
 
-                    if (data?.redirect === "http://localhost:3000/user/register") {
+                    if (data?.redirect === "https://onlineecoursee.herokuapp.com/user/register") {
                         window.location.href = "/"
                     }
                     else {

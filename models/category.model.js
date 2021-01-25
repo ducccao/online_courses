@@ -3,27 +3,27 @@ const config = require("./../config/default.json");
 const TBL_CATEGORIES = "category";
 
 module.exports = {
-    all() {
-        const sql = `select * from ${TBL_CATEGORIES}`;
-        return db.load(sql);
-    },
+  all() {
+    const sql = `select * from ${TBL_CATEGORIES}`;
+    return db.load(sql);
+  },
 
-    allCate() {
-        const sql = `select * from ${TBL_CATEGORIES}`;
-        return db.load(sql);
-    },
+  allCate() {
+    const sql = `select * from ${TBL_CATEGORIES}`;
+    return db.load(sql);
+  },
 
-    add(entity) {
-        return db.add(entity, TBL_CATEGORIES);
-    },
+  add(entity) {
+    return db.add(entity, TBL_CATEGORIES);
+  },
 
-    getCateByID(catID) {
-        const sql = `select * from ${TBL_CATEGORIES} where catID = ${catID} `;
-        return db.load(sql);
-    },
+  getCateByID(catID) {
+    const sql = `select * from ${TBL_CATEGORIES} where catID = ${catID} `;
+    return db.load(sql);
+  },
 
-    allWithDetails() {
-        const sql = `
+  allWithDetails() {
+    const sql = `
     select c.*, count(p.courseID) as CourseCount
     from ${TBL_CATEGORIES} c left join 
     (select p.* from course p 	
@@ -31,10 +31,10 @@ module.exports = {
     on c.catID = p.catID
     group by c.catID, c.catName
   `;
-        return db.load(sql);
-    },
-    allSearchWithDetails(content) {
-        const sql = `
+    return db.load(sql);
+  },
+  allSearchWithDetails(content) {
+    const sql = `
     select c.*, count(p.courseID) as CourseCount
     from ${TBL_CATEGORIES} c left join (select c.catID as catID, c.courseID as courseID
                                       from course c join category cat on cat.catID = c.catID
@@ -43,25 +43,25 @@ module.exports = {
                             on c.catID = p.catID
     group by c.catID, c.catName
   `;
-        return db.load(sql);
-    },
-    getAllCatName() {
-        const sql = `select catName from ${config.DATABASE.TABLE.CATEGORY}`;
-        return db.load(sql);
-    },
-    getWebCatWithCountCourse() {
-        const sql = `select *, count(p.courseID) as CourseCount from 
+    return db.load(sql);
+  },
+  getAllCatName() {
+    const sql = `select catName from ${config.DATABASE.TABLE.CATEGORY}`;
+    return db.load(sql);
+  },
+  getWebCatWithCountCourse() {
+    const sql = `select *, COUNT(p.courseID) as CourseCount from 
         ${config.DATABASE.TABLE.CATEGORY} as c ,
        ${config.DATABASE.TABLE.COURSE}  as p
         where c.catID = p.catID 
         and p.isDisabled = 0
         and c.subjID = 1
         group by c.catID, c.catName `;
-        return db.load(sql);
-    },
+    return db.load(sql);
+  },
 
-    getMobiCatWithCountCourse() {
-        const sql = `select *, count(p.courseID) as CourseCount  from
+  getMobiCatWithCountCourse() {
+    const sql = `select *, COUNT(p.courseID) as CourseCount  from
          ${config.DATABASE.TABLE.CATEGORY} as c ,
        ${config.DATABASE.TABLE.COURSE}  as p
          where c.catID = p.catID 
@@ -69,6 +69,6 @@ module.exports = {
          and p.isDisabled = 0
          group by c.catID, c.catName
         `;
-        return db.load(sql);
-    },
+    return db.load(sql);
+  },
 };
