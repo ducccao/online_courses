@@ -24,20 +24,20 @@
     "DATABASE": {
         "NAME": "onlinecourses",
         "TABLE": {
-            "CART": "CART",
-            "CATEGORY": "CATEGORY",
-            "CHAPTER": "CHAPTER",
-            "COURSE": "COURSE",
-            "COURSE_BOUGHT": "COURSEBOUGHT",
-            "REVIEW": "REVIEW",
-            "SALE": "SALE",
-            "SESSIONS": "SESSIONS",
-            "UNIT": "UNIT",
-            "USER": "USERS",
-            "WATCH_LIST": "WATCHLIST",
-            "ORDERS": "ORDERS",
-            "ORDERDETAILS": "ORDERDETAILS",
-            "SUBJECTS": "SUBJECTS"
+            "CART": "cart",
+            "CATEGORY": "category",
+            "CHAPTER": "chapter",
+            "COURSE": "course",
+            "COURSE_BOUGHT": "courseBought",
+            "REVIEW": "review",
+            "SALE": "sale",
+            "SESSIONS": "sessions",
+            "UNIT": "unit",
+            "USER": "users",
+            "WATCH_LIST": "watchList",
+            "ORDERS": "orders",
+            "ORDERDETAILS": "orderdetails",
+            "SUBJECTS": "subjects"
         },
         "USERS": {
             "COMMON": {
