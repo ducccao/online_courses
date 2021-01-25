@@ -19,8 +19,8 @@
             "limit": 8
         }
     },
-    "devURL": "http://localhost:3000",
-    "productionURL": "http://localhost:3000",
+    "devURL": "https://onlineecoursee.herokuapp.com",
+    "productionURL": "https://onlineecoursee.herokuapp.com",
     "DATABASE": {
         "NAME": "onlinecourses",
         "TABLE": {
