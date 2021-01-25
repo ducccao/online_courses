@@ -3,39 +3,38 @@ var session = require("express-session");
 const config = require("./../config/default.json");
 // express session
 
-module.exports = function(app) {
-    var MySQLStore = require("express-mysql-session")(session);
+module.exports = function (app) {
+  var MySQLStore = require("express-mysql-session")(session);
 
-    var options = {
-        host: "localhost",
-        port: 3306,
-        user: `${config.DATABASE.USERS.COMMON.USER}`,
-        password: `${config.DATABASE.USERS.COMMON.PASSWORD}`,
-        database: `${config.DATABASE.NAME}`,
+  var options = {
+    host: "remotemysql.com",
+    port: "3306",
+    user: `wqzZCi0KgY`,
+    password: `TF8CnEFLu4`,
+    database: `wqzZCi0KgY`,
+    charset: "utf8",
+    schema: {
+      tableName: "sessions",
+      columnNames: {
+        session_id: "session_id",
+        expires: "expires",
+        data: "data",
+      },
+    },
+  };
 
-        charset: "utf8",
-        schema: {
-            tableName: "sessions",
-            columnNames: {
-                session_id: "session_id",
-                expires: "expires",
-                data: "data",
-            },
-        },
-    };
+  var sessionStore = new MySQLStore(options);
 
-    var sessionStore = new MySQLStore(options);
-
-    app.set("trust proxy", 1); // trust first proxy
-    app.use(
-        expressSession({
-            secret: "SECRET_KEY",
-            resave: false,
-            saveUninitialized: true,
-            store: sessionStore,
-            cookie: {
-                //secure: true
-            },
-        })
-    );
+  app.set("trust proxy", 1); // trust first proxy
+  app.use(
+    expressSession({
+      secret: "SECRET_KEY",
+      resave: false,
+      saveUninitialized: true,
+      store: sessionStore,
+      cookie: {
+        //secure: true
+      },
+    })
+  );
 };
