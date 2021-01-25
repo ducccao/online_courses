@@ -345,7 +345,11 @@ module.exports = {
        
         order by count(od.courseID) + c.views desc
         limit 4;`;
-    return db.load(sql);
+
+    const sql2 = `select o.orderDate from course c,orderdetails od,orders o
+     where od.courseID = c.courseID and o.orderID = od.orderID and o.orderId = od.orderID
+      and DATEDIFF(CURDATE(),o.orderDate) < 7 order by c.views desc limit 4`;
+    return db.load(sql2);
   },
 
   getTopTenNewestOfWeek() {
