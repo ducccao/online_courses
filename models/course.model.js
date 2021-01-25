@@ -342,7 +342,7 @@ module.exports = {
     const sql = `select count(od.courseID) + c.views as highlight, o.orderDate, c.*
         from ${config.DATABASE.TABLE.COURSE} c, ${config.DATABASE.TABLE.ORDERDETAILS} od, ${config.DATABASE.TABLE.ORDERS} o
         where od.courseID = c.courseID and o.orderID = od.orderID and o.orderId = od.orderID and DATEDIFF(CURDATE(),o.orderDate) < 7
-        group by c.courseID
+       
         order by count(od.courseID) + c.views desc
         limit 4;`;
     return db.load(sql);
