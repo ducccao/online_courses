@@ -12,7 +12,7 @@ const pool = mysql.createPool({
 });
 
 const pool_deploy = mysql.createPool({
-  host: "localhost",
+  host: "remotemysql.com",
   port: "3306",
   user: `wqzZCi0KgY`,
   password: `TF8CnEFLu4`,
