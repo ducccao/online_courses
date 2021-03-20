@@ -100,9 +100,9 @@
 ## More description
 **Production**
 
-Hosting server: `Heroku`
-Hosting database: `https://remotemysql.com/`
-Domain: https://onlineecoursee.herokuapp.com/
+- Hosting server: `Heroku`
+- Hosting database: `https://remotemysql.com/`
+- Domain: https://onlineecoursee.herokuapp.com/
 
 **Testing**
 - Testing result in the development environment: 100%
