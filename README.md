@@ -1,5 +1,5 @@
 ***
-# Web application development - Project - OnlineCourses
+# Web application development course - Project - OnlineCourses
 ***
 ## Features list
 
