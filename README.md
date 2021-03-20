@@ -30,6 +30,7 @@
 
 
 **5. Sign in**
+
 **6. Sign up**
 + Using `bcrypt` for hashing password
 + Validate Email
@@ -37,8 +38,11 @@
 
 ### II. Student user module
 **1. Save 1 course to favorites (Watch list)**
+
 **2. Course buying**
+
 **3. Update personal information (email, name, password)**
+
 **4. Favorite course management (Satch list)**
 + Allows to quickly open the course detail's view from this list
 + Remove the course from watch list
@@ -48,6 +52,7 @@
 + The display of those courses which are incomplete is different from the rest
 
 **6. See the detailed course content**
+
 **7. Comment, rating, and feedback on the course**
 
 
@@ -57,14 +62,20 @@
 + Upload lecture videos
 
 **2. Adding information & lectures for the course**
+
 **3. Update the profile, this information is shown on the course details screen**
+
 **4. View the list of uploaded courses**
 
 ### IV. Administrator module (Admin)
 **1. View student's records**
+
 **2. View instructor's records**
+
 **3. Lock student & teacher accounts**
+
 **4. Category management (CRUD)**
+
 **5. Course management**
 + View course's records, allow to filter by category or instructor
 + Course disabling, disabled courses won't show up in search results
@@ -88,6 +99,7 @@
 ***
 ## More description
 **Production**
+
 Hosting server: `Heroku`
 Hosting database: `https://remotemysql.com/`
 Domain: https://onlineecoursee.herokuapp.com/
