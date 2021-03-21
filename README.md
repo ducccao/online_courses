@@ -94,7 +94,7 @@
 + `MySQL`
 
 **Frontend (No UX/UI Design)**
-+ `Javascript`
++ `Pure Javascript`
 
 ***
 ## More description
