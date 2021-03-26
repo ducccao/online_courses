@@ -106,7 +106,7 @@
 
 **Testing**
 - Testing result in the development environment: 100%
-- Testing result in the production environment: 30% (Because of lack of authority to manage the database)
+- Testing result in the production environment: 30% 
 
 
 
