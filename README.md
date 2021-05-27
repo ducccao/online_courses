@@ -2,8 +2,7 @@
 # OnlineCourses
 ---
 
-
-## Technical
+## Tech stack
 
 **Backend**
 
@@ -17,11 +16,12 @@
 
 - `MySQL`
 
-**Frontend (No UX/UI Design)**
+**Frontend**
 
 - `Javascript`
 
 ---
 
-## 
+##
+
 - Site: https://onlineecoursee.herokuapp.com/
